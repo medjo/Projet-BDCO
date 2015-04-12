@@ -1,3 +1,4 @@
+package jdbc;
 
 public class ConnectionInfo {
 	final String CONN_URL;
