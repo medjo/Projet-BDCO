@@ -14,6 +14,7 @@ public class TheConnection {
 			//Etablissement de la connexion
 			System.out.print("Connection en cours à la base de données");
 			conn = DriverManager.getConnection(info.CONN_URL, info.USER, info.PASSWD);
+			conn.setAutoCommit(false); //on enlève l'autocommit de base
 			System.out.println("Connecté");
 		} catch (SQLException e) {
 			System.err.println("Echec");
@@ -24,6 +25,6 @@ public class TheConnection {
 	public void close() throws SQLException {
 		System.out.println("Deconnecté");
 		conn.close(); }
-	Connection getConnection() {return conn;}
+	public Connection getConnection() {return conn;}
 	public TheConnection (ConnectionInfo info) {this.info=info;}
 }

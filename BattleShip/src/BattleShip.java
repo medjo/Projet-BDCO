@@ -8,6 +8,9 @@ public class BattleShip {
 		theConnection.open();
 		
 		//Corps
+		//Exemples de requêtes avec les classes créees
+		//SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"select * from emp");
+		//dumpResultSet(req.execute());
 		
 		
 		theConnection.close();
