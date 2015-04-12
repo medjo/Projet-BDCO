@@ -16,18 +16,7 @@ public class ParamQuery extends Request{
 			e.printStackTrace(System.err);
 		}
 	}
-	/*public ResultSet execute() {
-		try {
-			
-			result = stmt.executeQuery(query);
-			return result;
-		}
-		catch (SQLException e) {
-			System.err.println("Echec");
-			e.printStackTrace(System.err);
-			return  result; //Il faut retourner un type même si la reque est fausse.
-		}
-	}*/
+	
 	public PreparedStatement getStatement() {
 		return pstmt;
 	}
@@ -36,10 +25,7 @@ public class ParamQuery extends Request{
 	}
 	
 	public ResultSet execute() {
-		
-try {
-	
-			
+		try {
 			ResultSet result =pstmt.executeQuery();
 			return result;
 		}
@@ -48,12 +34,10 @@ try {
 			e.printStackTrace(System.err);
 			return  null; //Il faut retourner un type même si la reque est fausse.
 		}
-		
 	}
 	
 	public int update() {
-try {
-			
+		try {
 			int nb = pstmt.executeUpdate(query);
 			return nb;
 		}
@@ -62,7 +46,6 @@ try {
 			e.printStackTrace(System.err);
 			return  -1; //Il faut retourner un type même si la requete est fausse.
 		}
-	
 	}
 	public void close(){
 		super.close(pstmt);
