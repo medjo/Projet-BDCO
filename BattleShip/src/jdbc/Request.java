@@ -4,17 +4,16 @@ import java.sql.*;
 public class Request {
 	protected String query;
 	protected Connection conn;
-	protected Statement stmt;
 	private ResultSet result;
 	
 	public Request(Connection conn, String query) {
 		this.query=query;
 		this.conn=conn;
 	}
-	public void setStatement(String query){
+	public void setQuery(String query){
 		this.query=query;
 	}
-	public String getStatement() {
+	public String getQuery() {
 		return this.query;
 	}
 	public void setConn(Connection conn){
@@ -24,23 +23,23 @@ public class Request {
 		return this.conn;
 	}
 	
-	public ResultSet execute(){
+	public ResultSet execute(Statement st){
 		try {
 			
-			result = stmt.executeQuery(query);
+			result =st.executeQuery(query);
 			return result;
 		}
 		catch (SQLException e) {
-			System.err.println("Echec");
+			System.err.println("Echec de l'éxécution de la requête");
 			e.printStackTrace(System.err);
 			return  result; //Il faut retourner un type même si la reque est fausse.
 		}
 	}
 	
-	public int updateQuery(){
+	public int update(Statement st){
 		try {
 			
-			int nb = stmt.executeUpdate(query);
+			int nb = st.executeUpdate(query);
 			return nb;
 		}
 		catch (SQLException e) {
@@ -50,15 +49,41 @@ public class Request {
 		}
 	}
 	
-	public void close() {
+	public void close(Statement st) {
 		try {
-			result.close();
-			stmt.close();
-			conn.close();
+			if (result!=null) result.close();
+			st.close();
+			//conn.close();
 		}
 		catch (SQLException e) {
 			System.err.println("Echec à la fermeture de la requête");
 			e.printStackTrace(System.err);
 		}
 	}
+	
+	public void afficher() {
+		try{
+		ResultSetMetaData rsetmd = result.getMetaData();
+		int i = rsetmd.getColumnCount();
+		for (int k=1;k<=i;k++)
+			System.out.print(rsetmd.getColumnName(k) + "\t");
+		
+		System.out.println();
+		
+		while (result.next()) {
+			for (int j = 1; j <= i; j++) {
+				System.out.print(result.getString(j) + "\t");
+			}
+			System.out.println();
+		}
+		} catch(SQLException e) {
+			System.err.println("Echec à l'affichage du résultat de la requête");
+			e.printStackTrace(System.err);
+		}
+	}
+
+	public ResultSet getResult() {
+		return this.result;
+	}
+	
 }

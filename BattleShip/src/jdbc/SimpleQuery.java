@@ -2,7 +2,7 @@ package jdbc;
 import java.sql.*;
 
 public class SimpleQuery extends Request{
-	private ResultSet result ;
+	private Statement stmt;
 	public SimpleQuery(Connection conn, String query) {
 		super(conn,query);
 		try{
@@ -13,7 +13,23 @@ public class SimpleQuery extends Request{
 			e.printStackTrace(System.err);
 		}
 	}
-	/*public ResultSet execute() {
+	public ResultSet execute() {
+		
+		return super.execute(this.stmt);
+	
+	}
+	public int update() {
+		
+		return super.update(this.stmt);
+	
+	}
+	public void close() {
+	
+	super.close(this.stmt);
+
+	}
+	/*
+	public ResultSet execute() {
 		try {
 			
 			result = stmt.executeQuery(query);
