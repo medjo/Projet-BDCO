@@ -49,4 +49,16 @@ public class Request {
 			return  -1; //Il faut retourner un type même si la requete est fausse.
 		}
 	}
+	
+	public void close() {
+		try {
+			result.close();
+			stmt.close();
+			conn.close();
+		}
+		catch (SQLException e) {
+			System.err.println("Echec à la fermeture de la requête");
+			e.printStackTrace(System.err);
+		}
+	}
 }
