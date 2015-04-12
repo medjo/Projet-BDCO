@@ -1,3 +1,4 @@
+package modele;
 
 public class Destroyer extends Ship{
 	

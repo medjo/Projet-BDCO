@@ -1,3 +1,4 @@
+package modele;
 
 abstract class Ship {
 	protected int taille;

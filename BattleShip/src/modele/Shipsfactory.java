@@ -1,3 +1,4 @@
+package modele;
 import java.sql.*;
 import java.util.*;
 import jdbc.*;
