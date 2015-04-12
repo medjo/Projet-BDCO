@@ -10,7 +10,8 @@ public class Shipsfactory {
 	}
 	
 	public ArrayList<Ship> allShips() {
-		
+		String query="SELECT * FROM";
+		//Conversion de la requête en string
 		return new ArrayList<Ship>();//TODO
 	}
 	
