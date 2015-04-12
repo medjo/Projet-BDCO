@@ -4,7 +4,7 @@ import java.sql.*;
 public class Request {
 	protected String query;
 	protected Connection conn;
-	private ResultSet result;
+	protected ResultSet result;
 	
 	public Request(Connection conn, String query) {
 		this.query=query;
@@ -23,37 +23,11 @@ public class Request {
 		return this.conn;
 	}
 	
-	public ResultSet execute(Statement st){
-		try {
-			
-			result =st.executeQuery(query);
-			return result;
-		}
-		catch (SQLException e) {
-			System.err.println("Echec de l'éxécution de la requête");
-			e.printStackTrace(System.err);
-			return  result; //Il faut retourner un type même si la reque est fausse.
-		}
-	}
-	
-	public int update(Statement st){
-		try {
-			
-			int nb = st.executeUpdate(query);
-			return nb;
-		}
-		catch (SQLException e) {
-			System.err.println("Echec à l'exécution de la mise à jour");
-			e.printStackTrace(System.err);
-			return  -1; //Il faut retourner un type même si la requete est fausse.
-		}
-	}
 	
 	public void close(Statement st) {
 		try {
 			if (result!=null) result.close();
 			st.close();
-			//conn.close();
 		}
 		catch (SQLException e) {
 			System.err.println("Echec à la fermeture de la requête");

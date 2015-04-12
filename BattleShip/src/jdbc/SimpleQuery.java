@@ -13,22 +13,7 @@ public class SimpleQuery extends Request{
 			e.printStackTrace(System.err);
 		}
 	}
-	public ResultSet execute() {
-		
-		return super.execute(this.stmt);
 	
-	}
-	public int update() {
-		
-		return super.update(this.stmt);
-	
-	}
-	public void close() {
-	
-	super.close(this.stmt);
-
-	}
-	/*
 	public ResultSet execute() {
 		try {
 			
@@ -52,5 +37,8 @@ public class SimpleQuery extends Request{
 			e.printStackTrace(System.err);
 			return  -1; //Il faut retourner un type même si la requete est fausse.
 		}
-	}*/
+	}
+	public void close(){
+		super.close(stmt);
+	}
 }

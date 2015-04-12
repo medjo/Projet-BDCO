@@ -8,8 +8,8 @@ public class ParamQuery extends Request{
 	public ParamQuery(Connection conn, String query) {
 		super(conn,query);
 		try{
-			pstmt = this.conn.prepareStatement(query);
-			
+			this.pstmt = this.conn.prepareStatement(query);
+		
 		}
 		catch (SQLException e) {
 			System.err.println("Echec à la création de la requête paramétrée");
@@ -38,9 +38,9 @@ public class ParamQuery extends Request{
 	public ResultSet execute() {
 		
 try {
-	getStatement().setInt(1,200);
+	
 			
-			ResultSet result =pstmt.executeQuery(query);
+			ResultSet result =pstmt.executeQuery();
 			return result;
 		}
 		catch (SQLException e) {
@@ -52,13 +52,19 @@ try {
 	}
 	
 	public int update() {
-		
-		return super.update(this.pstmt);
+try {
+			
+			int nb = pstmt.executeUpdate(query);
+			return nb;
+		}
+		catch (SQLException e) {
+			System.err.println("Echec à l'exécution de la mise à jour");
+			e.printStackTrace(System.err);
+			return  -1; //Il faut retourner un type même si la requete est fausse.
+		}
 	
 	}
-	public void close() {
-	
-	super.close(this.pstmt);
-
+	public void close(){
+		super.close(pstmt);
 	}
 }

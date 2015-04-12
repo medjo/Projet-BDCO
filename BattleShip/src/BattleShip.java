@@ -20,7 +20,7 @@ public class BattleShip {
 		req1.close();
 		//Requête de mise à jour
 		SimpleQuery req2 = new SimpleQuery(theConnection.getConnection(),"update test SET argent=argent+1");
-		req2.update();
+		//req2.update();
 		//attention il n'y a pas eu de commit ici
 		req2.close();
 		
@@ -38,7 +38,7 @@ public class BattleShip {
 		
 		
 		ParamQuery req3 = new ParamQuery(theConnection.getConnection(), "select * from emp where SAL > ?");
-		//req3.getStatement().setInt(1,200);
+		req3.getStatement().setInt(1,200);
 		
 		//req3.getStatement().setFloat(2,0);
 		//req3.execute(req3.pstmt);
