@@ -1,5 +1,5 @@
 package modele;
 
 public enum Direction {
-	BABORD, TRIBORD, DEVANT, DERRIERE
+	OUEST, EST, NORD, SUD
 }
