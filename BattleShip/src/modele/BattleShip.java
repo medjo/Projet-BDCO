@@ -23,7 +23,6 @@ public class BattleShip {
 		SimpleQuery req2 = new SimpleQuery(theConnection.getConnection(),"update test SET argent=argent+1");
 		//attention il n'y a pas eu de commit ici
 		req2.close();
-				
 		
 		
 		

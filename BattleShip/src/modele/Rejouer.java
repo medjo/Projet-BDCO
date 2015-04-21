@@ -1,12 +1,30 @@
 package modele;
+import java.sql.*;
 import java.util.*;
+import jdbc.*;
 
 public class Rejouer{
-	ArrayList<InfoPartie> listeParties;
+	private ArrayList<InfoPartie> listeParties;
 	
-	public Rejouer(){
+	public Rejouer(TheConnection theConnection){
+		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties");
+		req.execute();
+		ResultSet res = req.getResult();
+		try{
+			while(res.next()){
+				listeParties.add(new InfoPartie(theConnection, res.getString(1), res.getString(2), res.getBoolean(3)));
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		req.close();
 		//On construit la liste des parties jouées à partir de l'historique
 		
+	}
+	
+	public void afficher() {
+		// appeler la fonction de yahya qui affiche l'historique
 	}
 	
 	public void voirPartie(String idPartie) {

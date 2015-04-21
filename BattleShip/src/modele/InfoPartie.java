@@ -1,4 +1,6 @@
 package modele;
+import jdbc.*;
+import java.sql.*;
 
 public class InfoPartie {
 	private String idPartie;
@@ -22,6 +24,25 @@ public class InfoPartie {
 		this.pseudo2=pseudo2;
 		this.date=date;
 		this.vainqueur=vainqueur;
+	}
+	
+	public InfoPartie(TheConnection theConnection, String idPartie, String date, Boolean fini){
+		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM vainqueurs NATURAL JOIN participants WHERE idpartie='"+idPartie+"'");
+		req.execute();
+		ResultSet res = req.getResult();
+		try{
+			this.idPartie=idPartie;
+			this.date=date;
+			res.next();
+			this.pseudo1=res.getString(3);
+			this.vainqueur=res.getString(2);
+			res.next();
+			this.pseudo2=res.getString(3);
+		} catch (Exception e) {
+			
+		}
+		
+		req.close();
 	}
 	
 	public String getId(){
