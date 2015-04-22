@@ -1,24 +1,40 @@
 package modele;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import jdbc.TheConnection;
+import jdbc.SimpleQuery;
+
 public class Tir extends Action{
-	private int x;
-	private int y;
+	private String idBateau;
+	private String idPartie;
 	
-	public Tir(int x, int y) {
-		this.x=x;
-		this.y=y;
+	public Tir(String idBateau, String idPartie) {
+		this.idBateau=idBateau;
+		this.idPartie=idPartie;
 	}
 	
-	public void setCoord(int x, int y) {
-		this.x=x;
-		this.y=y;
+	public void execute(TheConnection theConnection) {
+		
+		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie="+idPartie+"AND idBateau="+idBateau);
+		try {
+		req.execute();
+		} catch (Exception e) {
+			
+		}
+		req.close();
 	}
 	
-	public int getCoordX(){
-		return this.x;
+	public void setCoord(String idBateau, String idPartie) {
+		this.idPartie=idBateau;
+		this.idBateau=idPartie;
 	}
 	
-	public int getCoordY(){
-		return this.y;
+	public String getIdBateau(){
+		return this.idBateau;
+	}
+	
+	public String getIdPartie(){
+		return this.idPartie;
 	}
 }
