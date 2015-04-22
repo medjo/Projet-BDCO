@@ -68,4 +68,8 @@ public class Rejouer{
 		
 		return null;
 	}
+	
+	public ArrayList<InfoPartie> getInfoParties(){
+		return this.listeParties;
+	}
 }
