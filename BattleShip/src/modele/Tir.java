@@ -4,7 +4,7 @@ public class Tir extends Action{
 	private int x;
 	private int y;
 	
-	public Tir(int x, int y) {
+	public Tir(String idBateau, String idPartie) {
 		this.x=x;
 		this.y=y;
 	}
