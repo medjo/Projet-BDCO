@@ -6,13 +6,19 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import java.sql.*;
+
+import jdbc.*;
 import ihm.org.eclipse.wb.swing.FocusTraversalOnArray;
+import modele.*;
 import net.miginfocom.swing.MigLayout;
 
 
 
 public class Connexion extends JFrame {
 
+	
+	
 	private JPanel contentPane;
 	private JTextField txtLogin;
 	private JPanel Connexion;
@@ -23,27 +29,32 @@ public class Connexion extends JFrame {
 	private JPanel ChercheAdv;
 	private JPanel PrepareBataille;
 	private JPanel Jouer;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField txtAnnee;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
+	private JTextField pseudo;
+	private JTextField nom;
+	private JTextField prenom;
+	private JTextField email;
+	private JTextField numeroRue;
+	private JTextField rue;
+	private JTextField codePoste;
+	private JTextField ville;
 	private JTextField txtJj;
 	private JTextField txtMm;
-	private JTextField txtAnnee_1;
+	private JTextField txtAnnee;
 	private JTextField textField_3;
 	private JTextField textField_8;
 	private JTable Carte;
 	private JTextField textField_9;
+	
+
 	/**
 	 * Launch the application.
+	 * @throws SQLException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				BattleShip.theConnection= new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","guys","guys"));
+				BattleShip.theConnection.open();
 				try {
 					Connexion frame = new Connexion();
 					frame.setVisible(true);
@@ -52,12 +63,16 @@ public class Connexion extends JFrame {
 				}
 			}
 		});
+		
 	}
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
 	public Connexion() {
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(450, 300);
 		setResizable(true);
@@ -165,6 +180,23 @@ public class Connexion extends JFrame {
 		});
 		btnNewButton_4.setBounds(135, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
+		
+		JButton btnNewButton_7 = new JButton("New button");
+		btnNewButton_7.setBounds(323, 30, 117, 25);
+		PrepareBataille.add(btnNewButton_7);
+		
+		JButton btnNewButton_8 = new JButton("<");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
+		btnNewButton_8.setBounds(268, 67, 55, 37);
+		PrepareBataille.add(btnNewButton_8);
+		
+		JButton btnNewButton_9 = new JButton("New button");
+		btnNewButton_9.setBounds(311, 110, 117, 25);
+		PrepareBataille.add(btnNewButton_9);
 		
 		
 		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
@@ -296,14 +328,14 @@ public class Connexion extends JFrame {
 		Inscription.add(Pseudo);
 		Pseudo.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Entrer votre Pseudo");
+		JLabel lblNewLabel = new JLabel("Entrez votre Pseudo");
 		lblNewLabel.setBounds(12, 18, 153, 15);
 		Pseudo.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(211, 16, 189, 19);
-		Pseudo.add(textField);
-		textField.setColumns(10);
+		pseudo = new JTextField();
+		pseudo.setBounds(211, 16, 189, 19);
+		Pseudo.add(pseudo);
+		pseudo.setColumns(10);
 		
 		JPanel InfosPerso = new JPanel();
 		InfosPerso.setBounds(0, 72, 412, 102);
@@ -323,20 +355,19 @@ public class Connexion extends JFrame {
 		label_2.setBounds(12, 80, 105, 15);
 		InfosPerso.add(label_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(211, 18, 189, 19);
-		InfosPerso.add(textField_1);
-		textField_1.setColumns(10);
+		nom = new JTextField();
+		nom.setBounds(211, 18, 189, 19);
+		InfosPerso.add(nom);
+		nom.setColumns(10);
+		prenom = new JTextField();
+		prenom.setColumns(10);
+		prenom.setBounds(211, 38, 189, 19);
+		InfosPerso.add(prenom);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(211, 38, 189, 19);
-		InfosPerso.add(textField_2);
-		
-		txtAnnee = new JTextField();
-		txtAnnee.setColumns(10);
-		txtAnnee.setBounds(211, 77, 189, 19);
-		InfosPerso.add(txtAnnee);
+		email = new JTextField();
+		email.setColumns(10);
+		email.setBounds(211, 77, 189, 19);
+		InfosPerso.add(email);
 		
 		JLabel lblDateDeNaissance = new JLabel("Date de naissance");
 		lblDateDeNaissance.setBounds(12, 60, 181, 15);
@@ -354,11 +385,11 @@ public class Connexion extends JFrame {
 		txtMm.setBounds(261, 58, 30, 19);
 		InfosPerso.add(txtMm);
 		
-		txtAnnee_1 = new JTextField();
-		txtAnnee_1.setText("ANNEE");
-		txtAnnee_1.setColumns(10);
-		txtAnnee_1.setBounds(311, 58, 89, 19);
-		InfosPerso.add(txtAnnee_1);
+		txtAnnee = new JTextField();
+		txtAnnee.setText("ANNEE");
+		txtAnnee.setColumns(10);
+		txtAnnee.setBounds(311, 58, 89, 19);
+		InfosPerso.add(txtAnnee);
 		
 		JPanel AdressPerso = new JPanel();
 		AdressPerso.setBounds(0, 172, 412, 67);
@@ -370,43 +401,53 @@ public class Connexion extends JFrame {
 		lblN.setBounds(12, 20, 31, 15);
 		AdressPerso.add(lblN);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(34, 20, 46, 19);
-		AdressPerso.add(textField_4);
-		textField_4.setColumns(10);
+		numeroRue = new JTextField();
+		numeroRue.setBounds(34, 20, 46, 19);
+		AdressPerso.add(numeroRue);
+		numeroRue.setColumns(10);
 		
 		JLabel label_3 = new JLabel("Rue");
 		label_3.setBounds(112, 20, 31, 15);
 		AdressPerso.add(label_3);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(146, 20, 254, 19);
-		AdressPerso.add(textField_5);
+		rue = new JTextField();
+		rue.setColumns(10);
+		rue.setBounds(146, 20, 254, 19);
+		AdressPerso.add(rue);
 		
 		JLabel label_4 = new JLabel("Code Postal");
 		label_4.setBounds(12, 45, 100, 15);
 		AdressPerso.add(label_4);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(103, 45, 63, 19);
-		AdressPerso.add(textField_6);
+		codePoste = new JTextField();
+		codePoste.setColumns(10);
+		codePoste.setBounds(103, 45, 63, 19);
+		AdressPerso.add(codePoste);
 		
 		JLabel label_5 = new JLabel("Ville");
 		label_5.setBounds(205, 45, 131, 15);
 		AdressPerso.add(label_5);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(247, 45, 153, 19);
-		AdressPerso.add(textField_7);
+		ville = new JTextField();
+		ville.setColumns(10);
+		ville.setBounds(247, 45, 153, 19);
+		AdressPerso.add(ville);
 		
 		JButton btnValider = new JButton("Valider");
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Inscription.setVisible(false);
 				Identification.setVisible(true);
+				try {
+					ControleurConnexion.inscription(BattleShip.theConnection, pseudo.getText(), nom.getText(), prenom.getText(), Integer.parseInt(txtJj.getText()), Integer.parseInt(txtMm.getText()), Integer.parseInt(txtAnnee.getText()), email.getText(), Integer.parseInt(numeroRue.getText()), rue.getText(), Integer.parseInt(codePoste.getText()), ville.getText());
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InscriptionInvalideException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		btnValider.setBounds(157, 240, 117, 20);
@@ -451,9 +492,20 @@ public class Connexion extends JFrame {
 		lblBienvenue.setBounds(150, 12, 142, 50);
 		Identification.add(lblBienvenue);
 		
-		
-		
-		
-		
+		JButton btnNewButton_10 = new JButton("Quitter");
+		btnNewButton_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BattleShip.theConnection.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				contentPane.setVisible(false);
+			}
+		});
+		btnNewButton_10.setBounds(296, 198, 117, 25);
+		Identification.add(btnNewButton_10);
+			
 	}
 }
