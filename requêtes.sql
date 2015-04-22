@@ -4,9 +4,10 @@ CREATE TABLE Joueurs (
 	nom VARCHAR(50),
 	prenom VARCHAR(50),
 	dateDeNaissance TIMESTAMP,
+	email VARCHAR(80)
 	nbPartiesJouees INT default 0,
 	PRIMARY KEY (pseudo),
-	CHECK ()
+	CHECK (REGEXP_LIKE (email,'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$') AND (nbPartiesJouees >= 0))
 );
 
 --Parties : {iDPartie {pk}, début, finie}
@@ -30,8 +31,8 @@ CREATE TABLE Vainqueurs (
     REFERENCES Joueurs (pseudo),
 );
 
---Observateurs : {pseudo{pk, fk}, iDPartie{pk, fk}}
-CREATE TABLE Observateurs (
+--EnAttente : {pseudo{pk, fk}, iDPartie{pk, fk}}
+CREATE TABLE EnAttente (
 	iDPartie INT,
 	pseudo VARCHAR(30),
 	PRIMARY KEY (iDPartie, pseudo),

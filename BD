@@ -1,7 +1,7 @@
 Joueurs : {pseudo {pk}, nom, prénom, dateDeNaissance, email, nbPartiesJouees}
 Parties : {iDPartie {pk}, début, finie}
 Vainqueurs : {iDPartie{fk,pk}, pseudo{fk} }
-Observateurs : {pseudo{pk, fk}, iDPartie{pk, fk}}
+EnAttente : {pseudo{pk, fk}, iDPartie{pk, fk}}
 Participants : {pseudo{pk, fk}, iDPartie{pk, fk}}
 Bateaux : {iDPartie {pk,fk}, pseudo{pk, fk}, iDBateau{pk}, état, taille, x, y, orientation, xI, yI, orientationI}
 Adresses : {pseudo{fk}, iDAdresse{pk}, numRue, nomRue, CP, Ville}
