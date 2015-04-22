@@ -4,7 +4,7 @@ import java.sql.*;
 import jdbc.*;
 
 public class ControleurConnexion {
-	public void inscription(TheConnection theConnection,String pseudo,String nom,
+	public static void inscription(TheConnection theConnection,String pseudo,String nom,
 			String prenom, int jj,int mm, int aaaa,
 			String email, int num, String rue,int cp,String ville)
 					throws InscriptionInvalideException{
@@ -19,6 +19,8 @@ public class ControleurConnexion {
 				SimpleQuery req1 = new SimpleQuery(theConnection.getConnection(),
 						"INSERT INTO users VALUES('"+pseudo+"', '"+nom+"', '"+prenom+"', "+jj+", " +
 						mm+", "+aaaa+", '"+email+"', "+num+", '"+rue+"', "+cp+", '"+ville+"')"); // insertion du nouveau pseudo et commit
+				req1.execute();
+				
 				// valider (commit)
 			}
 		} catch(Exception e){
@@ -28,7 +30,7 @@ public class ControleurConnexion {
 		req.close();
 	}
 	
-	public void connexion(TheConnection theConnection,String pseudo){
+	public static void connexion(TheConnection theConnection,String pseudo){
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT pseudo FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
 		req.execute();
 		try{
