@@ -1,14 +1,30 @@
 package modele;
+import ihm.Connexion;
+
+import java.awt.EventQueue;
 import java.sql.*;
+
 import jdbc.*;
 	
 public class BattleShip {
 	
-		public static TheConnection theConnection;
+	public static TheConnection theConnection;
+	
 	public static void main (String[] args) throws SQLException {
 		BattleShip.theConnection = new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","guys","guys"));
 		BattleShip.theConnection.open();
 		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Connexion frame = new Connexion();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		/*
 		//Corps
 		//Exemples de requêtes avec les classes créees
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT table_name FROM user_tables");
@@ -30,9 +46,7 @@ public class BattleShip {
 		ParamQuery req3 = new ParamQuery(BattleShip.theConnection.getConnection(), "select * from emp where SAL > ?");
 		req3.getStatement().setInt(1,200);
 		req3.execute();
-		
-		
-		BattleShip.theConnection.close();
+		*/
 	}
 		
 }
