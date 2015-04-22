@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import ihm.org.eclipse.wb.swing.FocusTraversalOnArray;
-
 import net.miginfocom.swing.MigLayout;
 
 
@@ -21,6 +20,9 @@ public class Connexion extends JFrame {
 	private JPanel Identification;
 	private JPanel Jeu;
 	private JPanel OberservationPartie;
+	private JPanel ChercheAdv;
+	private JPanel PrepareBataille;
+	private JPanel Jouer;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -35,6 +37,7 @@ public class Connexion extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_8;
 	private JTable Carte;
+	private JTextField textField_9;
 	/**
 	 * Launch the application.
 	 */
@@ -56,30 +59,176 @@ public class Connexion extends JFrame {
 	 */
 	public Connexion() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(450, 300);
+		setResizable(true);
+		//setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
+		
 //interface d'accueil
 		final JPanel Identification = new JPanel();
 		contentPane.add(Identification, "name_31750759103752");
 		Identification.setLayout(null);
 		Identification.setVisible(true);
+		
 //interface de connexion
 		final JPanel Connexion = new JPanel();
 		contentPane.add(Connexion, "name_31673698091126");
 		Connexion.setLayout(null);
-//interface de connexion -> lancer une partie
+		
+//interface de connexion->Lancer Partie 	
+		final JPanel ChercheAdv = new JPanel();
+		contentPane.add(ChercheAdv, "name_68167019743368");
+		ChercheAdv.setLayout(null);
+
+//interface de connexion ->Lancer Partie -> preparer Bataille 
 		final JPanel PrepareBataille = new JPanel();
 		contentPane.add(PrepareBataille, "name_43179446908468");
 		PrepareBataille.setLayout(null);
 		
-		Carte = new JTable(new Object[10][10], new Object[10][10]); 
-		Carte.setCellSelectionEnabled(true);
-		Carte.setBounds(0, 0, 430, 160);
-		PrepareBataille.add(Carte);
+//interface de connexion -> lancer partie -> preparer bataille -> Jouer 
+		final JPanel Jouer = new JPanel();
+		contentPane.add(Jouer, "name_61813199911534");
+		Jouer.setLayout(null);
+		
+//interface d'inscription
+		final JPanel Inscription = new JPanel();
+		contentPane.add(Inscription, "name_31675927568189");
+		Inscription.setLayout(null);
+				
+//Contenu de l'interface connexion
+		JLabel lblNewLabel_1 = new JLabel("Vous Souhaitez: ");
+		lblNewLabel_1.setBounds(164, 51, 130, 15);
+		Connexion.add(lblNewLabel_1);
+				
+		JButton btnNewButton = new JButton("Jouer une partie");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connexion.setVisible(false);
+				ChercheAdv.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(125, 102, 230, 25);
+		Connexion.add(btnNewButton);
+				
+		JButton btnNewButton_1 = new JButton("Observer une partie");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Connexion.setVisible(false);
+				OberservationPartie.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(125, 154, 230, 25);
+		Connexion.add(btnNewButton_1);
+				
+		JButton btnNewButton_2 = new JButton("Vous déconnecter");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connexion.setVisible(false);
+				Identification.setVisible(true);
+			}
+		});
+		btnNewButton_2.setBounds(125, 213, 230, 25);
+		Connexion.add(btnNewButton_2);
+		
+//contenu de l'interface de connexion -> lancer une partie 
+		
+		//Contenu de interface de connexion-> lancer une partie->		
+		JButton btnNewButton_5 = new JButton("Chercher Adversaire");
+		btnNewButton_5.setBounds(125, 70, 200, 25);
+		ChercheAdv.add(btnNewButton_5);
+				
+		textField_9 = new JTextField();
+		textField_9.setBounds(125, 105, 200, 25);
+		ChercheAdv.add(textField_9);
+		textField_9.setColumns(10);
+		
+		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille
+		JButton btnNewButton_6 = new JButton("Preparer Bataille ");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ChercheAdv.setVisible(false);
+				PrepareBataille.setVisible(true);
+			}
+		});
+		btnNewButton_6.setBounds(125, 210, 200, 25);
+		ChercheAdv.add(btnNewButton_6);
+				
+		JButton btnNewButton_4 = new JButton("Commencer le jeu");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PrepareBataille.setVisible(false);
+				Jouer.setVisible(true);
+			}
+		});
+		btnNewButton_4.setBounds(135, 235, 188, 25);
+		PrepareBataille.add(btnNewButton_4);
+		
+		
+		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
+		for (int i=0; i<10; i++){
+			for (int j=0; j<10; j++){
+				boutonChiffresJo1[i][j]= new JMenuBar();
+				boutonChiffresJo1[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
+				JMenu Menu= new JMenu("|__|");
+				JMenuItem Destroyeur = new JMenuItem("Destroyeur");
+				JMenuItem Escorteur = new JMenuItem("Escorteur");
+				Menu.add(Destroyeur);
+				Menu.add(Escorteur);
+				boutonChiffresJo1[i][j].add(Menu);
+				Destroyeur.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
+				Escorteur.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
+				boutonChiffresJo1[i][j].setBounds(i*32, j*22, 32, 22);
+				boutonChiffresJo1[i][j].setBackground(Color.white);
+				PrepareBataille.add(boutonChiffresJo1[i][j]);	
+			}	
+		}
 		Connexion.setVisible(false);
+		
+		
+		
+		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille-> Jouer
+		JButton[][] boutonChiffresJ1 = new JButton[10][10];
+		JButton[][] boutonChiffresJ2 = new JButton[10][10];
+		for (int i=0; i<10; i++){
+			for (int j=0; j<10; j++){
+				boutonChiffresJ1[i][j]= new JButton("");
+				boutonChiffresJ2[i][j]= new JButton("");
+				
+				boutonChiffresJ1[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
+				boutonChiffresJ2[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
+				
+				boutonChiffresJ1[i][j].addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
+				boutonChiffresJ2[i][j].addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
+				
+				boutonChiffresJ1[i][j].setBounds(i*21, j*17, 21, 17);
+				boutonChiffresJ2[i][j].setBounds(230+i*21,j*17, 21, 17);
+				
+				boutonChiffresJ1[i][j].setBackground(Color.white);
+				boutonChiffresJ2[i][j].setBackground(Color.LIGHT_GRAY);
+				
+				Jouer.add(boutonChiffresJ1[i][j]);
+				Jouer.add(boutonChiffresJ2[i][j]);
+			}
+			
+		}
+		Connexion.setVisible(false);
+		PrepareBataille.setVisible(false);
+		
 //interface de connexion -> Observer une partie 
 		final JPanel OberservationPartie = new JPanel();
 		contentPane.add(OberservationPartie, "name_2587200245776");
@@ -132,45 +281,9 @@ public class Connexion extends JFrame {
 		btnQuitter.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnQuitter.setBounds(320, 225, 100, 25);
 		OberservationPartie.add(btnQuitter);
-//interface d'inscription
-		final JPanel Inscription = new JPanel();
-		contentPane.add(Inscription, "name_31675927568189");
-		Inscription.setLayout(null);
+
 		
-//Contenu de l'interface connexion
-		JLabel lblNewLabel_1 = new JLabel("Vous Souhaitez: ");
-		lblNewLabel_1.setBounds(164, 51, 130, 15);
-		Connexion.add(lblNewLabel_1);
-		
-		JButton btnNewButton = new JButton("Jouer une partie");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Connexion.setVisible(false);
-				PrepareBataille.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(125, 102, 230, 25);
-		Connexion.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Observer une partie");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Connexion.setVisible(false);
-				OberservationPartie.setVisible(true);
-			}
-		});
-		btnNewButton_1.setBounds(125, 154, 230, 25);
-		Connexion.add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Vous déconnecter");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Connexion.setVisible(false);
-				Identification.setVisible(true);
-			}
-		});
-		btnNewButton_2.setBounds(125, 213, 230, 25);
-		Connexion.add(btnNewButton_2);
+
 		
 //Contenu de l'interface d'inscription
 		JLabel lblVe = new JLabel("Veuillez remplir le formulaire suivant:");
