@@ -15,15 +15,14 @@ public class Tir extends Action{
 	}
 	
 	public void execute(TheConnection theConnection) {
-		try {
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie="+idPartie+"AND idBateau="+idBateau);
-		req.execute();
-		ResultSet res = req.getResult();
 		
-			
+		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie="+idPartie+"AND idBateau="+idBateau);
+		try {
+		req.execute();
 		} catch (Exception e) {
 			
 		}
+		req.close();
 	}
 	
 	public void setCoord(String idBateau, String idPartie) {

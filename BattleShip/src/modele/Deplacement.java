@@ -1,5 +1,10 @@
 package modele;
 
+import java.sql.ResultSet;
+
+import jdbc.SimpleQuery;
+import jdbc.TheConnection;
+
 public class Deplacement extends Action{
 private Direction dir;
 private Ship ship;
@@ -17,7 +22,7 @@ private Ship ship;
 		return this.dir;
 	}
 	
-	public void execute() throws ExceptionDeplacement{
+	public void execute(TheConnection theConnection) throws ExceptionDeplacement{
 		if(ship.dir==Direction.NORD && this.dir==Direction.SUD) {
 			throw new ExceptionDeplacement();
 		}
@@ -32,6 +37,14 @@ private Ship ship;
 		}
 		else {
 			
+				SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"UPDATE bateaux SET direction="+this.dir+"WHERE idBateau="+this.ship.idBateau);
+				try{	
+					req.execute();
+				} catch(Exception e){
+			System.err.println("Echec déplacement invalide");
+			e.printStackTrace(System.err);
+		}
+		req.close();
 		}
 	}
 }
