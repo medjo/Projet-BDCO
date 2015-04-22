@@ -1,5 +1,5 @@
 package modele;
-
+import java.util.Calendar;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -28,6 +28,8 @@ public class Partie {
 		return listeJoueurEnAttente;
 	}
 	
+	
+	
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueursEnAttente){
 		int i=0;
 		idJoueur joueurMin;
@@ -39,5 +41,25 @@ public class Partie {
 			i++;
 		}
 		return joueurMin;
+	}
+	
+	public void creerNouvellePartie(TheConnection theConnection, int idPartie, String pseudo1, String pseudo2)
+	{		
+			Calendar cal = new java.util.GregorianCalendar(1982, 0, 1);
+
+			
+			SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"INSERT INTO parties VALUES ("+idPartie+",'"+time+"','false'");
+			req.execute();
+			ResultSet res = req.getResult();
+			try{
+				while(res.next()){
+					listeParties.add(new InfoPartie(theConnection, res.getString(1), res.getString(2), res.getBoolean(3)));
+				}
+			} catch (Exception e) {
+				
+			}
+			
+			req.close();
+		
 	}
 }
