@@ -34,13 +34,13 @@ public class Partie {
 	
 	
 	
-	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueursEnAttente){
+	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs){
 		int i=0;
 		idJoueur joueurMin;
-		joueurMin = listeJoueursEnAttente.get(0);
-		while(i<listeJoueursEnAttente.size()){
-			if(listeJoueursEnAttente.get(i).getNbParties()<joueurMin.getNbParties()){
-				joueurMin=listeJoueursEnAttente.get(i);
+		joueurMin = listeJoueurs.get(0);
+		while(i<listeJoueurs.size()){
+			if(listeJoueurs.get(i).getNbParties()<joueurMin.getNbParties()){
+				joueurMin=listeJoueurs.get(i);
 			}
 			i++;
 		}
@@ -67,4 +67,38 @@ public class Partie {
 			req.close();
 		
 	}
-}
+	
+	public int getIdDernierePartie() {
+		int indice=0;
+		//on récupère l'indice le plus élevé de partie
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idPartie) FROM parties");
+		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
+		req.execute();
+		ResultSet res = req.getResult();
+		try{
+			res.next();
+			indice=res.getInt(1);
+		} catch (Exception e) {
+			
+		}
+		req.close();
+		return indice;
+	}
+	
+	//TODO
+	public ArrayList<idJoueur> getListeJoueurs(){
+		
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idPartie) FROM parties");
+		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
+		req.execute();
+		ResultSet res = req.getResult();
+		try{
+			res.next();
+			indice=res.getInt(1);
+		} catch (Exception e) {
+			
+		}
+		req.close();
+		return indice;
+	}
+	}

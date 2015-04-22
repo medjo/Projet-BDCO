@@ -9,12 +9,8 @@ public class ControleurMenu {
 		
 	}
 	
-	public void lancerNouvellePartie(){
-		
-	}
-	
-	public void reprendreUnePartie(){
-		
+	public void jouer(){
+		ControleurPartie partie=new ControleurPartie();
 	}
 	
 	public void Deconnexion(){
