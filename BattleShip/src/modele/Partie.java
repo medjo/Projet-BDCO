@@ -2,9 +2,12 @@ package modele;
 import java.util.Calendar;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
+import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.*;
 
 public class Partie {
 	private int numTour;
@@ -45,16 +48,19 @@ public class Partie {
 	
 	public void creerNouvellePartie(TheConnection theConnection, int idPartie, String pseudo1, String pseudo2)
 	{		
+			//Récupération de l'heure
 			Calendar cal = new java.util.GregorianCalendar(1982, 0, 1);
+			Date datePartie = new Date(cal.getTime().getTime());
 
 			
-			SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"INSERT INTO parties VALUES ("+idPartie+",'"+time+"','false'");
-			req.execute();
-			ResultSet res = req.getResult();
+			ParamQuery req = new ParamQuery(theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,'false'");
 			try{
-				while(res.next()){
-					listeParties.add(new InfoPartie(theConnection, res.getString(1), res.getString(2), res.getBoolean(3)));
-				}
+			
+			req.getStatement().setInt(1,idPartie);
+			req.getStatement().setDate(2,datePartie);
+			
+			
+				req.execute();
 			} catch (Exception e) {
 				
 			}
