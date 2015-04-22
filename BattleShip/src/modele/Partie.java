@@ -5,30 +5,31 @@ import java.util.ArrayList;
 import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
 import java.sql.*;
 
 public class Partie {
 	private int numTour;
+	Utilisateur user;
 	//private ArrayList<Ship> bateaux;
 	
-	public ArrayList<idJoueur> joueursDispos(TheConnection theConnection) {
-		ArrayList<idJoueur> listeJoueurEnAttente = new ArrayList<idJoueur>(); 
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM enAttente");
+	//A REFAIRE
+	public ArrayList<InfoPartie> partiesDebutees(TheConnection theConnection) {
+		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
+		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants NATURAL JOIN participants WHERE finie='false' AND pseudo ="+user.getPseudo());
+		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
 		req.execute();
 		ResultSet res = req.getResult();
 		try{
 			while(res.next()){
 				//on crée une liste de pseudo et nombre de parties des joueurs en attente
-				listeJoueurEnAttente.add(new idJoueur(res.getString(1),res.getDouble(2)));
+				partiesDebutees.add(new InfoPartie(res.getInt(1),res.getString(4),res.getString(5),res.getDate(2)));
 			}
 		} catch (Exception e) {
 			
 		}
 		
 		req.close();
-		return listeJoueurEnAttente;
+		return partiesDebutees;
 	}
 	
 	
@@ -58,9 +59,7 @@ public class Partie {
 			
 			req.getStatement().setInt(1,idPartie);
 			req.getStatement().setDate(2,datePartie);
-			
-			
-				req.execute();
+			req.execute();
 			} catch (Exception e) {
 				
 			}
