@@ -19,6 +19,8 @@ public class ControleurConnexion {
 				SimpleQuery req1 = new SimpleQuery(theConnection.getConnection(),
 						"INSERT INTO users VALUES('"+pseudo+"', '"+nom+"', '"+prenom+"', "+jj+", " +
 						mm+", "+aaaa+", '"+email+"', "+num+", '"+rue+"', "+cp+", '"+ville+"')"); // insertion du nouveau pseudo et commit
+				req1.execute();
+				
 				// valider (commit)
 			}
 		} catch(Exception e){

@@ -47,4 +47,10 @@ private Ship ship;
 		req.close();
 		}
 	}
+
+	@Override
+	public void save(TheConnection theConnection) {
+		// TODO Auto-generated method stub
+		
+	}
 }
