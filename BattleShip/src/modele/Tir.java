@@ -18,8 +18,8 @@ public class Tir extends Action{
 	}
 	
 	@Override
-	public void save(TheConnection theConnection) {
-		ParamQuery req = new ParamQuery(theConnection.getConnection(),"INSERT INTO Actions (iDPartie, idBateau, nTour, nAction, x, y, type)"
+	public void save() {
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, idBateau, nTour, nAction, x, y, type)"
 				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?");
 		try {
 			req.getStatement().setInt(1, getIdPartie());
@@ -45,8 +45,8 @@ public class Tir extends Action{
 	}
 	
 	@Override
-	public void execute(TheConnection theConnection) {
-		ParamQuery req = new ParamQuery(theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie= ? AND idBateau= ?");
+	public void execute() {
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie= ? AND idBateau= ?");
 		try {
 		req.execute();
 		} catch (Exception e) {

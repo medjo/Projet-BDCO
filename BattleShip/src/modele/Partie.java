@@ -8,6 +8,7 @@ import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
 import modele.Shipsfactory;
+import modele.ActionFactory.infoActionJoueur;
 import modele.Shipsfactory.structInfoPlacementBateau;
 
 import java.sql.*;
@@ -158,8 +159,31 @@ public class Partie {
 	}
 	
 	//Jouer son tour
-	public void jouerSonTour() {
+	public void jouerSonTour(ArrayList<infoActionJoueur> actions) {
+		ActionFactory fabrique = new ActionFactory();
+		fabrique.actionsJoueur(actions,this.idPartie,this.numTour);
+		fabrique.execute();
+	}
+	
+	//Méthode testée à chaque tour pour savoir si il nous reste des bateaux vivants
+	//ou si l'adversaire n'a pas terminé la partie
+	//Si ce n'est pas le cas alors on indique que la partie est terminée
+	public boolean partieTerminee(){
 		
+		//On vérifie d'abord si l'adversaire n'a pas terminé la partie(tous ses bateaux sont morts)
+		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) FROM parties WHERE idPartie="+this.idPartie+"finie=true");
+		req1.execute();
+		ResultSet res = req1.getResult();
+		try{
+			res.next();
+			if(req1.getInt()==1) return true; //L'adversaire a déjà mis fin à la partie
+		} catch (Exception e) {
+			
+		}
+		req1.close();
+		
+		//Maintenant on vérifie qu'il nous reste des bateaux en vie
+		return true;
 	}
 	
 

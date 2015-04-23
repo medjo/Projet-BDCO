@@ -22,7 +22,7 @@ private Ship ship;
 		return this.dir;
 	}
 	
-	public void execute(TheConnection theConnection) throws ExceptionDeplacement{
+	public void execute() throws ExceptionDeplacement{
 		if(ship.dir==Direction.NORD && this.dir==Direction.SUD) {
 			throw new ExceptionDeplacement();
 		}
@@ -37,7 +37,7 @@ private Ship ship;
 		}
 		else {
 			
-				SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"UPDATE bateaux SET direction="+this.dir+"WHERE idBateau="+this.ship.idBateau);
+				SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET direction="+this.dir+"WHERE idBateau="+this.ship.idBateau);
 				try{	
 					req.execute();
 				} catch(Exception e){
@@ -49,7 +49,7 @@ private Ship ship;
 	}
 
 	@Override
-	public void save(TheConnection theConnection) {
+	public void save() {
 		// TODO Auto-generated method stub
 		
 	}
