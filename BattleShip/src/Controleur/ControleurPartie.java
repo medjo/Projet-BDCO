@@ -14,6 +14,7 @@ public class ControleurPartie {
 	private Utilisateur user;
 	Partie partie;
 	
+	//Pour créer une nouvelle partie
 	public void lancerNouvellePartie(){
 		this.partie = new Partie();
 		int idPartie = partie.getIdDernierePartie();
@@ -25,15 +26,26 @@ public class ControleurPartie {
 		partie.creerNouvellePartie(idPartie,user.getPseudo(),adv.getPseudo());
 	}
 	
+	//Prepare for battle
 	public void initMap(ArrayList<structInfoPlacementBateau> mesBateaux) {
 		//La vérification du nombre d'escorteurs devra être fait au-dessus
 		//On place les bateaux envoyés par l'IHM
 		partie.placerBateaux(mesBateaux);
 	}
 
+	//Pour afficher les parties que l'ont a débuté
 	public ArrayList<InfoPartie> anciennesParies(){
 		this.partie=new Partie();
 		return partie.partiesDebutees();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

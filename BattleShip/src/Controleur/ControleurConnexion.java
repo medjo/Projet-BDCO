@@ -19,7 +19,7 @@ public class ControleurConnexion {
 	}
 	
 	public void quitter(){
-		
+		System.exit(0); //en attendant de trouver mieux
 	}
 	
 }
