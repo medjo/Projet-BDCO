@@ -20,9 +20,14 @@ public class ControleurPartie {
 		//On crée la partie
 		partie.creerNouvellePartie(idPartie,user.getPseudo(),adv.getPseudo());
 	}
+	
+	public void initMap(int nbEscorteurs) {
+		
+	}
 
-	public void reprendreUnePartie(){
-		Partie partie= new Partie();
+	public ArrayList<InfoPartie> anciennesParies(){
+		Partie partie=new Partie();
+		return partie.partiesDebutees();
 	}
 	
 }

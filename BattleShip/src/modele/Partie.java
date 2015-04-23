@@ -2,9 +2,11 @@ package modele;
 import java.util.Calendar;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
 import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
+
 import java.sql.*;
 
 public class Partie {
@@ -12,10 +14,10 @@ public class Partie {
 	Utilisateur user;
 	//private ArrayList<Ship> bateaux;
 	
-	//A REFAIRE
-	public ArrayList<InfoPartie> partiesDebutees(TheConnection theConnection) {
+	//Selectionne toues les parties que lon a déjà commencé
+	public ArrayList<InfoPartie> partiesDebutees() {
 		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants NATURAL JOIN participants WHERE finie='false' AND pseudo ="+user.getPseudo());
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants NATURAL JOIN participants WHERE finie='false' AND pseudo ="+user.getPseudo());
 		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
 		req.execute();
 		ResultSet res = req.getResult();
@@ -33,7 +35,7 @@ public class Partie {
 	}
 	
 	
-	
+	//Sélectionne l'adversaire
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs){
 		int i=0;
 		idJoueur joueurMin;
@@ -47,6 +49,7 @@ public class Partie {
 		return joueurMin;
 	}
 	
+	//Creer une nouvelle partie dans la base de donnée
 	public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
 	{		
 			//Récupération de l'heure
@@ -68,6 +71,7 @@ public class Partie {
 		
 	}
 	
+	//Trouve un nouvel i pour une nouvelle partie
 	public int getIdDernierePartie() {
 		int indice=0;
 		//on récupère l'indice le plus élevé de partie
@@ -85,20 +89,22 @@ public class Partie {
 		return indice;
 	}
 	
-	//TODO
+	//Retourne la liste de tous les joueurs
 	public ArrayList<idJoueur> getListeJoueurs(){
-		
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idPartie) FROM parties");
-		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
+		ArrayList<idJoueur> listeJoueurs = new ArrayList<idJoueur>();
+		//On suppose qu'on peut jouer avec n'importe quels joueurs
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM joueurs ");
 		req.execute();
 		ResultSet res = req.getResult();
 		try{
-			res.next();
-			indice=res.getInt(1);
+			while(res.next()){
+				//On récupère pseudo et nb parties jouées
+				listeJoueurs.add(new idJoueur(res.getString(1),res.getInt(6)));
+			}
 		} catch (Exception e) {
 			
 		}
 		req.close();
-		return indice;
+		return listeJoueurs;
 	}
 	}
