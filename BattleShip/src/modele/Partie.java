@@ -21,16 +21,16 @@ public class Partie {
 	private String vainqueur;
 	Utilisateur user;
 	private ArrayList<Ship> bateauxInitiaux;
-	//private ArrayList<Ship> bateaux;
 	
-	//Selectionne toues les parties que lon a déjà commencé
+	
+	//Selectionne toues les parties que l'on a déjà commencée
 	public ArrayList<InfoPartie> partiesDebutees() {
 		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants NATURAL JOIN participants WHERE finie='false' AND pseudo ="+user.getPseudo());
 		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
-		req.execute();
-		ResultSet res = req.getResult();
 		try{
+			req.execute();
+			ResultSet res = req.getResult();
 			while(res.next()){
 				//on crée une liste de pseudo et nombre de parties des joueurs en attente
 				partiesDebutees.add(new InfoPartie(res.getInt(1),res.getString(4),res.getString(5),res.getDate(2)));
@@ -86,9 +86,10 @@ public class Partie {
 		//on récupère l'indice le plus élevé de partie
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idPartie) FROM parties");
 		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
-		req.execute();
-		ResultSet res = req.getResult();
+		
 		try{
+			req.execute();
+			ResultSet res = req.getResult();
 			res.next();
 			indice=res.getInt(1);
 		} catch (Exception e) {
@@ -103,9 +104,10 @@ public class Partie {
 		ArrayList<idJoueur> listeJoueurs = new ArrayList<idJoueur>();
 		//On suppose qu'on peut jouer avec n'importe quels joueurs
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM joueurs ");
-		req.execute();
-		ResultSet res = req.getResult();
+		
 		try{
+			req.execute();
+			ResultSet res = req.getResult();
 			while(res.next()){
 				//On récupère pseudo et nb parties jouées
 				listeJoueurs.add(new idJoueur(res.getString(1),res.getInt(6)));
@@ -120,9 +122,9 @@ public class Partie {
 	
 	
 	//A PLACER AILLEURS SUREMENT
-	//A partir de la list des ifo de placement cela retourne la liste des bateaux initiaux
+	//A partir de la list des info de placement cela retourne la liste des bateaux initiaux
 	public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
-		Shipsfactory bateaux = new Shipsfactory();
+		ShipsFactory bateaux = new ShipsFactory();
 		this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
 	}
 	
@@ -187,4 +189,29 @@ public class Partie {
 	}
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//structure d'info en provenance de l'ihm
+	class structInfoPlacementBateau{
+		public int idBateau;
+		public int x;
+		public int y;
+		public String dir;
+	}
 }

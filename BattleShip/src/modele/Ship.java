@@ -1,6 +1,7 @@
 package modele;
 
 abstract class Ship {
+	
 	protected int idBateau;
 	protected int taille;
 	protected int etat;
