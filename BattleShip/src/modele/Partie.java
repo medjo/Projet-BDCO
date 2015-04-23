@@ -9,6 +9,8 @@ import jdbc.SimpleQuery;
 
 import java.sql.*;
 
+import modele.Ship.structInfoPlacementBateau;
+
 public class Partie {
 	private int idPartie;
 	private int numTour;
@@ -112,30 +114,10 @@ public class Partie {
 	
 	
 	//A PLACER AILLEURS SUREMENT
-	
-	public void placerBateaux(int numCase, String typeBateau){
-	
-		
-		
-		
-		
-		
-		
-		/*
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET FROM joueurs ");
-		req.execute();
-		ResultSet res = req.getResult();
-		try{
-			while(res.next()){
-				//On récupère pseudo et nb parties jouées
-				listeJoueurs.add(new idJoueur(res.getString(1),res.getInt(6)));
-			}
-		} catch (Exception e) {
-			
-		}
-		req.close();
-		return listeJoueurs;
-	}	*/
-	}
+	//A partir de la list des ifo de placement cela retourne la liste des bateaux initiaux
+	public ArrayList<Ship> placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
+		Shipsfactory bateaux = new Shipsfactory();
+		return bateaux.prepareForBattle(infoPlacementBateaux);
+	}	
 
 }

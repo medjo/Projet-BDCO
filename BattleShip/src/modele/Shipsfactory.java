@@ -72,7 +72,6 @@ public class Shipsfactory {
 				System.out.println("Erreur: le bateau n 'est ni escorteur ni destroyer");
 			}
 		}
-		
 		return bateauxInit;
 	}
 	
