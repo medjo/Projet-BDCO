@@ -1,6 +1,7 @@
 package modele;
 import java.sql.*;
 import java.util.*;
+
 import jdbc.*;
 
 public class Rejouer{
@@ -40,22 +41,14 @@ public class Rejouer{
 	/**
 	 * initialise la partie à rejouer
 	 * @param idPartie
-	 * @return liste des bateaux avec leurs états initiaux
+	 * @return liste des bateaux dans leurs états initiaux
 	 */
 	public ArrayList<Ship> init(TheConnection theConnection, int idPartie){
-		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT  FROM parties");
-		req.execute();
-		ResultSet res = req.getResult();
-		try{
-			while(res.next()){
-				listeParties.add(new InfoPartie(theConnection, res.getString(1), res.getString(2), res.getBoolean(3)));
-			}
-		} catch (Exception e) {
-			
-		}
+		ShipsFactory factory = new ShipsFactory();
+		ArrayList <Ship> listeBateaux = factory.allShips(theConnection, idPartie); 
+		numTour = 0;
 		
-		req.close();
-		return null;
+		return listeBateaux;
 	}
 	
 	
@@ -65,7 +58,25 @@ public class Rejouer{
 	 * @return liste des bateaux avec leurs états au tour suivant
 	 */
 	public ArrayList<Ship> suivant(TheConnection theConnection, int idPartie){
-		
+		ArrayList <Action> listeActions = new ArrayList <Action>();
+		numTour++;
+		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie= ? AND ntour= ?");
+		try {
+			req.getStatement().setInt(1, idPartie);
+			req.getStatement().setInt(2, numTour);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		req.execute();
+		ResultSet res = req.getResult();
+		try{
+			while(res.next()){
+				listeActions.add(new Action())
+			}
+		} catch (Exception e) {
+			
+		}
 		return null;
 	}
 }
