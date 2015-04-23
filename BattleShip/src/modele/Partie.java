@@ -122,7 +122,7 @@ public class Partie {
 	
 	
 	//A PLACER AILLEURS SUREMENT
-	//A partir de la list des info de placement cela retourne la liste des bateaux initiaux
+	//A partir de la liste des infos de placement cela retourne la liste des bateaux initiaux
 	public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
 		ShipsFactory bateaux = new ShipsFactory();
 		this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
