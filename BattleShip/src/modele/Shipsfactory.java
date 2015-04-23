@@ -2,11 +2,16 @@ package modele;
 import java.sql.*;
 import java.util.*;
 
-import modele.Ship.structInfoPlacementBateau;
 import jdbc.*;
 public class Shipsfactory {
 	//private TheConnection conn;
-	
+	//Une strucre définissant les infos envoyées par la couche IHM concernant le placement des bateaux
+			public class structInfoPlacementBateau{
+				public int idBateau;
+				public int numCase;
+				public String dir;
+				public String type;
+			}
 	
 		
 	public ArrayList<Ship> allShips(TheConnection theConnection, String idPartie) {

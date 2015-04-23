@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
+import modele.Shipsfactory;
+import modele.Shipsfactory.structInfoPlacementBateau;
 
 import java.sql.*;
 
-import modele.Ship.structInfoPlacementBateau;
+
 
 public class Partie {
 	private int idPartie;
