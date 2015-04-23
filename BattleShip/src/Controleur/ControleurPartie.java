@@ -1,6 +1,9 @@
 package Controleur;
 
+import java.util.ArrayList;
+
 import modele.BattleShip;
+import modele.InfoPartie;
 import modele.Partie;
 import modele.Utilisateur;
 import modele.idJoueur;
@@ -10,8 +13,12 @@ public class ControleurPartie {
 	public void lancerNouvellePartie(){
 		Partie partie = new Partie();
 		int idPartie = partie.getIdDernierePartie();
-		idJoueur adv = partie.selectionnerAdv(listeJoueur);
-		partie.creerNouvellePartie(BattleShip.theConnection,idPartie,user.getPseudo(),adv);
+		//Maintenant il faut construire la liste des joueurs pas entrain de jouer
+		ArrayList<idJoueur>listeJoueurs=partie.getListeJoueurs();
+		//On sélectionne l'adversaire
+		idJoueur adv = partie.selectionnerAdv(listeJoueurs);
+		//On crée la partie
+		partie.creerNouvellePartie(idPartie,user.getPseudo(),adv.getPseudo());
 	}
 
 	public void reprendreUnePartie(){

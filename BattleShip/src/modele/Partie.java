@@ -47,14 +47,14 @@ public class Partie {
 		return joueurMin;
 	}
 	
-	public void creerNouvellePartie(TheConnection theConnection, int idPartie, String pseudo1, String pseudo2)
+	public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
 	{		
 			//Récupération de l'heure
 			Calendar cal = new java.util.GregorianCalendar(1982, 0, 1);
 			Date datePartie = new Date(cal.getTime().getTime());
 
 			
-			ParamQuery req = new ParamQuery(theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,'false'");
+			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,'false'");
 			try{
 			
 			req.getStatement().setInt(1,idPartie);
