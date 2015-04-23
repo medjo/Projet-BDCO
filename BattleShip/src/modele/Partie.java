@@ -10,6 +10,7 @@ import jdbc.SimpleQuery;
 import java.sql.*;
 
 public class Partie {
+	private int idPartie;
 	private int numTour;
 	Utilisateur user;
 	//private ArrayList<Ship> bateaux;
@@ -107,4 +108,34 @@ public class Partie {
 		req.close();
 		return listeJoueurs;
 	}
+	
+	
+	
+	//A PLACER AILLEURS SUREMENT
+	
+	public void placerBateaux(int numCase, String typeBateau){
+	
+		
+		
+		
+		
+		
+		
+		/*
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET FROM joueurs ");
+		req.execute();
+		ResultSet res = req.getResult();
+		try{
+			while(res.next()){
+				//On récupère pseudo et nb parties jouées
+				listeJoueurs.add(new idJoueur(res.getString(1),res.getInt(6)));
+			}
+		} catch (Exception e) {
+			
+		}
+		req.close();
+		return listeJoueurs;
+	}	*/
 	}
+
+}

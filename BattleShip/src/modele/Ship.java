@@ -21,6 +21,13 @@ abstract class Ship {
 		this.coups=etat; //On initialise le nombre de coups à l'état du bateau
 	}
 	
+	//Une strucre définissant les infos envoyées par la couche IHM concernant le placement des bateaux
+		class structInfoPlacementBateau{
+			public int idBateau;
+			public int numCase;
+			public String dir;
+			public String type;
+		}
 	
 	public void tirer(){
 		//TODO
