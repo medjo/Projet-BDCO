@@ -140,7 +140,7 @@ public class Partie {
 				req.getStatement().setInt(7, bateaui.getYBateau());
 				req.getStatement().setString(8, bateaui.getDirBateauString());
 				req.getStatement().setInt(9, bateaui.getXBateau());//valeur initial
-				req.getStatement().setInt(10, bateaui.getYBateau());//valeaur initial
+				req.getStatement().setInt(10, bateaui.getYBateau());//valeur initial
 				req.getStatement().setString(11, bateaui.getDirBateauString());//valeur initial
 			
 			} catch (SQLException e1) {
@@ -156,5 +156,11 @@ public class Partie {
 		req.close();
 		}
 	}
+	
+	//Jouer son tour
+	public void jouerSonTour() {
+		
+	}
+	
 
 }
