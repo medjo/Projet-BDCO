@@ -6,6 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import Controleur.ControleurConnexion;
+
 import java.sql.*;
 
 import jdbc.*;

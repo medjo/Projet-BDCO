@@ -1,4 +1,4 @@
-package modele;
+package Controleur;
 import java.util.*;
 
 public class ControleurMenu {
