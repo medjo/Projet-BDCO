@@ -1,23 +1,56 @@
+--Display
+set linesize 250
+column email format a50
+column dateDeNaissance format a15
+column prenom format a10
+column nom format a10
+column pseudo format a10
+--column nbPartiesJouees format a10
+
+--Frequently Used Commands
+drop table joueurs;
+select * from joueurs;
+
 --Joueurs : {pseudo {pk}, nom, prénom, dateDeNaissance, email, nbPartiesJouees}
 CREATE TABLE Joueurs (
 	pseudo VARCHAR(30),
 	nom VARCHAR(50),
 	prenom VARCHAR(50),
-	dateDeNaissance TIMESTAMP,
-	email VARCHAR(80)
+	dateDeNaissance DATE, --DATE - format YYYY-MM-DD
+	email VARCHAR(80),
 	nbPartiesJouees INT default 0,
 	PRIMARY KEY (pseudo),
-	CHECK (REGEXP_LIKE (email,'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$') AND (nbPartiesJouees >= 0))
+	CHECK (
+		REGEXP_LIKE (pseudo,'^[A-Za-z0-9]+[A-Za-z0-9._%+-]')
+		AND (REGEXP_LIKE (nom,'[A-Za-z]+'))
+		AND (REGEXP_LIKE (prenom,'[A-Za-z]+'))
+		AND (REGEXP_LIKE (email,'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$'))
+		AND (nbPartiesJouees >= 0)
+	)
 );
+
+--Insertions valides
+INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('medjo', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
+INSERT INTO Joueurs(pseudo) VALUES ('kevdu08');
+INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('ninja58', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 5);
+INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('aigle78', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
+
+
+--Insertions invalides
+INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('nicrrkname', 'oje55dme', 'ikhao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojem@alo@phelma.grenoble-inp.fr', 0);
+
+--------------------------------------------------------------------------------
 
 --Parties : {iDPartie {pk}, début, finie}
 CREATE TABLE Parties (
 	iDPartie INT,
-	debut TIMESTAMP,
-	finie BOOLEAN default FALSE,
+	debut DATE default CURRENT_DATE,
+	finie NUMBER(1) default 0,
 	PRIMARY KEY (iDPartie),
-	CHECK ()
+	CHECK ((iDPartie >= 0) AND (finie in (0,1)))
 );
+
+insert 
 
 
 --Vainqueurs : {iDPartie{fk,pk}, pseudo{fk} }

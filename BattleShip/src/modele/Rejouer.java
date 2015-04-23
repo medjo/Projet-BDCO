@@ -14,7 +14,7 @@ public class Rejouer{
 		ResultSet res = req.getResult();
 		try{
 			while(res.next()){
-				listeParties.add(new InfoPartie(theConnection, res.getString(1), res.getString(2), res.getBoolean(3)));
+				listeParties.add(new InfoPartie(theConnection, res.getInt(1), res.getDate(2), res.getBoolean(3)));
 			}
 		} catch (Exception e) {
 			
@@ -47,7 +47,6 @@ public class Rejouer{
 		ShipsFactory factory = new ShipsFactory();
 		ArrayList <Ship> listeBateaux = factory.allShips(theConnection, idPartie); 
 		numTour = 0;
-		
 		return listeBateaux;
 	}
 	
@@ -78,5 +77,9 @@ public class Rejouer{
 			
 		}
 		return null;
+	}
+	
+	public ArrayList<InfoPartie> getInfoParties(){
+		return this.listeParties;
 	}
 }

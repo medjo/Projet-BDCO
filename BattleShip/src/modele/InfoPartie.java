@@ -1,16 +1,17 @@
 package modele;
 import jdbc.*;
+import java.util.Calendar;
 import java.sql.*;
 
 public class InfoPartie {
-	private String idPartie;
+	private int idPartie;
 	private String pseudo1;
 	private String pseudo2;
-	private String date;
+	private Date date;
 	private String vainqueur;
 	
 	//Constructeur si partie en cours
-	public InfoPartie(String idPartie, String pseudo1, String pseudo2, String date) {
+	public InfoPartie(int idPartie, String pseudo1, String pseudo2, Date date) {
 		this.idPartie=idPartie;
 		this.pseudo1=pseudo1;
 		this.pseudo2=pseudo2;
@@ -18,7 +19,7 @@ public class InfoPartie {
 	}
 	
 	//Constructeur si partie finie
-	public InfoPartie(String idPartie, String pseudo1, String pseudo2, String date, String vainqueur) {
+	public InfoPartie(int idPartie, String pseudo1, String pseudo2, Date date, String vainqueur) {
 		this.idPartie=idPartie;
 		this.pseudo1=pseudo1;
 		this.pseudo2=pseudo2;
@@ -26,7 +27,7 @@ public class InfoPartie {
 		this.vainqueur=vainqueur;
 	}
 	
-	public InfoPartie(TheConnection theConnection, String idPartie, String date, Boolean fini){
+	public InfoPartie(TheConnection theConnection, int idPartie, Date date, Boolean fini){
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM vainqueurs NATURAL JOIN participants WHERE idpartie='"+idPartie+"'");
 		req.execute();
 		ResultSet res = req.getResult();
@@ -45,7 +46,7 @@ public class InfoPartie {
 		req.close();
 	}
 	
-	public String getId(){
+	public int getId(){
 		return this.idPartie;
 	}
 	
@@ -57,7 +58,7 @@ public class InfoPartie {
 		return this.pseudo2;
 	}
 	
-	public String getDate(){
+	public Date getDate(){
 		return this.date;
 	}
 	

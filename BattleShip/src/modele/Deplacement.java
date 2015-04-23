@@ -9,7 +9,7 @@ public class Deplacement extends Action{
 private Direction dir;
 private Ship ship;
 	
-	public Deplacement(Direction dir, Ship ship) {
+	public Deplacement(int nTour, int nAction,Direction dir, Ship ship) {
 		this.dir=dir;
 		this.ship=ship;
 	}

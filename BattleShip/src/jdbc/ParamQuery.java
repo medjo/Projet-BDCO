@@ -4,7 +4,7 @@ import java.sql.*;
 
 
 public class ParamQuery extends Request{
-	public PreparedStatement pstmt;
+	private PreparedStatement pstmt;
 	public ParamQuery(Connection conn, String query) {
 		super(conn,query);
 		try{
