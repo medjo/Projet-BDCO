@@ -181,8 +181,8 @@ public class Connexion extends JFrame {
 		btnNewButton_4.setBounds(135, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
-		JButton btnNewButton_7 = new JButton("New button");
-		btnNewButton_7.setBounds(323, 30, 117, 25);
+		JButton btnNewButton_7 = new JButton("Nord");
+		btnNewButton_7.setBounds(323, 30, 70, 25);
 		PrepareBataille.add(btnNewButton_7);
 		
 		JButton btnNewButton_8 = new JButton("<");
@@ -191,12 +191,17 @@ public class Connexion extends JFrame {
 			}
 		});
 		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewButton_8.setBounds(268, 67, 55, 37);
+		btnNewButton_8.setBounds(268, 67, 45, 30);
 		PrepareBataille.add(btnNewButton_8);
 		
-		JButton btnNewButton_9 = new JButton("New button");
-		btnNewButton_9.setBounds(311, 110, 117, 25);
+		JButton btnNewButton_9 = new JButton("Sud");
+		btnNewButton_9.setBounds(311, 110, 70, 25);
 		PrepareBataille.add(btnNewButton_9);
+		
+		JButton button = new JButton(">");
+		button.setFont(new Font("Dialog", Font.BOLD, 10));
+		button.setBounds(375, 67, 45, 30);
+		PrepareBataille.add(button);
 		
 		
 		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
