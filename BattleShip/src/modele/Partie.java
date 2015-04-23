@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
-import modele.Shipsfactory;
+import modele.ShipsFactory;
 import modele.ActionFactory.infoActionJoueur;
-import modele.Shipsfactory.structInfoPlacementBateau;
+
 
 import java.sql.*;
 
@@ -18,6 +18,7 @@ import java.sql.*;
 public class Partie {
 	private int idPartie;
 	private int numTour;
+	private String vainqueur;
 	Utilisateur user;
 	private ArrayList<Ship> bateauxInitiaux;
 	//private ArrayList<Ship> bateaux;
@@ -165,25 +166,24 @@ public class Partie {
 		fabrique.execute();
 	}
 	
-	//Méthode testée à chaque tour pour savoir si il nous reste des bateaux vivants
-	//ou si l'adversaire n'a pas terminé la partie
-	//Si ce n'est pas le cas alors on indique que la partie est terminée
+	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
+	//Si l'adversaire a terminé la partie alors on est le vainqueur et on set l'attribut
 	public boolean partieTerminee(){
 		
 		//On vérifie d'abord si l'adversaire n'a pas terminé la partie(tous ses bateaux sont morts)
 		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) FROM parties WHERE idPartie="+this.idPartie+"finie=true");
-		req1.execute();
-		ResultSet res = req1.getResult();
 		try{
-			res.next();
-			if(req1.getInt()==1) return true; //L'adversaire a déjà mis fin à la partie
+			req1.execute();
+			ResultSet res1 = req1.getResult();
+			res1.next();
+			if(res1.getInt(1)==1){ //L'adversaire a déjà mis fin à la partie
+				this.vainqueur=this.user.getPseudo();
+				return true; 
+			}
 		} catch (Exception e) {
-			
 		}
 		req1.close();
-		
-		//Maintenant on vérifie qu'il nous reste des bateaux en vie
-		return true;
+		return false;
 	}
 	
 
