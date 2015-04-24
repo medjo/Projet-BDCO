@@ -23,7 +23,7 @@ public class Partie {
 	private ArrayList<Ship> bateauxInitiaux;
 	
 	
-	//Selectionne toues les parties que l'on a déjà commencée
+	//Selectionne toutes les parties que l'on a déjà commencée
 	public ArrayList<InfoPartie> partiesDebutees() {
 		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants NATURAL JOIN participants WHERE finie='false' AND pseudo ="+user.getPseudo());
@@ -82,7 +82,7 @@ public class Partie {
 			} catch (Exception e) {
 				
 			}
-			try{
+			try{//On enregistre dans la base de donnée
 				req.getConnection().commit();
 			}
 			catch (Exception e){

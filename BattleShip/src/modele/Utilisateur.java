@@ -49,7 +49,7 @@ public class Utilisateur {
 				
 				//Complétion de la table Adresse
 				SimpleQuery req2 = new SimpleQuery(BattleShip.theConnection.getConnection(),
-						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"'");
+						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"')");
 				req2.execute();
 				req2.getConnection().commit();
 				req2.close();
