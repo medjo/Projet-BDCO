@@ -50,8 +50,21 @@ CREATE TABLE Parties (
 	debut DATE DEFAULT CURRENT_DATE,
 	finie NUMBER(1) DEFAULT 0,
 	PRIMARY KEY (iDPartie),
-	CHECK ((iDPartie >= 0) AND (finie in (0,1)) AND (debut BETWEEN date CURRENT_DATE AND date CURRENT_DATE))
+	CHECK ((iDPartie >= 0) AND (finie in (0,1)))
 );
+
+CREATE OR REPLACE TRIGGER trg_check_dates
+BEFORE INSERT OR UPDATE ON Parties
+FOR EACH ROW
+BEGIN
+	IF( :new.debut <> CURRENT_DATE )
+	THEN
+		RAISE_APPLICATION_ERROR( -20001, 
+		'Invalid debut: debut must be set to the current date - value = ' || 
+		to_char( :new.debut, 'YYYY-MM-DD' ) );
+		END IF;
+END;
+/
 
 --Frequently Used Commands
 drop table Parties;
@@ -64,13 +77,8 @@ INSERT INTO Parties(iDPartie) VALUES (0);
 
 
 
-
-
-
-
-
 --Insertions invalides
-insert 
+INSERT INTO Parties(iDPartie, debut) VALUES (1, to_date('2015-04-24', 'YYYY-MM-DD'));
 
 
 
@@ -164,7 +172,7 @@ CREATE TABLE Bateaux (
 --------------------------------------------------------------------------------
 
 --Adresses : {pseudo{fk}, iDAdresse{pk}, numRue, nomRue, CP, Ville}
-CREATE TABLE Joueurs (
+CREATE TABLE Adresses (
 	pseudo VARCHAR(30),
 	iDAdresse INT,
 	numRue INT,
