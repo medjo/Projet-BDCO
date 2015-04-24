@@ -182,7 +182,7 @@ public class Partie {
 	}*/
 	
 	
-	
+	//Méthode qui enregistre les positions initiales des bateaux à partir des informations fournies par l'ihm
 	public void executerPlacementBateauxInitiaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
 		//On enregistre dans la BD le placement des bateaux à l'état initial
 		int i=0;
@@ -212,7 +212,9 @@ public class Partie {
 	}
 	
 	
-	
+	public void joueurTour(){
+		
+	}
 	
 	
 	
@@ -248,7 +250,7 @@ public class Partie {
 		
 	}
 	
-	public boolean aNousDeJouer(){
+	public boolean aMoiDeJouer(){
 		//on regarde quel joueur est le premier à avoir jouer pour déterminer si c'est notre tour
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour=0");
 		//On regarde le numéro du dernier tour
