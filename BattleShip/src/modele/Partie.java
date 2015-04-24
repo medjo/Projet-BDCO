@@ -20,7 +20,6 @@ public class Partie {
 	private int numTour;
 	private String vainqueur;
 	Utilisateur user;
-	private ArrayList<Ship> bateauxInitiaux;
 	private ArrayList<Ship> bateauxCourants;
 	
 	
@@ -147,7 +146,7 @@ public class Partie {
 	/*public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
 		ShipsFactory bateaux = new ShipsFactory();
 		this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
-	}*/
+	}
 	
 	public void executerPlacementBateaux(){
 		//On enregistre dans la BD le placement des bateaux
@@ -180,7 +179,43 @@ public class Partie {
 		}
 		req.close();
 		}
+	}*/
+	
+	
+	
+	public void executerPlacementBateauxInitiaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
+		//On enregistre dans la BD le placement des bateaux à l'état initial
+		int i=0;
+		while(i<infoPlacementBateaux.size()){
+			structInfoPlacementBateau infoBateaui = infoPlacementBateaux.get(i);
+			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?");
+			try {
+				req.getStatement().setInt(1, this.idPartie);
+				req.getStatement().setString(2, this.user.getPseudo());
+				req.getStatement().setInt(3, infoBateaui.idBateau);
+				req.getStatement().setInt(4, infoBateaui.taille);
+				req.getStatement().setInt(5, infoBateaui.taille);
+				req.getStatement().setInt(6, infoBateaui.x);
+				req.getStatement().setInt(7, infoBateaui.y);
+				req.getStatement().setString(8, infoBateaui.dir);
+				req.getStatement().setInt(9, infoBateaui.x);//valeur initial
+				req.getStatement().setInt(10, infoBateaui.y);//valeur initial
+				req.getStatement().setString(11, infoBateaui.dir);//valeur initial
+				req.execute();
+			} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("Problème lors du placement initial des bateaux");
+			}
+			req.close();
+		}
 	}
+	
+	
+	
+	
+	
+	
 	
 	//Jouer son tour
 	/*public void jouerSonTour(ArrayList<infoActionJoueur> actions) {
@@ -244,6 +279,7 @@ public class Partie {
 	//structure d'info en provenance de l'ihm
 	class structInfoPlacementBateau{
 		public int idBateau;
+		public int taille;
 		public int x;
 		public int y;
 		public String dir;
