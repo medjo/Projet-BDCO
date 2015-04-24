@@ -2,6 +2,7 @@ package modele;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import jdbc.ParamQuery;
@@ -30,41 +31,61 @@ public class Utilisateur {
 			String email, int num, String rue,int cp,String ville)
 					throws InscriptionInvalideException{
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
-		req.execute();
+		
 		try{
+			req.execute();
 			ResultSet res = req.getResult();
 			if (res.next()){
 				throw new InscriptionInvalideException(res.getString(1) + " existe déja !");
 			} else {
 				System.out.println("Inscription de " + pseudo);
-				SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),
-						"INSERT INTO users VALUES('"+pseudo+"', '"+nom+"', '"+prenom+"', "+jj+", " +
-						mm+", "+aaaa+", '"+email+"', "+num+", '"+rue+"', "+cp+", '"+ville+"')"); // insertion du nouveau pseudo et commit
-				req1.execute();
 				
-				// valider (commit)
+				//Complétion de la table Joueurs
+				SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),
+						"INSERT INTO Joueurs VALUES ('"+pseudo+"', '"+nom+"','"+prenom+"', to_date('"+aaaa+"-"+mm+"-"+jj+"', 'YYYY-MM-DD'), '"+email+"',0)");
+				req1.execute();
+				req1.getConnection().commit();
+				req1.close();
+				
+				//Complétion de la table Adresse
+				SimpleQuery req2 = new SimpleQuery(BattleShip.theConnection.getConnection(),
+						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"'");
+				req2.execute();
+				req2.getConnection().commit();
+				req2.close();
+				
 			}
 		} catch(Exception e){
 			System.err.println("Echec à la récupération du résultat");
 			e.printStackTrace(System.err);
 		}
+		this.pseudo=pseudo;
+		this.nom=nom;
+		this.prenom=prenom;
+		this.dateDeNaissance=dateDeNaissance;
+		this.email=email;
+		this.nbPartiesJouees=nbPartiesJouees;
 		req.close();
+		
 	}
 	
 	public static void connexion(String pseudo){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
-		req.execute();
+		
 		try{
+			req.execute();
 			ResultSet res = req.getResult();
 			if (res.next()){
 				System.out.println("Connexion");
+				req.getConnection().commit();
 			} else {
 				System.out.println("Utilisateur inconnu");
 			}
 		} catch(Exception e){
-			System.err.println("Echec à la récupération du résultat");
+			System.err.println("Echec à la connexion");
 			e.printStackTrace(System.err);
 		}
+		
 		req.close();
 	}
 	

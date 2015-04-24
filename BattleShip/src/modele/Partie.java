@@ -59,14 +59,15 @@ public class Partie {
 	}
 	
 	//Creer une nouvelle partie dans la base de donnée
-	public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
+	//public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
+	public void creerNouvellePartie(int idPartie)
 	{		
 			//Récupération de l'heure
 			Calendar cal = new java.util.GregorianCalendar(1982, 0, 1);
 			Date datePartie = new Date(cal.getTime().getTime());
 
 			
-			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,'false'");
+			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,0)");
 			try{
 			
 			req.getStatement().setInt(1,idPartie);
@@ -75,7 +76,12 @@ public class Partie {
 			} catch (Exception e) {
 				
 			}
-			
+			try{
+				req.getConnection().commit();
+			}
+			catch (Exception e){
+				
+			}
 			req.close();
 		
 	}
@@ -123,10 +129,10 @@ public class Partie {
 	
 	//A PLACER AILLEURS SUREMENT
 	//A partir de la liste des infos de placement cela retourne la liste des bateaux initiaux
-	public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
+	/*public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
 		ShipsFactory bateaux = new ShipsFactory();
 		this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
-	}
+	}*/
 	
 	public void executerPlacementBateaux(){
 		//On enregistre dans la BD le placement des bateaux
