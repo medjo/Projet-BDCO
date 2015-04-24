@@ -53,15 +53,16 @@ CREATE TABLE Parties (
 	CHECK ((iDPartie >= 0) AND (finie in (0,1)))
 );
 
+--Trigger qui vérifie que l'attribut "debut" a pour valeur le jour actuel
 CREATE OR REPLACE TRIGGER trg_check_dates
 BEFORE INSERT OR UPDATE ON Parties
 FOR EACH ROW
 BEGIN
-	IF( :new.debut <> CURRENT_DATE )
+	IF( to_date(:new.debut, 'YYYY-MM-DD') <> to_date(CURRENT_DATE, 'YYYY-MM-DD') )
 	THEN
 		RAISE_APPLICATION_ERROR( -20001, 
 		'Invalid debut: debut must be set to the current date - value = ' || 
-		to_char( :new.debut, 'YYYY-MM-DD' ) );
+		to_char( to_date(:new.debut, 'YYYY-MM-DD') ) || '. Instead of ' || to_char(to_date(CURRENT_DATE, 'YYYY-MM-DD')));
 		END IF;
 END;
 /
@@ -72,14 +73,11 @@ select * from Parties;
 
 --Insertions valides
 INSERT INTO Parties(iDPartie) VALUES (0);
-
-
-
-
+INSERT INTO Parties(iDPartie, finie) VALUES (2, 0);
 
 --Insertions invalides
-INSERT INTO Parties(iDPartie, debut) VALUES (1, to_date('2015-04-24', 'YYYY-MM-DD'));
-
+INSERT INTO Parties(iDPartie, debut) VALUES (1, to_date('2014-04-23', 'YYYY-MM-DD'));
+INSERT INTO Parties(iDPartie, finie) VALUES (3, 2);
 
 
 
@@ -171,15 +169,15 @@ CREATE TABLE Bateaux (
 );
 --------------------------------------------------------------------------------
 
---Adresses : {pseudo{fk}, iDAdresse{pk}, numRue, nomRue, CP, Ville}
+--Adresses : {pseudo{fk}, numRue, nomRue, CP, Ville}
 CREATE TABLE Adresses (
 	pseudo VARCHAR(30),
-	iDAdresse INT,
 	numRue INT,
 	nomRue VARCHAR(50),
 	CP INT,
 	ville VARCHAR(50),
-	PRIMARY KEY (iDAdresse),
+	PRIMARY KEY (pseudo),
+	REFERENCES Joueurs (pseudo),
 	FOREIGN KEY (pseudo),
     REFERENCES Joueurs (pseudo),
 	CHECK ()
