@@ -21,6 +21,7 @@ public class Partie {
 	private String vainqueur;
 	Utilisateur user;
 	private ArrayList<Ship> bateauxInitiaux;
+	private ArrayList<Ship> bateauxCourants;
 	
 	
 	//Méthode testée avec BD sans la classe participant
@@ -182,11 +183,11 @@ public class Partie {
 	}
 	
 	//Jouer son tour
-	public void jouerSonTour(ArrayList<infoActionJoueur> actions) {
+	/*public void jouerSonTour(ArrayList<infoActionJoueur> actions) {
 		ActionFactory fabrique = new ActionFactory();
 		fabrique.actionsJoueur(actions,this.idPartie,this.numTour);
 		fabrique.execute();
-	}
+	}*/
 	
 	//Cette méthode a été testée avec la BD
 	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
@@ -212,22 +213,31 @@ public class Partie {
 		
 	}
 	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public boolean aNousDeJouer(){
+		//on regarde quel joueur est le premier à avoir jouer pour déterminer si c'est notre tour
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour=0");
+		//On regarde le numéro du dernier tour
+		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour>=ALL(SELECT nTour FROM Actions WHERE idPartie="+this.idPartie+")");
+		try{
+		req.execute();
+		req1.execute();
+		ResultSet res = req.getResult();
+		ResultSet res1 = req1.getResult();
+		res.next();
+		res1.next();
+		if(res.getString(1)!=res1.getString(1)){
+			//Dans ce cas-là c'est à nous de jouer maintenant
+			return true;
+		}
+		else{
+			return false;
+		}
+		}
+		catch (Exception e){
+			System.out.println("Problème dans l'attribution des tours");
+			return false;
+		}
+	}
 	
 	
 	
