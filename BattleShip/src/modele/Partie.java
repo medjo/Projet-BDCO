@@ -117,6 +117,7 @@ public class Partie {
 		return indice;
 	}
 	
+	//Méthode testée avec la BD
 	//Il faudra rajouter un attribut "en jeu" pour sélectionner les joueurs pas en jeu
 	//Retourne la liste de tous les joueurs
 	public ArrayList<idJoueur> getListeJoueurs(){

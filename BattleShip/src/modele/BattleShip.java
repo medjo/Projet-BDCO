@@ -35,12 +35,20 @@ public class BattleShip {
 		//System.out.println(partie.getIdDernierePartie());
 		
 		//Test de la récupération de la liste des parties en cours
-		ArrayList<InfoPartie> partiesDebutees=partie.partiesDebutees();
+		/*ArrayList<InfoPartie> partiesDebutees=partie.partiesDebutees();
 		int i=0;
 		while(i<partiesDebutees.size()){
 			System.out.println(partiesDebutees.get(i).getId());
 			i++;
-		}
+		}*/
+		
+		//Test de la construction de l'arraylist d'idjoueurs de tous les joueurs
+		/*ArrayList<idJoueur> listeJoueurs = partie.getListeJoueurs();
+		int j=0;
+		while(j<listeJoueurs.size()){
+			System.out.println(listeJoueurs.get(j).getPseudo());
+			j++;
+		}*/
 		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
