@@ -18,14 +18,16 @@ public abstract class Action {
 	/**
 	 * execute l'action au niveau de la BD ie met à jour l'etat des bateaux
 	 * @param theConnection
+	 * @throws ExceptionDeplacement 
 	 */
-	public abstract void execute();
+	public abstract void execute() throws ExceptionDeplacement;
 	
 	/**
 	 * sauvegarde l'action au niveau de la BD dans l'historique de la partie 
 	 * @param theConnection
+	 * @throws ExceptionDeplacement 
 	 */
-	public abstract void save();
+	public abstract void save() throws ExceptionDeplacement;
 	
 	public int getIdBateau(){
 		return idBateau;
