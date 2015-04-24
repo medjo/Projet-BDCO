@@ -25,9 +25,13 @@ public class BattleShip {
 		//Test de la création de partie
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(27);
-		if(partie.partieTerminee()) System.out.println("Partie terminée");
-		else System.out.println("Partie en cours");
+		partie.creerNouvellePartie(105);
+		//if(partie.partieTerminee()) System.out.println("Partie terminée");
+		//else System.out.println("Partie en cours");
+		
+		//Test de la récupération du dernier indice de partie
+		System.out.println(partie.getIdDernierePartie());
+		
 		
 		/*
 		EventQueue.invokeLater(new Runnable() {

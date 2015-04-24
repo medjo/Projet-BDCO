@@ -94,6 +94,7 @@ public class Partie {
 		
 	}
 	
+	//Cette méthode a été testée avec la BD
 	//Trouve un nouvel i pour une nouvelle partie
 	public int getIdDernierePartie() {
 		int indice=0;
@@ -113,6 +114,7 @@ public class Partie {
 		return indice;
 	}
 	
+	//Il faudra rajouter un attribut "en jeu" pour sélectionner les joueurs pas en jeu
 	//Retourne la liste de tous les joueurs
 	public ArrayList<idJoueur> getListeJoueurs(){
 		ArrayList<idJoueur> listeJoueurs = new ArrayList<idJoueur>();
