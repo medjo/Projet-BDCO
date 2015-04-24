@@ -46,7 +46,7 @@ public class Partie {
 		return partiesDebutees;
 	}
 	
-	
+	//Méthode testée avec la BD
 	//Sélectionne l'adversaire
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs){
 		int i=0;

@@ -43,12 +43,15 @@ public class BattleShip {
 		}*/
 		
 		//Test de la construction de l'arraylist d'idjoueurs de tous les joueurs
-		/*ArrayList<idJoueur> listeJoueurs = partie.getListeJoueurs();
+		ArrayList<idJoueur> listeJoueurs = partie.getListeJoueurs();
 		int j=0;
 		while(j<listeJoueurs.size()){
 			System.out.println(listeJoueurs.get(j).getPseudo());
+			System.out.println(listeJoueurs.get(j).getNbParties());
 			j++;
-		}*/
+		}
+		idJoueur adv=partie.selectionnerAdv(listeJoueurs);
+		System.out.println("L'adversaire sélectionné est"+adv.getPseudo()+"");
 		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
