@@ -3,6 +3,7 @@ import ihm.Connexion;
 
 import java.awt.EventQueue;
 import java.sql.*;
+import java.util.ArrayList;
 
 import jdbc.*;
 import Controleur.ControleurConnexion;
@@ -18,21 +19,28 @@ public class BattleShip {
 		//Test des fonctions de connexions
 		ControleurConnexion conex= new ControleurConnexion();
 		Utilisateur user = new Utilisateur();
-		/*conex.inscription(user,"MordokkaiserBest2","guy",
+		
+		conex.inscription(user,"MordokkaiserBest4","guy",
 				"sylvain", 14, 02 , 1994,
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");
-		conex.connexion(user,"Mordokkaiser");*/
+		conex.connexion(user,"Mordokkaiser");
 		//Test de la création de partie
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(105);
-		//if(partie.partieTerminee()) System.out.println("Partie terminée");
-		//else System.out.println("Partie en cours");
+		/*partie.creerNouvellePartie(105);
+		if(partie.partieTerminee()) System.out.println("Partie terminée");
+		else System.out.println("Partie en cours");*/
 		
 		//Test de la récupération du dernier indice de partie
-		System.out.println(partie.getIdDernierePartie());
+		//System.out.println(partie.getIdDernierePartie());
 		
-		
+		//Test de la récupération de la liste des parties en cours
+		ArrayList<InfoPartie> partiesDebutees=partie.partiesDebutees();
+		int i=0;
+		while(i<partiesDebutees.size()){
+			System.out.println(partiesDebutees.get(i).getId());
+			i++;
+		}
 		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
