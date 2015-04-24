@@ -10,9 +10,9 @@ public class Rejouer{
 	
 	public Rejouer(TheConnection theConnection){
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties");
-		req.execute();
-		ResultSet res = req.getResult();
 		try{
+			req.execute();
+			ResultSet res = req.getResult();
 			while(res.next()){
 				listeParties.add(new InfoPartie(theConnection, res.getInt(1), res.getDate(2), res.getBoolean(3)));
 			}

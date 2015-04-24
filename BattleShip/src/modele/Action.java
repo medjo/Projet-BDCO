@@ -19,13 +19,13 @@ public abstract class Action {
 	 * execute l'action au niveau de la BD ie met à jour l'etat des bateaux
 	 * @param theConnection
 	 */
-	public abstract void execute(TheConnection theConnection);
+	public abstract void execute();
 	
 	/**
 	 * sauvegarde l'action au niveau de la BD dans l'historique de la partie 
 	 * @param theConnection
 	 */
-	public abstract void save(TheConnection theConnection);
+	public abstract void save();
 	
 	public int getIdBateau(){
 		return idBateau;
