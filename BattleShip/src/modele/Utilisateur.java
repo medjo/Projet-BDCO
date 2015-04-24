@@ -26,6 +26,7 @@ public class Utilisateur {
 		
 	}
 	
+	//Cette méthode a été testé avec BD
 	public void inscription(String pseudo,String nom,
 			String prenom, int jj,int mm, int aaaa,
 			String email, int num, String rue,int cp,String ville)
@@ -69,6 +70,7 @@ public class Utilisateur {
 		
 	}
 	
+	//Cette méthode a été testé avec BD
 	public static void connexion(String pseudo){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
 		

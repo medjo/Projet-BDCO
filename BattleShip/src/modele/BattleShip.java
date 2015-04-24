@@ -17,15 +17,17 @@ public class BattleShip {
 		
 		//Test des fonctions de connexions
 		ControleurConnexion conex= new ControleurConnexion();
-		//Utilisateur user = new Utilisateur();
-		//conex.inscription(user,"MordokkaiserBest2","guy",
-			//	"sylvain", 14, 02 , 1994,
-			//	"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");
-		
+		Utilisateur user = new Utilisateur();
+		/*conex.inscription(user,"MordokkaiserBest2","guy",
+				"sylvain", 14, 02 , 1994,
+				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");
+		conex.connexion(user,"Mordokkaiser");*/
 		//Test de la création de partie
-		//Partie partie = new Partie();
-		//partie.creerNouvellePartie(8);
-		//conex.connexion(user,"Mordokkaiser");
+		Partie partie = new Partie();
+		partie.user=user;
+		partie.creerNouvellePartie(27);
+		if(partie.partieTerminee()) System.out.println("Partie terminée");
+		else System.out.println("Partie en cours");
 		
 		/*
 		EventQueue.invokeLater(new Runnable() {

@@ -58,6 +58,7 @@ public class Partie {
 		return joueurMin;
 	}
 	
+	//Cette méthode a été testé avec BD
 	//Creer une nouvelle partie dans la base de donnée
 	//public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
 	public void creerNouvellePartie(int idPartie)
@@ -88,6 +89,7 @@ public class Partie {
 			catch (Exception e){
 				
 			}
+			this.idPartie=idPartie;
 			req.close();
 		
 	}
@@ -180,24 +182,28 @@ public class Partie {
 		fabrique.execute();
 	}
 	
+	//Cette méthode a été testée avec la BD
 	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
 	//Si l'adversaire a terminé la partie alors on est le vainqueur et on set l'attribut
-	public boolean partieTerminee(){
+	public boolean partieTerminee() throws SQLException{
 		
 		//On vérifie d'abord si l'adversaire n'a pas terminé la partie(tous ses bateaux sont morts)
-		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) FROM parties WHERE idPartie="+this.idPartie+"finie=true");
-		try{
+		System.out.println(""+this.idPartie+"");
+		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) AS nb FROM parties WHERE idPartie="+this.idPartie+" AND finie=1");
+		
 			req1.execute();
 			ResultSet res1 = req1.getResult();
 			res1.next();
-			if(res1.getInt(1)==1){ //L'adversaire a déjà mis fin à la partie
+			if(res1.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
+				System.out.println("ok");
 				this.vainqueur=this.user.getPseudo();
-				return true; 
+				return true; }
+			else {
+				System.out.println("pb");
+				req1.close();
+				return false;
 			}
-		} catch (Exception e) {
-		}
-		req1.close();
-		return false;
+		
 	}
 	
 
