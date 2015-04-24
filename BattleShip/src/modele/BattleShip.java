@@ -5,15 +5,29 @@ import java.awt.EventQueue;
 import java.sql.*;
 
 import jdbc.*;
-	
+import Controleur.ControleurConnexion;
+
 public class BattleShip {
 	
 	public static TheConnection theConnection;
 	
-	public static void main (String[] args) throws SQLException {
-		BattleShip.theConnection = new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","guys","guys"));
+	public static void main (String[] args) throws SQLException, InscriptionInvalideException {
+		BattleShip.theConnection = new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","ikhaloo","ikhaloo"));
 		BattleShip.theConnection.open();
 		
+		//Test des fonctions de connexions
+		/*ControleurConnexion conex= new ControleurConnexion();
+		Utilisateur user = new Utilisateur();
+		conex.inscription(user,"Mordokkaiser","guy",
+				"sylvain", 14, 02 , 1994,
+				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");*/
+		
+		//Test de la création de partie
+		Partie partie = new Partie();
+		partie.creerNouvellePartie(5);
+		//conex.connexion(user,"Mordokkaiser");
+		
+		/*
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -23,7 +37,7 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 		/*
 		//Corps
 		//Exemples de requêtes avec les classes créees
