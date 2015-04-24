@@ -71,7 +71,6 @@ public class Rejouer{
 		ResultSet res = req.getResult();
 		try{
 			while(res.next()){
-				listeActions.add(new Action())
 			}
 		} catch (Exception e) {
 			
