@@ -16,16 +16,16 @@ public class BattleShip {
 		BattleShip.theConnection.open();
 		
 		//Test des fonctions de connexions
-		/*ControleurConnexion conex= new ControleurConnexion();
+		ControleurConnexion conex= new ControleurConnexion();
 		Utilisateur user = new Utilisateur();
-		conex.inscription(user,"Mordokkaiser","guy",
+		/*conex.inscription(user,"Mordokkaiser","guy",
 				"sylvain", 14, 02 , 1994,
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");*/
 		
 		//Test de la création de partie
 		Partie partie = new Partie();
-		partie.creerNouvellePartie(5);
-		//conex.connexion(user,"Mordokkaiser");
+		partie.creerNouvellePartie(8);
+		conex.connexion(user,"Mordokkaiser");
 		
 		/*
 		EventQueue.invokeLater(new Runnable() {

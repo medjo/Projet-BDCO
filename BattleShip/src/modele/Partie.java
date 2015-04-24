@@ -62,16 +62,22 @@ public class Partie {
 	//public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
 	public void creerNouvellePartie(int idPartie)
 	{		
-			//Récupération de l'heure
-			Calendar cal = new java.util.GregorianCalendar(1982, 0, 1);
-			Date datePartie = new Date(cal.getTime().getTime());
-
-			
-			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,0)");
-			try{
+		//Récupération de l'heure actuelle
+		java.util.Calendar cal = Calendar.getInstance();
+		java.util.Date utilDate = new java.util.Date(); // your util date
+		cal.setTime(utilDate);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);    
+		java.sql.Date sqlDate = new java.sql.Date(cal.getTime().getTime()); 
+		
+		
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,0)");
+		try{
 			
 			req.getStatement().setInt(1,idPartie);
-			req.getStatement().setDate(2,datePartie);
+			req.getStatement().setDate(2,sqlDate);
 			req.execute();
 			} catch (Exception e) {
 				
