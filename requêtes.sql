@@ -30,11 +30,11 @@ CREATE TABLE Joueurs (
 );
 
 --Insertions valides
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('medjo', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
+INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('medjo', 'félix', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
 INSERT INTO Joueurs(pseudo) VALUES ('kevdu08');
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('ninja58', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 5);
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('aigle78', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
-
+INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('mf edjo', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
 
 --Insertions invalides
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('nica28me', 'oje55dme', 'ikh484ao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojem@alo@phelma.grenoble-inp.fr', 0);
@@ -79,13 +79,6 @@ INSERT INTO Parties(iDPartie, finie) VALUES (2, 0);
 INSERT INTO Parties(iDPartie, debut) VALUES (1, to_date('2014-04-23', 'YYYY-MM-DD'));
 INSERT INTO Parties(iDPartie, finie) VALUES (3, 2);
 
-
-
-
-
-
-
-
 --------------------------------------------------------------------------------
 
 --Vainqueurs : {iDPartie{fk,pk}, pseudo{fk} }
@@ -93,11 +86,21 @@ CREATE TABLE Vainqueurs (
 	iDPartie INT,
 	pseudo VARCHAR(30),
 	PRIMARY KEY (iDPartie),
-    FOREIGN KEY (iDPartie)
-    REFERENCES Parties (iDPartie),
-    FOREIGN KEY (pseudo),
-    REFERENCES Joueurs (pseudo),
+    FOREIGN KEY (iDPartie) REFERENCES Parties (iDPartie),
+    FOREIGN KEY (pseudo) REFERENCES Joueurs (pseudo)
 );
+
+--Frequently Used Commands
+drop table Vainqueurs;
+select * from Vainqueurs;
+
+--Insertions valides
+INSERT INTO Vainqueurs(iDPartie) VALUES (0);
+INSERT INTO Vainqueurs(iDPartie, finie) VALUES (2, 0);
+
+--Insertions invalides
+INSERT INTO Vainqueurs(iDPartie, debut) VALUES (1, to_date('2014-04-23', 'YYYY-MM-DD'));
+INSERT INTO Vainqueurs(iDPartie, finie) VALUES (3, 2);
 --------------------------------------------------------------------------------
 
 --EnAttente : {pseudo{pk, fk}, iDPartie{pk, fk}}
@@ -161,25 +164,39 @@ CREATE TABLE Bateaux (
 	yI INT,
 	orientationI CHAR,
 	PRIMARY KEY (iDPartie, pseudo, iDBateau),
-    FOREIGN KEY (iDPartie)
-    REFERENCES Parties (iDPartie),
-    FOREIGN KEY (pseudo),
-    REFERENCES Joueurs (pseudo),
+    FOREIGN KEY (iDPartie) REFERENCES Parties (iDPartie),
+    FOREIGN KEY (pseudo) REFERENCES Joueurs (pseudo),
     CHECK()
 );
 --------------------------------------------------------------------------------
+--Display
+set linesize 250
+column ville format a15
+column nomRue format a10
+column pseudo format a10
+--column CP format a10
+--column numRue format a10
 
 --Adresses : {pseudo{fk}, numRue, nomRue, CP, Ville}
 CREATE TABLE Adresses (
 	pseudo VARCHAR(30),
-	numRue INT,
-	nomRue VARCHAR(50),
-	CP INT,
-	ville VARCHAR(50),
+	numRue INT NOT NULL,
+	nomRue VARCHAR(50)  NOT NULL,
+	CP INT  NOT NULL,
+	ville VARCHAR(50)  NOT NULL,
 	PRIMARY KEY (pseudo),
-	REFERENCES Joueurs (pseudo),
-	FOREIGN KEY (pseudo),
-    REFERENCES Joueurs (pseudo),
-	CHECK ()
+	FOREIGN KEY (pseudo) REFERENCES Joueurs (pseudo),
+	CHECK(
+		numRue > 0
+		AND REGEXP_LIKE (nomRue,'^[A-Za-z0-9]+[A-Za-z0-9._%+-]')
+		AND CP BETWEEN 0 AND 1000000
+		AND REGEXP_LIKE (ville,'^[A-Za-z0-9]+[A-Za-z0-9._%+-]')
+		)
 );
 
+--Frequently Used Commands
+drop table Adresses;
+select * from Adresses;
+
+--Insertions valides
+INSERT INTO Adresses(pseudo, numRue, nomRue, CP, ville) VALUES ('ninja64', 1220, 'residences', 38400, 'St Martin d''Heres');
