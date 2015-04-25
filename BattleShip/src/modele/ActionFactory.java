@@ -13,6 +13,7 @@ public class ActionFactory {
 		public String type; //Tir ou déplacement
 		public int x;//Pivot ou coord tir
 		public int y;//Pivot ou coord tir
+		public String typeMouvement;
 		public String dir; //direction
 	}
 	
