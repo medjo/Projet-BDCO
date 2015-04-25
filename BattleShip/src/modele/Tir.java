@@ -49,7 +49,7 @@ public class Tir extends Action{
 			req.getStatement().setInt(4, getNAction());
 			req.getStatement().setInt(5, x);
 			req.getStatement().setInt(6, y);
-			req.getStatement().setString(7, "Tir");
+			req.getStatement().setString(7, "ti");
 			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block

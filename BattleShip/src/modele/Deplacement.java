@@ -111,8 +111,8 @@ public class Deplacement extends Action{
 			req.getStatement().setInt(4, getNAction());
 			req.getStatement().setInt(5, x);
 			req.getStatement().setInt(6, y);
-			req.getStatement().setString(7, "Deplacement");
-			req.getStatement().setString(8, orientationF.toString());
+			req.getStatement().setString(7, "Dep");
+			req.getStatement().setString(8, type.toString());
 			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block

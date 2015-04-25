@@ -58,7 +58,7 @@ public class ShipsFactory {
 	
 	
 	//Méthode qui retourne la liste des bateaux initiaux
-	public ArrayList<Ship> bateauxInitiaux(int idPartie){
+	public static ArrayList<Ship> shipsInit(int idPartie){
 		ArrayList<Ship> shipsInit = new ArrayList<Ship>();
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT idBateau, etat, taille, xI, yI, orientationI FROM bateaux WHERE idPartie="+idPartie);
 		try{
