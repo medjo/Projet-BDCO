@@ -39,8 +39,6 @@ public class Utilisateur {
 			if (res.next()){
 				throw new UtilisateurExistantException();
 			} else {
-				System.out.println("Inscription de " + pseudo);
-				
 				//Complétion de la table Joueurs
 				SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),
 						"INSERT INTO Joueurs VALUES ('"+pseudo+"', '"+nom+"','"+prenom+"', to_date('"+aaaa+"-"+mm+"-"+jj+"', 'YYYY-MM-DD'), '"+email+"',0)");
@@ -52,7 +50,8 @@ public class Utilisateur {
 						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"')");
 				req2.execute();
 				req2.close();
-				
+
+				System.out.println("Inscription de " + pseudo);
 				BattleShip.theConnection.getConnection().commit();
 				
 				//Attribution des valeurs aux attributs de la classe
@@ -66,7 +65,8 @@ public class Utilisateur {
 		} catch(Exception e){
 			System.err.println("Echec à l'inscription");
 			BattleShip.theConnection.rollbackPerso(); //On annule tout si problème
-			e.printStackTrace(System.err);
+			throw new InscriptionInvalideException();
+			//e.printStackTrace(System.err);
 			
 			//TODO
 		}
@@ -75,7 +75,7 @@ public class Utilisateur {
 	}
 	
 	//Cette méthode a été testé avec BD
-	public void connexion(String pseudo){
+	public void connexion(String pseudo) throws UtilisateurInconnuException {
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
 		
 		try{
@@ -93,8 +93,11 @@ public class Utilisateur {
 				this.nbPartiesJouees=res.getString(6);
 			} else {
 				System.out.println("Utilisateur inconnu");
+				throw new UtilisateurInconnuException();
 			}
 		} catch(Exception e){
+			if (e instanceof UtilisateurInconnuException)
+					throw new UtilisateurInconnuException();
 			System.err.println("Echec à la connexion");
 			BattleShip.theConnection.rollbackPerso();
 			e.printStackTrace(System.err);

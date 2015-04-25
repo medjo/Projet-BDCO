@@ -16,7 +16,7 @@ public class ControleurConnexion {
 	}
 	
 	// Méthode appelée pour la connexion
-	public static void connexion(String pseudo) {
+	public static void connexion(String pseudo) throws UtilisateurInconnuException {
 		BattleShip.user.connexion(pseudo);
 	}
 	
