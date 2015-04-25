@@ -362,7 +362,7 @@ public class Partie {
 	
 	
 	//structure d'info en provenance de l'ihm
-	class structInfoPlacementBateau{
+	public class structInfoPlacementBateau{
 		public int idBateau;
 		public int taille;
 		public int x;
