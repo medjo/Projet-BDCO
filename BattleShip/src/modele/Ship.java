@@ -1,6 +1,6 @@
 package modele;
 
-abstract class Ship {
+public abstract class Ship {
 	
 	protected int idBateau;
 	protected int taille;
