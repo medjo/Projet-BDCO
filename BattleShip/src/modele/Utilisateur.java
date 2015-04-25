@@ -45,20 +45,29 @@ public class Utilisateur {
 				SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),
 						"INSERT INTO Joueurs VALUES ('"+pseudo+"', '"+nom+"','"+prenom+"', to_date('"+aaaa+"-"+mm+"-"+jj+"', 'YYYY-MM-DD'), '"+email+"',0)");
 				req1.execute();
-				req1.getConnection().commit();
 				req1.close();
 				
 				//Complétion de la table Adresse
 				SimpleQuery req2 = new SimpleQuery(BattleShip.theConnection.getConnection(),
 						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"')");
 				req2.execute();
-				req2.getConnection().commit();
 				req2.close();
-				
 			}
 		} catch(Exception e){
 			System.err.println("Echec à la récupération du résultat");
 			e.printStackTrace(System.err);
+			
+			//TODO
+		}
+		try{
+			BattleShip.theConnection.getConnection().commit();
+		}
+		catch(Exception e){
+			System.err.println("Probleme au commit de l'inscription");
+			e.printStackTrace(System.err);
+			BattleShip.theConnection.rollbackPerso();
+			
+			//TODO
 		}
 		this.pseudo=pseudo;
 		this.nom=nom;
@@ -79,12 +88,13 @@ public class Utilisateur {
 			ResultSet res = req.getResult();
 			if (res.next()){
 				System.out.println("Connexion");
-				req.getConnection().commit();
+				BattleShip.theConnection.getConnection().commit();
 			} else {
 				System.out.println("Utilisateur inconnu");
 			}
 		} catch(Exception e){
 			System.err.println("Echec à la connexion");
+			BattleShip.theConnection.rollbackPerso();
 			e.printStackTrace(System.err);
 		}
 		
