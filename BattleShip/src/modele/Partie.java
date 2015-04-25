@@ -24,6 +24,9 @@ public class Partie {
 	private ArrayList<Ship> bateauxCourants;
 	
 	
+	
+	
+	
 	//TESTE
 	//Méthode testée avec BD sans la classe participant
 	//Selectionne toutes les parties que l'on a déjà commencée
@@ -92,7 +95,6 @@ public class Partie {
 		
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,0)");
 		try{
-			
 			req.getStatement().setInt(1,idPartie);
 			req.getStatement().setDate(2,sqlDate);
 			req.execute();
@@ -139,6 +141,7 @@ public class Partie {
 				e.printStackTrace(System.err);
 				BattleShip.theConnection.rollbackPerso();
 			}
+			
 			req.close();
 	}
 	
@@ -235,6 +238,7 @@ public class Partie {
 		int i=0;
 		while(i<batInit.size()){
 			Ship bateaui = batInit.get(i);
+			bateaui.idBateau=i;
 			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 			try {
 				req.getStatement().setInt(1, this.idPartie);
@@ -315,7 +319,7 @@ public class Partie {
 	
 	
 	
-	//TESTE
+	//TESTE juste si finie=true mais pas avec état des bateaux
 	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
 	//Si l'adversaire a terminé la partie alors on est le vainqueur et on set l'attribut
 	public boolean partieTerminee(){
@@ -349,7 +353,9 @@ public class Partie {
 			if(myShips.get(i).etat!=0) ok2=false;
 			i++;
 		}
-		this.vainqueur=this.getAdv();
+		if(ok2==true) {
+			this.vainqueur=this.getAdv();
+		}
 		return ok1 && ok2;
 	}
 	
@@ -384,12 +390,13 @@ public class Partie {
 	//TESTE
 	//Methode de récupération de l'adversaire
 	public String getAdv(){
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Participants WHERE idPartie="+this.idPartie+" AND pseudo <> '"+this.user.getPseudo()+"'");
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT joueur1,joueur2 FROM participants WHERE idPartie="+this.idPartie);
 		try{
 		req.execute();
 		ResultSet res = req.getResult();
 		res.next();
-		return res.getString(1);
+		if(res.getString(1)==this.user.getPseudo()) return res.getString(2);
+		else return res.getString(1);
 		}
 		catch (Exception e){
 			System.out.println("Problème dans la récupération du pseudo de l'adversaire");
