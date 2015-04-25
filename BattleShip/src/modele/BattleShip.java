@@ -99,7 +99,7 @@ public class BattleShip {
 		ControleurConnexion.connexion("ninja58");
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(181);
+		partie.creerNouvellePartie(1056);
 		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
 		partie.ajouterParticipants(adv.getPseudo());
 		
@@ -113,8 +113,9 @@ public class BattleShip {
 		}
 		
 		
-		
-		
+		//Test de la méthode de récupération du dernier indice de partie
+		int idernier=partie.getIdDernierePartie();
+		System.out.println("Le dernier indice de partie est:"+idernier);
 		
 		
 		

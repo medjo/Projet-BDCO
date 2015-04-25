@@ -24,6 +24,7 @@ public class Partie {
 	private ArrayList<Ship> bateauxCourants;
 	
 	
+	//TESTE
 	//Méthode testée avec BD sans la classe participant
 	//Selectionne toutes les parties que l'on a déjà commencée
 	public ArrayList<InfoPartie> partiesDebutees() {
@@ -48,6 +49,7 @@ public class Partie {
 		return partiesDebutees;
 	}
 	
+	//TESTE
 	//Méthode testée avec la BD
 	//Sélectionne l'adversaire
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs){
@@ -75,6 +77,7 @@ public class Partie {
 	}
 	
 	
+	//TESTE
 	//Cette méthode a été testé avec BD
 	//Creer une nouvelle partie dans la base de donnée
 	//public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
@@ -115,7 +118,7 @@ public class Partie {
 		
 	}
 	
-	
+	//TESTE
 	//Méthode permettant d'intialiser les participants à la partie
 	public void ajouterParticipants(String pseudoAdv){
 		
