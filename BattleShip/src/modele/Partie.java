@@ -242,6 +242,7 @@ public class Partie {
 		int i=0;
 		while(i<batInit.size()){
 			Ship bateaui = batInit.get(i);
+			bateaui.idBateau=i;
 			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 			try {
 				req.getStatement().setInt(1, this.idPartie);

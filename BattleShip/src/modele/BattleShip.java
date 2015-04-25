@@ -99,7 +99,7 @@ public class BattleShip {
 		ControleurConnexion.connexion("Mordokkai");
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(1069);
+		partie.creerNouvellePartie(1070);
 		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
 		partie.ajouterParticipants(adv.getPseudo());
 		
