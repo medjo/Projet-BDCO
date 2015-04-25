@@ -232,25 +232,26 @@ public class Partie {
 	}*/
 	
 	
+	//TESTE
 	//Méthode qui enregistre les positions initiales des bateaux à partir des informations fournies par l'ihm
-	public void executerPlacementBateauxInitiaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
+	public void executerPlacementBateauxInitiaux(ArrayList<Ship> batInit){
 		//On enregistre dans la BD le placement des bateaux à l'état initial
 		int i=0;
-		while(i<infoPlacementBateaux.size()){
-			structInfoPlacementBateau infoBateaui = infoPlacementBateaux.get(i);
-			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?");
+		while(i<batInit.size()){
+			Ship bateaui = batInit.get(i);
+			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 			try {
 				req.getStatement().setInt(1, this.idPartie);
 				req.getStatement().setString(2, this.user.getPseudo());
-				req.getStatement().setInt(3, infoBateaui.idBateau);
-				req.getStatement().setInt(4, infoBateaui.taille);
-				req.getStatement().setInt(5, infoBateaui.taille);
-				req.getStatement().setInt(6, infoBateaui.x);
-				req.getStatement().setInt(7, infoBateaui.y);
-				req.getStatement().setString(8, infoBateaui.dir);
-				req.getStatement().setInt(9, infoBateaui.x);//valeur initial
-				req.getStatement().setInt(10, infoBateaui.y);//valeur initial
-				req.getStatement().setString(11, infoBateaui.dir);//valeur initial
+				req.getStatement().setInt(3, bateaui.getIdBateau());
+				req.getStatement().setInt(4, bateaui.getTailleBateau());
+				req.getStatement().setInt(5, bateaui.getTailleBateau());
+				req.getStatement().setInt(6, bateaui.getXBateau());
+				req.getStatement().setInt(7, bateaui.getYBateau());
+				req.getStatement().setString(8, bateaui.getDirBateauString());
+				req.getStatement().setInt(9, bateaui.getXBateau());//valeur initial
+				req.getStatement().setInt(10, bateaui.getYBateau());//valeur initial
+				req.getStatement().setString(11, bateaui.getDirBateauString());//valeur initial
 				req.execute();
 			} catch (SQLException e1) {
 			BattleShip.theConnection.rollbackPerso();
@@ -263,6 +264,7 @@ public class Partie {
 				e.printStackTrace();
 				System.out.println("Problème lors d'un commit");
 			}
+			i++;
 			req.close();
 		}
 	}
@@ -317,7 +319,7 @@ public class Partie {
 	
 	
 	
-	
+	//TESTE
 	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
 	//Si l'adversaire a terminé la partie alors on est le vainqueur et on set l'attribut
 	public boolean partieTerminee(){
@@ -383,6 +385,8 @@ public class Partie {
 		}
 	}
 	
+	//TESTE
+	//Methode de récupération de l'adversaire
 	public String getAdv(){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Participants WHERE idPartie="+this.idPartie+" AND pseudo <> '"+this.user.getPseudo()+"'");
 		try{

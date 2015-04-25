@@ -96,10 +96,10 @@ public class BattleShip {
 		
 		
 		//Exemple de controleur pour la création de partie
-		ControleurConnexion.connexion("ninja58");
+		ControleurConnexion.connexion("Mordokkai");
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(1056);
+		partie.creerNouvellePartie(1061);
 		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
 		partie.ajouterParticipants(adv.getPseudo());
 		
@@ -118,8 +118,19 @@ public class BattleShip {
 		System.out.println("Le dernier indice de partie est:"+idernier);
 		
 		
+		//Test de la méthode de placement des bateaux initiaux
+		ArrayList<Ship> batInit= new ArrayList<Ship>();
+		batInit.add(0, new Escorteur(5,5,"N",56));
+		batInit.add(1, new Destroyer(4,3,"S",57));
+		/*batInit.add(2, new Escorteur(8,6,"E",56));
+		batInit.add(3, new Escorteur(2,1,"O",56));
+		batInit.add(4, new Destroyer(6,5,"N",56));
+		batInit.add(5, new Destroyer(3,9,"S",56));
+		batInit.add(6, new Escorteur(4,10,"E",56));
+		batInit.add(7, new Destroyer(1,5,"O",56));
+		batInit.add(8, new Escorteur(9,9,"N",56));*/
 		
-		
+		partie.executerPlacementBateauxInitiaux(batInit);
 		
 		//Test de la création d'une partie + ajout des participants
 	}
