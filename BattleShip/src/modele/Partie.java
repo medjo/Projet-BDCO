@@ -20,6 +20,7 @@ public class Partie {
 	private int numTour;
 	private String vainqueur;
 	Utilisateur user;
+	String pseudoAdversaire;
 	private ArrayList<Ship> bateauxCourants;
 	
 	
@@ -67,6 +68,7 @@ public class Partie {
 			}
 			i++;
 		}
+		this.pseudoAdversaire=joueurMin.getPseudo();
 		return joueurMin;
 	}
 	
@@ -110,6 +112,34 @@ public class Partie {
 			req.close();
 		
 	}
+	
+	
+	//Méthode permettant d'intialiser les participants à la partie
+	public void ajouterParticipants(String pseudoAdv){
+		
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO participants VALUES (?,?)");
+		try{
+			req.getStatement().setInt(1,this.idPartie);
+			req.getStatement().setString(2,this.pseudoAdversaire);
+			req.execute();
+			} catch (Exception e) {
+				System.out.println("Problème à l'enregistrement des participants à la partie");
+				e.printStackTrace(System.err);
+				BattleShip.theConnection.rollbackPerso(); //On annule la requête
+			}
+			try{//On enregistre dans la base de donnée
+				req.getConnection().commit();
+			}
+			catch (Exception e){
+				System.out.println("Problème lors du commit");
+				e.printStackTrace(System.err);
+				BattleShip.theConnection.rollbackPerso();
+			}
+			this.idPartie=idPartie;
+			req.close();
+	}
+	
+	
 	
 	//Cette méthode a été testée avec la BD
 	//Trouve un nouvel i pour une nouvelle partie

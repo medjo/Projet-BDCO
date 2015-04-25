@@ -35,7 +35,7 @@ public class Tir extends Action{
 		req.close();
 		
 		/* on récupère la liste des bateux de l'adversaire */
-		bateauxEnnemis = ShipsFactory.Ships(BattleShip.theConnection, idPartie, adversaire);
+		bateauxEnnemis = ShipsFactory.Ships(idPartie, adversaire);
 	}
 	
 	@Override
