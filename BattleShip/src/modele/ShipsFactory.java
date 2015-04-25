@@ -30,9 +30,10 @@ public class ShipsFactory {
 		return allShips;
 	}
 	
-	public static ArrayList<Ship> Ships(TheConnection theConnection, int idPartie, String pseudo) {
+
+	public static ArrayList<Ship> Ships(int idPartie, String pseudo) {
 		ArrayList<Ship> myShips = new ArrayList<Ship>();
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties WHERE idPartie="+idPartie+"AND pseudo="+pseudo);
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties WHERE idPartie="+idPartie+"AND pseudo="+pseudo);
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
@@ -52,6 +53,31 @@ public class ShipsFactory {
 		//On construit la liste des parties jouées à partir de l'historique
 		
 		return myShips;
+	}
+	
+	
+	//Méthode qui retourne la liste des bateaux initiaux
+	public ArrayList<Ship> bateauxInitiaux(int idPartie, String pseudo){
+		ArrayList<Ship> shipsInit = new ArrayList<Ship>();
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT idBateau, etat, taille, xI, yI, orientationI FROM bateaux WHERE idPartie="+idPartie+"AND pseudo="+pseudo);
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+			while(res.next()){
+				if(res.getInt(3)==Destroyer.TAILLE_DESTROYER) {
+					shipsInit.add(new Destroyer(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1)));
+				}
+				else if(res.getInt(3)==Escorteur.TAILLE_ESCORTEUR) {
+					shipsInit.add(new Escorteur(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1)));
+				}			
+			}
+		} catch (Exception e) {
+			//TODO
+			System.out.println("Problème lors de la récupération de l'état initial de l'historique");
+			return null;
+		}
+		req.close();
+		return shipsInit;
 	}
 	
 	

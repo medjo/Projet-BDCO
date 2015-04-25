@@ -441,11 +441,14 @@ public class Connexion extends JFrame {
 				Inscription.setVisible(false);
 				Identification.setVisible(true);
 				try {
-					ControleurConnexion.inscription(BattleShip.theConnection, pseudo.getText(), nom.getText(), prenom.getText(), Integer.parseInt(txtJj.getText()), Integer.parseInt(txtMm.getText()), Integer.parseInt(txtAnnee.getText()), email.getText(), Integer.parseInt(numeroRue.getText()), rue.getText(), Integer.parseInt(codePoste.getText()), ville.getText());
+					ControleurConnexion.inscription(pseudo.getText(), nom.getText(), prenom.getText(), Integer.parseInt(txtJj.getText()), Integer.parseInt(txtMm.getText()), Integer.parseInt(txtAnnee.getText()), email.getText(), Integer.parseInt(numeroRue.getText()), rue.getText(), Integer.parseInt(codePoste.getText()), ville.getText());
 				} catch (NumberFormatException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (InscriptionInvalideException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (UtilisateurExistantException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -462,6 +465,7 @@ public class Connexion extends JFrame {
 		JButton btnConnexion = new JButton("Connexion");
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ControleurConnexion.connexion(txtLogin.getText());
 				Connexion.setVisible(true);
 				Identification.setVisible(false);
 			}
@@ -499,6 +503,7 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					BattleShip.theConnection.close();
+					ControleurConnexion.quitter();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
