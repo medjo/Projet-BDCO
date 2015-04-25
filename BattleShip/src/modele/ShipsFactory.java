@@ -6,7 +6,7 @@ import jdbc.*;
 public class ShipsFactory {	
 	
 		
-	public ArrayList<Ship> allShips(TheConnection theConnection, int idPartie) {
+	public static ArrayList<Ship> allShips(TheConnection theConnection, int idPartie) {
 		ArrayList<Ship> allShips = new ArrayList<Ship>();
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN BATEAU WHERE idPartie="+idPartie);
 		try{
@@ -30,7 +30,7 @@ public class ShipsFactory {
 		return allShips;
 	}
 	
-	public ArrayList<Ship> Ships(TheConnection theConnection, String idPartie, String pseudo) {
+	public static ArrayList<Ship> Ships(TheConnection theConnection, int idPartie, String pseudo) {
 		ArrayList<Ship> myShips = new ArrayList<Ship>();
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties WHERE idPartie="+idPartie+"AND pseudo="+pseudo);
 		try{
