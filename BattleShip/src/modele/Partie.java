@@ -52,13 +52,9 @@ public class Partie {
 	//TESTE
 	//Méthode testée avec la BD
 	//Sélectionne l'adversaire
-	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs){
-		try{
+	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs) throws ExceptionNoAdv{
 		if(listeJoueurs.isEmpty()) {
 			throw new ExceptionNoAdv();
-		}
-		} catch(ExceptionNoAdv e){
-			//TODO
 		}
 		
 		int i=0;
