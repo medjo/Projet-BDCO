@@ -12,6 +12,7 @@ public class BattleShip {
 	
 	public static TheConnection theConnection;
 	public static Utilisateur user;
+	public static Partie partie;
 	
 	public static void main (String[] args) throws SQLException, InscriptionInvalideException, UtilisateurExistantException {
 		BattleShip.theConnection = new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","ikhaloo","ikhaloo"));
