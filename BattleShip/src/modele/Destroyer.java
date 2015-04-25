@@ -11,7 +11,7 @@ public class Destroyer extends Ship{
 		this.etat=etat;
 	}
 	
-	//Constructeur appelé pour un baeau en cours de partie
+	//Constructeur appelé pour un baeau en début de partie
 	public Destroyer(int x, int y, String dir, int idBateau, String pseudo){
 		super(x,y,dir,idBateau, pseudo);
 		this.taille=TAILLE_DESTROYER;
@@ -24,7 +24,7 @@ public class Destroyer extends Ship{
 		this.etat=etat;
 	}
 	
-	//Constructeur appelé pour un baeau en cours de partie
+	//Constructeur appelé pour un baeau en début de partie
 	public Destroyer(int x, int y, String dir, int idBateau){
 		super(x,y,dir,idBateau);
 		this.taille=TAILLE_DESTROYER;
