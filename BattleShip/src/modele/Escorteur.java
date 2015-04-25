@@ -17,4 +17,18 @@ public class Escorteur extends Ship{
 		this.taille=TAILLE_ESCORTEUR;
 		this.etat=TAILLE_ESCORTEUR;
 	}
+	
+	//Constructeur appelé pour un escorteur déjà en jeu
+		public Escorteur(int etat, int x, int y, String dir, int idBateau, String pseudo){
+			super(x,y,dir,idBateau, pseudo);
+			this.taille=TAILLE_ESCORTEUR;
+			this.etat=etat;
+		}
+		
+		//Constucteur appelé pour un bateau crée au début 
+		public Escorteur(int x, int y, String dir, int idBateau, String pseudo){
+			super(x,y,dir,idBateau, pseudo);
+			this.taille=TAILLE_ESCORTEUR;
+			this.etat=TAILLE_ESCORTEUR;
+		}
 }

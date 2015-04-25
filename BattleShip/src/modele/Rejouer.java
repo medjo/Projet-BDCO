@@ -43,10 +43,10 @@ public class Rejouer{
 	 * @return liste des bateaux dans leurs états initiaux
 	 */
 	//TODO
-	public ArrayList<structInfoPlacementBateau> init(int idPartie, String pseudo){
-		ArrayList<structInfoPlacementBateau> retour = new ArrayList<structInfoPlacementBateau>();
+	public ArrayList<Ship> init(int idPartie){
+		ArrayList<Ship> retour = new ArrayList<Ship>();
 		ShipsFactory fabrique = new ShipsFactory();
-		ArrayList<Ship> shipInit = fabrique.bateauxInitiaux(idPartie, pseudo);
+		ArrayList<Ship> shipInit = ShipsFactory.Ships(idPartie, pseudo);
 		int i=0;
 		while(i<shipInit.size()){
 			Ship shipi=shipInit.get(i);
@@ -93,8 +93,7 @@ public class Rejouer{
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
-			while(res.next()){
-			}
+			res
 		} catch (Exception e) {
 			
 		}
