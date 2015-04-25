@@ -43,20 +43,11 @@ public class Rejouer{
 	 * @return liste des bateaux dans leurs états initiaux
 	 */
 	//TODO
-	public ArrayList<structInfoPlacementBateau> init(TheConnection theConnection, int idPartie){
-		ShipsFactory factory = new ShipsFactory();
-		ArrayList <Ship> listeBateaux = factory.allShips(theConnection, idPartie); 
-		ArrayList<structInfoPlacementBateau> infosPacementInit = new ArrayList<structInfoPlacementBateau>();
-		int i=0;
-		while(i<listeBateaux.size()) {
-			Ship bateaui = listeBateaux.get(i);
-			//structInfoPlacementBateau info = new structInfoPlacementBateau();
-			//info.idBateau=bateaui.
-					
-			//infosPacementInit.add(new structInfoPlacementBateau());
-		}
+	public ArrayList<structInfoPlacementBateau> init(TheConnection theConnection, int idPartie, String pseudo){
+		ShipsFactory fabrique = new ShipsFactory();
+		ArrayList<Ship> shipInit = fabrique.bateauxInitiaux(idPartie, pseudo);
 		numTour = 0;
-		return new ArrayList<structInfoPlacementBateau>();
+		
 	}
 	
 	

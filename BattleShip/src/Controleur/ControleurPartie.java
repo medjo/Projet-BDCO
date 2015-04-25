@@ -1,12 +1,12 @@
 package Controleur;
 import modele.*;
+import modele.Partie;
 
 import java.util.ArrayList;
 
 import modele.BattleShip;
 import modele.InfoPartie;
-import modele.Partie;
-import modele.ShipsFactory.structInfoPlacementBateau;
+import modele.Partie.structInfoPlacementBateau;
 import modele.Utilisateur;
 import modele.idJoueur;
 
