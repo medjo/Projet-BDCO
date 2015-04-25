@@ -56,7 +56,7 @@ public class Utilisateur {
 			}
 		} catch(Exception e){
 			System.err.println("Echec à l'inscription");
-			BattleShip.theConnection.rollbackPerso();
+			BattleShip.theConnection.rollbackPerso(); //On annule tout si problème
 			e.printStackTrace(System.err);
 			
 			//TODO
