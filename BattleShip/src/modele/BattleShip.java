@@ -93,6 +93,28 @@ public class BattleShip {
 		req3.getStatement().setInt(1,200);
 		req3.execute();
 		*/
+		
+		
+		//Exemple de controleur pour la création de partie
+		ControleurConnexion.connexion("ninja58");
+		Partie partie = new Partie();
+		partie.user=user;
+		partie.creerNouvellePartie(177);
+		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
+		partie.ajouterParticipants(adv.getPseudo());
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//Test de la création d'une partie + ajout des participants
 	}
 		
 }

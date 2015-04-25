@@ -40,7 +40,7 @@ public class Partie {
 				partiesDebutees.add(new InfoPartie(res.getInt(1),res.getString(4),res.getString(5),res.getDate(2)));
 			}
 		} catch (Exception e) {
-			System.out.println("Problème à l'affichege des parties débutées");
+			System.out.println("Problème à l'affichage des parties débutées");
 			e.printStackTrace(System.err);
 			//TODO
 		}
@@ -62,7 +62,9 @@ public class Partie {
 		int i=0;
 		idJoueur joueurMin;
 		joueurMin = listeJoueurs.get(0);
+		System.out.println("taille de la liste"+listeJoueurs.size());
 		while(i<listeJoueurs.size()){
+			System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
 			if(listeJoueurs.get(i).getNbParties()<joueurMin.getNbParties()){
 				joueurMin=listeJoueurs.get(i);
 			}
@@ -117,14 +119,13 @@ public class Partie {
 	//Méthode permettant d'intialiser les participants à la partie
 	public void ajouterParticipants(String pseudoAdv){
 		
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO participants VALUES (?,?)");
-		ParamQuery req1 = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO participants VALUES (?,?)");
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO participants VALUES (?,?,?)");
+		
 
 		try{
 			req.getStatement().setInt(1,this.idPartie);
-			req.getStatement().setString(2,this.pseudoAdversaire);
-			req1.getStatement().setInt(1, this.idPartie);
-			req1.getStatement().setString(1, this.user.getPseudo());
+			req.getStatement().setString(2,this.user.getPseudo());
+			req.getStatement().setString(3,this.pseudoAdversaire);
 			req.execute();
 			} catch (Exception e) {
 				System.out.println("Problème à l'enregistrement des participants à la partie");
@@ -132,14 +133,13 @@ public class Partie {
 				BattleShip.theConnection.rollbackPerso(); //On annule la requête
 			}
 			try{//On enregistre dans la base de donnée
-				req.getConnection().commit();
+				BattleShip.theConnection.getConnection().commit();
 			}
 			catch (Exception e){
 				System.out.println("Problème lors du commit");
 				e.printStackTrace(System.err);
 				BattleShip.theConnection.rollbackPerso();
 			}
-			this.idPartie=idPartie;
 			req.close();
 	}
 	
@@ -177,7 +177,7 @@ public class Partie {
 			ResultSet res = req.getResult();
 			while(res.next()){
 				//On récupère pseudo et nb parties jouées
-				listeJoueurs.add(new idJoueur(res.getString(1),res.getInt(6)));
+				listeJoueurs.add(new idJoueur(res.getString("pseudo"),res.getInt("nbPartiesJouees")));
 			}
 		} catch (Exception e) {
 			
