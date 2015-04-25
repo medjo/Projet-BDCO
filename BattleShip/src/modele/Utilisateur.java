@@ -52,23 +52,16 @@ public class Utilisateur {
 						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"')");
 				req2.execute();
 				req2.close();
+				BattleShip.theConnection.getConnection().commit();
 			}
 		} catch(Exception e){
-			System.err.println("Echec à la récupération du résultat");
-			e.printStackTrace(System.err);
-			
-			//TODO
-		}
-		try{
-			BattleShip.theConnection.getConnection().commit();
-		}
-		catch(Exception e){
-			System.err.println("Probleme au commit de l'inscription");
-			e.printStackTrace(System.err);
+			System.err.println("Echec à l'inscription");
 			BattleShip.theConnection.rollbackPerso();
+			e.printStackTrace(System.err);
 			
 			//TODO
 		}
+		
 		this.pseudo=pseudo;
 		this.nom=nom;
 		this.prenom=prenom;

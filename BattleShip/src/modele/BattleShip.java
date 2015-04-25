@@ -20,7 +20,7 @@ public class BattleShip {
 		ControleurConnexion conex= new ControleurConnexion();
 		Utilisateur user = new Utilisateur();
 		
-		conex.inscription(user,"MordokkaiserBest4","guy",
+		conex.inscription(user,"MordokkaiserBest25","guy",
 				"sylvain", 14, 02 , 1994,
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");
 		conex.connexion(user,"Mordokkaiser");
