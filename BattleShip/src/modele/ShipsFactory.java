@@ -39,10 +39,10 @@ public class ShipsFactory {
 			ResultSet res = req.getResult();
 			while(res.next()){
 				if(res.getInt(5)==Destroyer.TAILLE_DESTROYER) {
-					myShips.add(new Destroyer(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3)));
+					myShips.add(new Destroyer(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3), pseudo));
 				}
 				else if(res.getInt(5)==Escorteur.TAILLE_ESCORTEUR) {
-					myShips.add(new Escorteur(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3)));
+					myShips.add(new Escorteur(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3), pseudo));
 				}			
 			}
 		} catch (Exception e) {
@@ -65,10 +65,10 @@ public class ShipsFactory {
 			ResultSet res = req.getResult();
 			while(res.next()){
 				if(res.getInt(3)==Destroyer.TAILLE_DESTROYER) {
-					shipsInit.add(new Destroyer(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1)));
+					shipsInit.add(new Destroyer(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1), pseudo));
 				}
 				else if(res.getInt(3)==Escorteur.TAILLE_ESCORTEUR) {
-					shipsInit.add(new Escorteur(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1)));
+					shipsInit.add(new Escorteur(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1), pseudo));
 				}			
 			}
 		} catch (Exception e) {

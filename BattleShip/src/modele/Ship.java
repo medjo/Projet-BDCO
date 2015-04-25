@@ -8,6 +8,7 @@ public abstract class Ship {
 	protected int x, y;
 	protected Direction dir;
 	protected int coups;
+	protected String pseudo;
 	
 	public Ship(int x, int y, String dir, int idBateau) {
 		this.taille=taille;
@@ -20,6 +21,11 @@ public abstract class Ship {
 		else if(dir=="E") this.dir=Direction.EST;
 		else if(dir=="O") this.dir=Direction.OUEST;
 		this.coups=etat; //On initialise le nombre de coups à l'état du bateau
+	}
+	
+	public Ship(int x, int y, String dir, int idBateau, String pseudo) {
+		this(x, y, dir, idBateau);
+		this.pseudo = pseudo;
 	}
 	
 	
