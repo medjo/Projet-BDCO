@@ -25,6 +25,20 @@ public class TheConnection {
 	public void close() throws SQLException {
 		System.out.println("Deconnecté");
 		conn.close(); }
+	
+	public void rollbackPerso(){
+		try{
+			this.conn.rollback();
+		}
+		catch(Exception e){
+			System.out.println("Rollback raté");
+			e.printStackTrace(System.err);
+		}
+	}
+	
+	
+	
+	
 	public Connection getConnection() {return conn;}
 	public TheConnection (ConnectionInfo info) {this.info=info;}
 }

@@ -39,9 +39,10 @@ public class Partie {
 				partiesDebutees.add(new InfoPartie(res.getInt(1),res.getString(4),res.getString(5),res.getDate(2)));
 			}
 		} catch (Exception e) {
-			
+			System.out.println("Problème à l'affichege des parties débutées");
+			e.printStackTrace(System.err);
+			//TODO
 		}
-		
 		req.close();
 		return partiesDebutees;
 	}
@@ -49,6 +50,14 @@ public class Partie {
 	//Méthode testée avec la BD
 	//Sélectionne l'adversaire
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs){
+		try{
+		if(listeJoueurs.isEmpty()) {
+			throw new ExceptionNoAdv();
+		}
+		} catch(ExceptionNoAdv e){
+			//TODO
+		}
+		
 		int i=0;
 		idJoueur joueurMin;
 		joueurMin = listeJoueurs.get(0);
@@ -60,6 +69,7 @@ public class Partie {
 		}
 		return joueurMin;
 	}
+	
 	
 	//Cette méthode a été testé avec BD
 	//Creer une nouvelle partie dans la base de donnée
@@ -84,13 +94,17 @@ public class Partie {
 			req.getStatement().setDate(2,sqlDate);
 			req.execute();
 			} catch (Exception e) {
-				
+				System.out.println("Problème à la création de la nouvelle partie");
+				e.printStackTrace(System.err);
+				BattleShip.theConnection.rollbackPerso(); //On annule la requête
 			}
 			try{//On enregistre dans la base de donnée
 				req.getConnection().commit();
 			}
 			catch (Exception e){
-				
+				System.out.println("Problème lors du commit");
+				e.printStackTrace(System.err);
+				BattleShip.theConnection.rollbackPerso();
 			}
 			this.idPartie=idPartie;
 			req.close();
@@ -103,8 +117,6 @@ public class Partie {
 		int indice=0;
 		//on récupère l'indice le plus élevé de partie
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idPartie) FROM parties");
-		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
-		
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
@@ -116,6 +128,7 @@ public class Partie {
 		req.close();
 		return indice;
 	}
+	
 	
 	//Méthode testée avec la BD
 	//Il faudra rajouter un attribut "en jeu" pour sélectionner les joueurs pas en jeu
@@ -203,75 +216,76 @@ public class Partie {
 				req.getStatement().setString(11, infoBateaui.dir);//valeur initial
 				req.execute();
 			} catch (SQLException e1) {
-			// TODO Auto-generated catch block
+			BattleShip.theConnection.rollbackPerso();
 			e1.printStackTrace();
 			System.out.println("Problème lors du placement initial des bateaux");
+			}
+			try{
+				BattleShip.theConnection.getConnection().commit();
+			}catch(SQLException e){
+				e.printStackTrace();
+				System.out.println("Problème lors d'un commit");
 			}
 			req.close();
 		}
 	}
 	
 	
+	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
 	public void joueurTour(ArrayList<infoActionJoueur> infosActions){
 		int i=0;
 		ActionFactory fabrique = new ActionFactory();
 		
-		while(i<infosActions.size()){
-			infoActionJoueur infoi = infosActions.get(i);
+		try{
+			while(i<infosActions.size()){
+				infoActionJoueur infoi = infosActions.get(i);
 			
-			//Application des actions dans la BD
-			fabrique.actionsJoueur(infosActions,this.idPartie,this.numTour);
-			try{
-			fabrique.execute();
-			BattleShip.theConnection.getConnection().commit();
-			}
-			catch (Exception e){
-				//TODO il faudra faire un rollback
-			}
-			//Enregistrement dans la BD de l'action
-			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO actions VALUES (?,?,?,?,?,?,?,?,?,?)");
-			try{
+				//Application des actions dans la BD
+				fabrique.actionsJoueur(infosActions,this.idPartie,this.numTour);
 				
-				req.getStatement().setInt(1,idPartie);
-				req.getStatement().setString(2,this.user.getPseudo());
-				req.getStatement().setInt(3,infoi.idBateau);
-				req.getStatement().setInt(4,this.numTour);
-				req.getStatement().setInt(5,i);
-				req.getStatement().setString(6,infoi.type);
-				req.getStatement().setInt(7,infoi.x);
-				req.getStatement().setInt(8,infoi.y);
-				req.getStatement().setString(9,infoi.typeMouvement);
-				req.getStatement().setString(10,infoi.dir);
-				req.execute();
-			} catch (Exception e) {
-		
-			}				
+					fabrique.execute();
+					//BattleShip.theConnection.getConnection().commit();
+				
+				//Enregistrement dans la BD de l'action
+				ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO actions VALUES (?,?,?,?,?,?,?,?,?,?)");
+				
+				
+					req.getStatement().setInt(1,idPartie);
+					req.getStatement().setString(2,this.user.getPseudo());
+					req.getStatement().setInt(3,infoi.idBateau);
+					req.getStatement().setInt(4,this.numTour);
+					req.getStatement().setInt(5,i);
+					req.getStatement().setString(6,infoi.type);
+					req.getStatement().setInt(7,infoi.x);
+					req.getStatement().setInt(8,infoi.y);
+					req.getStatement().setString(9,infoi.typeMouvement);
+					req.getStatement().setString(10,infoi.dir);
+					req.execute();
+						
 			req.close();
 			i++;
 		}
-		try{
-		BattleShip.theConnection.getConnection().commit(); //On ne commit qu'à la fin
+		}catch(SQLException e){
+			BattleShip.theConnection.rollbackPerso();
+			e.printStackTrace();
+			System.out.println("Problème lors de l'enregistrement des actions du joueur");
 		}
-		catch (Exception e){
-			//TODO il faudra faire un rollback
+		try{
+			BattleShip.theConnection.getConnection().commit(); //On ne commit qu'à la fin
+		}
+		catch (SQLException e){
+			BattleShip.theConnection.rollbackPerso();
 		}
 	}
 	
 	
 	
 	
-	//Jouer son tour
-	/*public void jouerSonTour(ArrayList<infoActionJoueur> actions) {
-		ActionFactory fabrique = new ActionFactory();
-		fabrique.actionsJoueur(actions,this.idPartie,this.numTour);
-		fabrique.execute();
-	}*/
-	
-	//Cette méthode a été testée avec la BD
 	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
 	//Si l'adversaire a terminé la partie alors on est le vainqueur et on set l'attribut
-	public boolean partieTerminee() throws SQLException{
-		
+	public boolean partieTerminee(){
+		boolean ok1,ok2=true;
+		try{
 		//On vérifie d'abord si l'adversaire n'a pas terminé la partie(tous ses bateaux sont morts)
 		System.out.println(""+this.idPartie+"");
 		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) AS nb FROM parties WHERE idPartie="+this.idPartie+" AND finie=1");
@@ -280,17 +294,32 @@ public class Partie {
 			ResultSet res1 = req1.getResult();
 			res1.next();
 			if(res1.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
-				System.out.println("ok");
 				this.vainqueur=this.user.getPseudo();
-				return true; }
+				ok1= true; }
 			else {
-				System.out.println("pb");
-				req1.close();
-				return false;
+				ok1= false;
 			}
+			req1.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+			System.out.println("Problème lors du test de partie terminée");
+			return false; //Retourne un truc bidon
+		}
 		
+		//On test maintenant si nos bateaux ne sont pas tous morts
+		ShipsFactory fabrique = new ShipsFactory();
+		ArrayList<Ship> myShips=fabrique.Ships(this.idPartie, this.user.getPseudo());
+		int i=0;
+		while(i<myShips.size()){
+			if(myShips.get(i).etat!=0) ok2=false;
+			i++;
+		}
+		this.vainqueur=this.getAdv();
+		return ok1 && ok2;
 	}
 	
+	
+	//Méthode qui permet de tester si c'est bien à mon tour de jouer
 	public boolean aMoiDeJouer(){
 		//on regarde quel joueur est le premier à avoir jouer pour déterminer si c'est notre tour
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour=0");
@@ -317,6 +346,19 @@ public class Partie {
 		}
 	}
 	
+	public String getAdv(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Participants WHERE idPartie="+this.idPartie+" AND pseudo <> '"+this.user.getPseudo()+"'");
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getString(1);
+		}
+		catch (Exception e){
+			System.out.println("Problème dans la récupération du pseudo de l'adversaire");
+			return null;
+		}
+	}
 	
 	
 	//structure d'info en provenance de l'ihm

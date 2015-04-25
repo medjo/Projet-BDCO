@@ -45,15 +45,15 @@ public class Utilisateur {
 				SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),
 						"INSERT INTO Joueurs VALUES ('"+pseudo+"', '"+nom+"','"+prenom+"', to_date('"+aaaa+"-"+mm+"-"+jj+"', 'YYYY-MM-DD'), '"+email+"',0)");
 				req1.execute();
-				req1.getConnection().commit();
 				req1.close();
 				
 				//Complétion de la table Adresse
 				SimpleQuery req2 = new SimpleQuery(BattleShip.theConnection.getConnection(),
 						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"')");
 				req2.execute();
-				req2.getConnection().commit();
 				req2.close();
+				
+				BattleShip.theConnection.getConnection().commit();
 				
 				//Attribution des valeurs aux attributs de la classe
 				this.pseudo=pseudo;
@@ -62,11 +62,13 @@ public class Utilisateur {
 				this.dateDeNaissance=String.format("%04d", aaaa)+"-"+String.format("%02d", mm)+"-"+String.format("%02d", jj);
 				this.email=email;
 				this.nbPartiesJouees=""+0;	// Il faut les guillemets pour cast 0 en String
-				
 			}
 		} catch(Exception e){
-			System.err.println("Echec à la récupération du résultat");
+			System.err.println("Echec à l'inscription");
+			BattleShip.theConnection.rollbackPerso(); //On annule tout si problème
 			e.printStackTrace(System.err);
+			
+			//TODO
 		}
 		req.close();
 		
@@ -94,6 +96,7 @@ public class Utilisateur {
 			}
 		} catch(Exception e){
 			System.err.println("Echec à la connexion");
+			BattleShip.theConnection.rollbackPerso();
 			e.printStackTrace(System.err);
 		}
 		
