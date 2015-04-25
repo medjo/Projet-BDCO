@@ -1,7 +1,13 @@
 package modele;
 
 public enum Direction {
-	OUEST, EST, NORD, SUD;
+	OUEST("o"), EST("e"), NORD("n"), SUD("s");
+	
+	
+	private String name;
+	Direction(String name){
+		this.name = name;
+	}
 	
 	public static Direction createDirection(String str){
 		Direction type = null;
@@ -16,5 +22,10 @@ public enum Direction {
 			type = Direction.EST;
 		}
 		return type;
+	}
+	
+	@Override
+	public String toString(){
+		return name;
 	}
 }
