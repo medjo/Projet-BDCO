@@ -99,12 +99,18 @@ public class BattleShip {
 		ControleurConnexion.connexion("ninja58");
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(177);
+		partie.creerNouvellePartie(181);
 		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
 		partie.ajouterParticipants(adv.getPseudo());
 		
-		
-		
+		//Test récupération des listes de parties débutées
+		ArrayList<InfoPartie> listePartiesDebutees = partie.partiesDebutees();
+		int l=0;
+		while(l<listePartiesDebutees.size()){
+			InfoPartie li=listePartiesDebutees.get(l);
+			System.out.println("idPartie:"+li.getId()+"pseudo1:"+li.getPseudo1()+"pseudo2:"+li.getPseudo2()+"vainqueur"+li.getVainqueur());
+			l++;
+		}
 		
 		
 		

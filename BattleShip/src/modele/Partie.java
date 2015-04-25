@@ -28,7 +28,7 @@ public class Partie {
 	//Selectionne toutes les parties que l'on a déjà commencée
 	public ArrayList<InfoPartie> partiesDebutees() {
 		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants NATURAL JOIN participants WHERE finie=0 AND pseudo ="+user.getPseudo());
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants WHERE finie=0 AND (joueur1 ='"+user.getPseudo()+"' OR joueur2='"+user.getPseudo()+"')");
 		//SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN joueurs WHERE finie=0 AND pseudo ='"+user.getPseudo()+"'");
 		
 		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
@@ -37,7 +37,7 @@ public class Partie {
 			ResultSet res = req.getResult();
 			while(res.next()){
 				//on crée une liste de pseudo et nombre de parties des joueurs en attente
-				partiesDebutees.add(new InfoPartie(res.getInt(1),res.getString(4),res.getString(5),res.getDate(2)));
+				partiesDebutees.add(new InfoPartie(res.getInt("idPartie"),res.getString("joueur1"),res.getString("joueur2"),res.getDate("debut")));
 			}
 		} catch (Exception e) {
 			System.out.println("Problème à l'affichage des parties débutées");
