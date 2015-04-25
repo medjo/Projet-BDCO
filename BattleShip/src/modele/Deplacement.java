@@ -13,8 +13,8 @@ public class Deplacement extends Action{
 	int x,y;
 	Direction orientationI, orientationF; // orientation initiale et finale
 	
-	public Deplacement(int idBateau, int idPartie, int nTour, int nAction, TypeDeplacement type) {
-		super(idBateau, idPartie, nTour, nAction);
+	public Deplacement(int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type) {
+		super(idBateau, idPartie,pseudo, nTour, nAction);
 		this.type=type;
 		
 		/* On récupère l'orientation actuelle du bateau */
