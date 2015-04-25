@@ -118,9 +118,13 @@ public class Partie {
 	public void ajouterParticipants(String pseudoAdv){
 		
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO participants VALUES (?,?)");
+		ParamQuery req1 = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO participants VALUES (?,?)");
+
 		try{
 			req.getStatement().setInt(1,this.idPartie);
 			req.getStatement().setString(2,this.pseudoAdversaire);
+			req1.getStatement().setInt(1, this.idPartie);
+			req1.getStatement().setString(1, this.user.getPseudo());
 			req.execute();
 			} catch (Exception e) {
 				System.out.println("Problème à l'enregistrement des participants à la partie");
