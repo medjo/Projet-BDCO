@@ -280,10 +280,11 @@ public class Partie {
 	
 	
 	
-	//Cette méthode a été testée avec la BD
+	
 	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
 	//Si l'adversaire a terminé la partie alors on est le vainqueur et on set l'attribut
 	public boolean partieTerminee(){
+		boolean ok1,ok2=true;
 		try{
 		//On vérifie d'abord si l'adversaire n'a pas terminé la partie(tous ses bateaux sont morts)
 		System.out.println(""+this.idPartie+"");
@@ -293,20 +294,28 @@ public class Partie {
 			ResultSet res1 = req1.getResult();
 			res1.next();
 			if(res1.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
-				System.out.println("ok");
 				this.vainqueur=this.user.getPseudo();
-				return true; }
+				ok1= true; }
 			else {
-				System.out.println("pb");
-				req1.close();
-				return false;
+				ok1= false;
 			}
+			req1.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 			System.out.println("Problème lors du test de partie terminée");
 			return false; //Retourne un truc bidon
 		}
 		
+		//On test maintenant si nos bateaux ne sont pas tous morts
+		ShipsFactory fabrique = new ShipsFactory();
+		ArrayList<Ship> myShips=fabrique.Ships(this.idPartie, this.user.getPseudo());
+		int i=0;
+		while(i<myShips.size()){
+			if(myShips.get(i).etat!=0) ok2=false;
+			i++;
+		}
+		this.vainqueur=this.getAdv();
+		return ok1 && ok2;
 	}
 	
 	
@@ -337,6 +346,19 @@ public class Partie {
 		}
 	}
 	
+	public String getAdv(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Participants WHERE idPartie="+this.idPartie+" AND pseudo <> '"+this.user.getPseudo()+"'");
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getString(1);
+		}
+		catch (Exception e){
+			System.out.println("Problème dans la récupération du pseudo de l'adversaire");
+			return null;
+		}
+	}
 	
 	
 	//structure d'info en provenance de l'ihm
