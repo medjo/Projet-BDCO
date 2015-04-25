@@ -1,6 +1,6 @@
 --Display
 set linesize 250
-column email format a40
+column email format a35
 column dateDeNaissance format a15
 column prenom format a10
 column nom format a10
@@ -28,10 +28,9 @@ CREATE TABLE Joueurs (
 		AND (nbPartiesJouees >= 0)
 	)
 );
-
+--!! les accents ne sont pas autorisés ! 
 --Insertions valides
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('medjo', 'félix', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
-INSERT INTO Joueurs(pseudo) VALUES ('kevdu08');
+INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('medjo', 'felix', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('ninja58', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 5);
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('aigle78', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('mf edjo', 'ojeme', 'ikhalo', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojeme.ikhalo@phelma.grenoble-inp.fr', 0);
@@ -40,7 +39,7 @@ INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('nica28me', 'oje55dme', 'ikh484ao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojem@alo@phelma.grenoble-inp.fr', 0);
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('nica128me', 'oje55dme', 'ikhao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojemalo@phelma.grenoble-inp.fr', 0);
 INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('ni3ca28me', 'ojedme', 'ikh484ao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojemalo@phelma.grenoble-inp.fr', 0);
-
+INSERT INTO Joueurs(pseudo) VALUES ('kevdu08');
 
 --------------------------------------------------------------------------------
 
@@ -98,33 +97,32 @@ select * from Vainqueurs;
 INSERT INTO Vainqueurs(iDPartie) VALUES (0);
 INSERT INTO Vainqueurs(iDPartie, finie) VALUES (2, 0);
 
---Insertions invalides
-INSERT INTO Vainqueurs(iDPartie, debut) VALUES (1, to_date('2014-04-23', 'YYYY-MM-DD'));
-INSERT INTO Vainqueurs(iDPartie, finie) VALUES (3, 2);
 --------------------------------------------------------------------------------
 
---EnAttente : {pseudo{pk, fk}, iDPartie{pk, fk}}
-CREATE TABLE EnAttente (
-	iDPartie INT,
-	pseudo VARCHAR(30),
-	PRIMARY KEY (iDPartie, pseudo),
-    FOREIGN KEY (iDPartie)
-    REFERENCES Parties (iDPartie),
-    FOREIGN KEY (pseudo),
-    REFERENCES Joueurs (pseudo),
-);
---------------------------------------------------------------------------------
-
---Participants : {pseudo{pk, fk}, iDPartie{pk, fk}}
+--Participants : {joueur1{fk}, joueur2{fk}, iDPartie{pk, fk}, (old : iDPartie{fk, pk})
 CREATE TABLE Participants (
 	iDPartie INT,
-	pseudo VARCHAR(30),
-	PRIMARY KEY (iDPartie, pseudo),
-    FOREIGN KEY (iDPartie)
-    REFERENCES Parties (iDPartie),
-    FOREIGN KEY (pseudo),
-    REFERENCES Joueurs (pseudo),
+	joueur1 VARCHAR(30) NOT NULL,
+	joueur2 VARCHAR(30) NOT NULL,
+	PRIMARY KEY (iDPartie),
+    FOREIGN KEY (iDPartie) REFERENCES Parties (iDPartie),
+    FOREIGN KEY (joueur1) REFERENCES Joueurs (pseudo),
+    FOREIGN KEY (joueur2) REFERENCES Joueurs (pseudo),
+    CHECK (
+    		joueur1 <> joueur2
+    	)
 );
+
+--Frequently Used Commands
+drop table Participants;
+select * from Participants;
+
+--Insertions valides
+INSERT INTO Participants(iDPartie, numJoueur, pseudo) VALUES (0, 1, 'medjo');
+
+--Insertions invalides
+INSERT INTO Participants(iDPartie, numJoueur, pseudo) VALUES (0, 2, 'medjo');--invalide si 
+
 --------------------------------------------------------------------------------
 
 --Actions : {iDPartie {fk, pk}, pseudo{pk, fk}, iDBateau{fk}, nTour {pk}, nAction{pk}, action (Tir ou déplacement), x, y, type (rotation, translation), direction}
@@ -140,13 +138,11 @@ CREATE TABLE Actions (
 	type VARCHAR(11),
 	direction CHAR,
 	PRIMARY KEY (iDPartie, pseudo, nTour, nAction),
-    FOREIGN KEY (iDPartie)
-    REFERENCES Parties (iDPartie),
-    FOREIGN KEY (pseudo),
-    REFERENCES Joueurs (pseudo),
-    FOREIGN KEY (iDBateau),
-    REFERENCES Bateaux (iDBateau),
-	CHECK ( (finie in (0,1)) AND (debut BETWEEN date CURRENT_DATE AND date CURRENT_DATE))
+    FOREIGN KEY (iDPartie, pseudo, iDBateau) REFERENCES Bateaux (iDPartie, pseudo, iDBateau),
+	CHECK (
+		(x BETWEEN 0 AND 9)
+    	AND (y BETWEEN 0 AND 9)
+	)
 );
 --------------------------------------------------------------------------------
 
@@ -166,8 +162,20 @@ CREATE TABLE Bateaux (
 	PRIMARY KEY (iDPartie, pseudo, iDBateau),
     FOREIGN KEY (iDPartie) REFERENCES Parties (iDPartie),
     FOREIGN KEY (pseudo) REFERENCES Joueurs (pseudo),
-    CHECK()
+    CHECK(
+    	(x BETWEEN 0 AND 9)
+    	AND (y BETWEEN 0 AND 9)
+    	AND (xI BETWEEN 0 AND 9)
+    	AND (yI BETWEEN 0 AND 9)
+    	AND (etat BETWEEN 0 AND taille)
+    	AND (taille IN (2,3))
+    )
 );
+
+--Frequently Used Commands
+drop table Bateaux;
+select * from Bateaux;
+
 --------------------------------------------------------------------------------
 --Display
 set linesize 250
