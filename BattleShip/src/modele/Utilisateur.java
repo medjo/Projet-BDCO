@@ -26,17 +26,18 @@ public class Utilisateur {
 		
 	}
 	
+	//Cette méthode a été testé avec BD
 	public void inscription(String pseudo,String nom,
 			String prenom, int jj,int mm, int aaaa,
 			String email, int num, String rue,int cp,String ville)
-					throws InscriptionInvalideException{
+					throws InscriptionInvalideException, UtilisateurExistantException{
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
 		
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
 			if (res.next()){
-				throw new InscriptionInvalideException(res.getString(1) + " existe déja !");
+				throw new UtilisateurExistantException();
 			} else {
 				System.out.println("Inscription de " + pseudo);
 				
@@ -44,45 +45,58 @@ public class Utilisateur {
 				SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),
 						"INSERT INTO Joueurs VALUES ('"+pseudo+"', '"+nom+"','"+prenom+"', to_date('"+aaaa+"-"+mm+"-"+jj+"', 'YYYY-MM-DD'), '"+email+"',0)");
 				req1.execute();
-				req1.getConnection().commit();
 				req1.close();
 				
 				//Complétion de la table Adresse
 				SimpleQuery req2 = new SimpleQuery(BattleShip.theConnection.getConnection(),
-						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"'");
+						"INSERT INTO Adresses VALUES ('"+pseudo+"', "+num+",'"+rue+"',"+cp+",'"+ville+"')");
 				req2.execute();
-				req2.getConnection().commit();
 				req2.close();
 				
+				BattleShip.theConnection.getConnection().commit();
+				
+				//Attribution des valeurs aux attributs de la classe
+				this.pseudo=pseudo;
+				this.nom=nom;
+				this.prenom=prenom;
+				this.dateDeNaissance=String.format("%04d", aaaa)+"-"+String.format("%02d", mm)+"-"+String.format("%02d", jj);
+				this.email=email;
+				this.nbPartiesJouees=""+0;	// Il faut les guillemets pour cast 0 en String
 			}
 		} catch(Exception e){
-			System.err.println("Echec à la récupération du résultat");
+			System.err.println("Echec à l'inscription");
+			BattleShip.theConnection.rollbackPerso(); //On annule tout si problème
 			e.printStackTrace(System.err);
+			
+			//TODO
 		}
-		this.pseudo=pseudo;
-		this.nom=nom;
-		this.prenom=prenom;
-		this.dateDeNaissance=dateDeNaissance;
-		this.email=email;
-		this.nbPartiesJouees=nbPartiesJouees;
 		req.close();
 		
 	}
 	
-	public static void connexion(String pseudo){
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
+	//Cette méthode a été testé avec BD
+	public void connexion(String pseudo){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM joueurs WHERE pseudo='"+pseudo+"'"); // cherche si le pseudo existe
 		
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
 			if (res.next()){
 				System.out.println("Connexion");
-				req.getConnection().commit();
+				
+				//Attribution des valeurs aux attributs de la classe
+				this.pseudo=res.getString(1);
+				this.nom=res.getString(2);
+				this.prenom=res.getString(3);
+				this.dateDeNaissance=res.getString(4).substring(0,10); //substring pour enlever l'heure
+				this.email=res.getString(5);
+				this.nbPartiesJouees=res.getString(6);
 			} else {
 				System.out.println("Utilisateur inconnu");
 			}
 		} catch(Exception e){
 			System.err.println("Echec à la connexion");
+			BattleShip.theConnection.rollbackPerso();
 			e.printStackTrace(System.err);
 		}
 		

@@ -2,6 +2,8 @@ package modele;
 import java.sql.*;
 import java.util.*;
 
+import modele.structInfoPlacementBateau;
+
 import jdbc.*;
 
 public class Rejouer{
@@ -25,9 +27,6 @@ public class Rejouer{
 		
 	}
 	
-	public void afficher() {
-		// appeler la fonction de yahya qui affiche l'historique
-	}
 	
 	public void voirPartie(String idPartie) {
 		Historique h = new Historique(idPartie); //On instancie l'historique sélectionné
@@ -43,11 +42,34 @@ public class Rejouer{
 	 * @param idPartie
 	 * @return liste des bateaux dans leurs états initiaux
 	 */
-	public ArrayList<Ship> init(TheConnection theConnection, int idPartie){
-		ShipsFactory factory = new ShipsFactory();
-		ArrayList <Ship> listeBateaux = factory.allShips(theConnection, idPartie); 
+	//TODO
+	public ArrayList<Ship> init(int idPartie){
+		ArrayList<Ship> retour = new ArrayList<Ship>();
+		ShipsFactory fabrique = new ShipsFactory();
+		ArrayList<Ship> shipInit = ShipsFactory.Ships(idPartie, pseudo);
+		int i=0;
+		while(i<shipInit.size()){
+			Ship shipi=shipInit.get(i);
+			structInfoPlacementBateau info = new structInfoPlacementBateau();
+			info.idBateau=shipi.idBateau;
+			info.etat=shipi.etat;
+			if(shipi.dir==Direction.NORD)
+				info.dir="NORD";
+			else if(shipi.dir==Direction.SUD)
+				info.dir="SUD";
+			else if(shipi.dir==Direction.EST)
+				info.dir="EST";
+			else if(shipi.dir==Direction.OUEST)
+				info.dir="OUEST";
+			info.taille=shipi.taille;
+			info.x=shipi.x;
+			info.y=shipi.y;
+			
+			retour.add(info);
+			i++;
+		}
 		numTour = 0;
-		return listeBateaux;
+		return retour;
 	}
 	
 	
@@ -67,11 +89,11 @@ public class Rejouer{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		req.execute();
-		ResultSet res = req.getResult();
+		
 		try{
-			while(res.next()){
-			}
+			req.execute();
+			ResultSet res = req.getResult();
+			res
 		} catch (Exception e) {
 			
 		}

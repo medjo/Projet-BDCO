@@ -39,7 +39,8 @@ public class SimpleQuery extends Request{
 			System.out.println("SQLState = "+sqlState);
 			System.out.println("ErrorCode = "+errorCode);
 			e.printStackTrace(System.err);
-			return  null; //Il faut retourner un type même si la reque est fausse.
+			throw new SQLException();
+			//return  null; //Il faut retourner un type même si la reque est fausse.
 		}
 	}
 	
