@@ -11,23 +11,41 @@ import Controleur.ControleurConnexion;
 public class BattleShip {
 	
 	public static TheConnection theConnection;
+	public static Utilisateur user;
 	
-	public static void main (String[] args) throws SQLException, InscriptionInvalideException {
+	public static void main (String[] args) throws SQLException, InscriptionInvalideException, UtilisateurExistantException {
 		BattleShip.theConnection = new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","ikhaloo","ikhaloo"));
 		BattleShip.theConnection.open();
+		BattleShip.user = new Utilisateur();
+		
+		//Affichage de la table joueurs
+		/*SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM joueurs");
+		req.execute();
+		req.afficher();
+		req.close();*/
+		
+		//Lancement de l'interface graphique
+		/*EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Connexion frame = new Connexion();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});*/
 		
 		//Test des fonctions de connexions
-		ControleurConnexion conex= new ControleurConnexion();
-		Utilisateur user = new Utilisateur();
-		
-		conex.inscription(user,"MordokkaiserBest4","guy",
+		/*
+		ControleurConnexion.inscription("MordokkaiserBest4","guy",
 				"sylvain", 14, 02 , 1994,
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");
-		conex.connexion(user,"Mordokkaiser");
-		//Test de la création de partie
+		ControleurConnexion.connexion("Mordokkaiser");
+		Test de la création de partie
 		Partie partie = new Partie();
 		partie.user=user;
-		/*partie.creerNouvellePartie(105);
+		partie.creerNouvellePartie(105);
 		if(partie.partieTerminee()) System.out.println("Partie terminée");
 		else System.out.println("Partie en cours");*/
 		
@@ -43,7 +61,7 @@ public class BattleShip {
 		}*/
 		
 		//Test de la construction de l'arraylist d'idjoueurs de tous les joueurs
-		ArrayList<idJoueur> listeJoueurs = partie.getListeJoueurs();
+		/*ArrayList<idJoueur> listeJoueurs = partie.getListeJoueurs();
 		int j=0;
 		while(j<listeJoueurs.size()){
 			System.out.println(listeJoueurs.get(j).getPseudo());
@@ -51,18 +69,7 @@ public class BattleShip {
 			j++;
 		}
 		idJoueur adv=partie.selectionnerAdv(listeJoueurs);
-		System.out.println("L'adversaire sélectionné est"+adv.getPseudo()+"");
-		/*
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Connexion frame = new Connexion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});*/
+		System.out.println("L'adversaire sélectionné est"+adv.getPseudo()+"");*/
 		/*
 		//Corps
 		//Exemples de requêtes avec les classes créees
