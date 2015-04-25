@@ -93,6 +93,46 @@ public class BattleShip {
 		req3.getStatement().setInt(1,200);
 		req3.execute();
 		*/
+		
+		
+		//Exemple de controleur pour la création de partie
+		ControleurConnexion.connexion("Mordokkai");
+		Partie partie = new Partie();
+		partie.user=user;
+		partie.creerNouvellePartie(1061);
+		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
+		partie.ajouterParticipants(adv.getPseudo());
+		
+		//Test récupération des listes de parties débutées
+		ArrayList<InfoPartie> listePartiesDebutees = partie.partiesDebutees();
+		int l=0;
+		while(l<listePartiesDebutees.size()){
+			InfoPartie li=listePartiesDebutees.get(l);
+			System.out.println("idPartie:"+li.getId()+"pseudo1:"+li.getPseudo1()+"pseudo2:"+li.getPseudo2()+"vainqueur"+li.getVainqueur());
+			l++;
+		}
+		
+		
+		//Test de la méthode de récupération du dernier indice de partie
+		int idernier=partie.getIdDernierePartie();
+		System.out.println("Le dernier indice de partie est:"+idernier);
+		
+		
+		//Test de la méthode de placement des bateaux initiaux
+		ArrayList<Ship> batInit= new ArrayList<Ship>();
+		batInit.add(0, new Escorteur(5,5,"N",56));
+		batInit.add(1, new Destroyer(4,3,"S",57));
+		/*batInit.add(2, new Escorteur(8,6,"E",56));
+		batInit.add(3, new Escorteur(2,1,"O",56));
+		batInit.add(4, new Destroyer(6,5,"N",56));
+		batInit.add(5, new Destroyer(3,9,"S",56));
+		batInit.add(6, new Escorteur(4,10,"E",56));
+		batInit.add(7, new Destroyer(1,5,"O",56));
+		batInit.add(8, new Escorteur(9,9,"N",56));*/
+		
+		partie.executerPlacementBateauxInitiaux(batInit);
+		
+		//Test de la création d'une partie + ajout des participants
 	}
 		
 }

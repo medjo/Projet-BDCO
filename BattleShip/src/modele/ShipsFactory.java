@@ -6,18 +6,18 @@ import jdbc.*;
 public class ShipsFactory {	
 	
 		
-	public static ArrayList<Ship> allShips(TheConnection theConnection, int idPartie) {
+	public static ArrayList<Ship> allShips(int idPartie) {
 		ArrayList<Ship> allShips = new ArrayList<Ship>();
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN BATEAU WHERE idPartie="+idPartie);
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN BATEAU WHERE idPartie="+idPartie);
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
 			while(res.next()){
 				if(res.getInt(5)==Destroyer.TAILLE_DESTROYER) {
-					allShips.add(new Destroyer(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3)));
+					allShips.add(new Destroyer(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
 				}
 				else if(res.getInt(5)==Escorteur.TAILLE_ESCORTEUR) {
-					allShips.add(new Escorteur(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3)));
+					allShips.add(new Escorteur(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
 				}			
 			}
 		} catch (Exception e) {
@@ -39,10 +39,11 @@ public class ShipsFactory {
 			ResultSet res = req.getResult();
 			while(res.next()){
 				if(res.getInt(5)==Destroyer.TAILLE_DESTROYER) {
-					myShips.add(new Destroyer(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3), pseudo));
+					myShips.add(new Destroyer(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
+					//int etat, int x, int y, String dir, int idBateau, String pseudo
 				}
 				else if(res.getInt(5)==Escorteur.TAILLE_ESCORTEUR) {
-					myShips.add(new Escorteur(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3), pseudo));
+					myShips.add(new Escorteur(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
 				}			
 			}
 		} catch (Exception e) {
@@ -57,18 +58,19 @@ public class ShipsFactory {
 	
 	
 	//Méthode qui retourne la liste des bateaux initiaux
-	public ArrayList<Ship> bateauxInitiaux(int idPartie, String pseudo){
+	public ArrayList<Ship> bateauxInitiaux(int idPartie){
 		ArrayList<Ship> shipsInit = new ArrayList<Ship>();
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT idBateau, etat, taille, xI, yI, orientationI FROM bateaux WHERE idPartie="+idPartie+"AND pseudo="+pseudo);
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT idBateau, etat, taille, xI, yI, orientationI FROM bateaux WHERE idPartie="+idPartie);
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
 			while(res.next()){
 				if(res.getInt(3)==Destroyer.TAILLE_DESTROYER) {
-					shipsInit.add(new Destroyer(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1), pseudo));
+					shipsInit.add(new Destroyer(res.getInt("xI"),res.getInt("yI"),res.getString("orintationI"),res.getInt("idBateau"), res.getString("pseudo")));
+					//int x, int y, String dir, int idBateau, String pseudo
 				}
 				else if(res.getInt(3)==Escorteur.TAILLE_ESCORTEUR) {
-					shipsInit.add(new Escorteur(res.getInt(2),res.getInt(4),res.getInt(5),res.getString(6),res.getInt(1), pseudo));
+					shipsInit.add(new Escorteur(res.getInt("xI"),res.getInt("yI"),res.getString("orintationI"),res.getInt("idBateau"), res.getString("pseudo")));
 				}			
 			}
 		} catch (Exception e) {
