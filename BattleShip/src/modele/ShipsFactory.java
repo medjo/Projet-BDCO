@@ -55,4 +55,29 @@ public class ShipsFactory {
 	}
 	
 	
+	//Méthode qui retourne la liste des bateaux initiaux
+	/*public ArrayList<Ship> bateauxInitiaux(int idPartie, String pseudo){
+		ArrayList<Ship> shipsInit = new ArrayList<Ship>();
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT idBateau, xI, yI, orientationI FROM bateaux WHERE idPartie="+idPartie+"AND pseudo="+pseudo);
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+			while(res.next()){
+				if(res.getInt(5)==Destroyer.TAILLE_DESTROYER) {
+					myShips.add(new Destroyer(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3)));
+				}
+				else if(res.getInt(5)==Escorteur.TAILLE_ESCORTEUR) {
+					myShips.add(new Escorteur(res.getInt(4),res.getInt(6),res.getInt(7),res.getString(8),res.getInt(3)));
+				}			
+			}
+		} catch (Exception e) {
+			
+		}
+		
+		req.close();
+		
+		
+	}*/
+	
+	
 }
