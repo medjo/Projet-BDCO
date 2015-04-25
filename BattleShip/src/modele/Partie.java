@@ -214,8 +214,21 @@ public class Partie {
 	
 	public void joueurTour(ArrayList<infoActionJoueur> infosActions){
 		int i=0;
+		ActionFactory fabrique = new ActionFactory();
+		
 		while(i<infosActions.size()){
 			infoActionJoueur infoi = infosActions.get(i);
+			
+			//Application des actions dans la BD
+			fabrique.actionsJoueur(infosActions,this.idPartie,this.numTour);
+			try{
+			fabrique.execute();
+			BattleShip.theConnection.getConnection().commit();
+			}
+			catch (Exception e){
+				//TODO il faudra faire un rollback
+			}
+			//Enregistrement dans la BD de l'action
 			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO actions VALUES (?,?,?,?,?,?,?,?,?,?)");
 			try{
 				
