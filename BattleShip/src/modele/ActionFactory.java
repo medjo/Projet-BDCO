@@ -37,8 +37,13 @@ public class ActionFactory {
 	//On va éxécuter toutes les actions voulues par le joueur
 	public void execute(){
 		int i=0;
+		try{
 		while(i<this.actionsJoueur.size()){
 			actionsJoueur.get(i).execute();
+		}
+		}
+		catch(Exception e){
+			//TODO
 		}
 	}
 }

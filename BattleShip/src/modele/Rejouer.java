@@ -67,9 +67,10 @@ public class Rejouer{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		req.execute();
-		ResultSet res = req.getResult();
+		
 		try{
+			req.execute();
+			ResultSet res = req.getResult();
 			while(res.next()){
 			}
 		} catch (Exception e) {
