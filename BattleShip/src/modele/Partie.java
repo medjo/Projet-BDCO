@@ -391,6 +391,7 @@ public class Partie {
 		}
 	}
 	
+	
 	//TESTE
 	//Methode de récupération de l'adversaire
 	public String getAdv(){

@@ -25,6 +25,9 @@ public class Tir extends Action{
 		/*on récupère le pseudo de l'adversaire */
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Participants WHERE idPartie= ? AND pseudo <> ?");
 		try {
+			//Ajout de sylvain car oubli possible de Loic
+			req.getStatement().setInt(1, idPartie);
+			req.getStatement().setString(2, pseudo);
 			req.execute();
 			ResultSet res = req.getResult();
 			adversaire = res.getString(1);
