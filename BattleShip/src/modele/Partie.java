@@ -94,7 +94,7 @@ public class Partie {
 		
 		
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO parties VALUES (?,?,0)");
-		try{
+		try{this.idPartie=this.getIdDernierePartie()+1;
 			req.getStatement().setInt(1,idPartie);
 			req.getStatement().setDate(2,sqlDate);
 			req.execute();
@@ -111,7 +111,6 @@ public class Partie {
 				e.printStackTrace(System.err);
 				BattleShip.theConnection.rollbackPerso();
 			}
-			this.idPartie=this.getIdDernierePartie()+1;
 			req.close();
 		
 	}
