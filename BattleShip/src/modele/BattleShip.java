@@ -97,11 +97,24 @@ public class BattleShip {
 		
 		
 		//Exemple de controleur pour la création de partie
-		ControleurConnexion.connexion("Mordokkai");
+		
+		try {
+			ControleurConnexion.connexion("Mordokkai");
+		} catch (UtilisateurInconnuException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(1072);
-		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
+		partie.creerNouvellePartie();
+		idJoueur adv;
+		adv=null;
+		try {
+			adv = partie.selectionnerAdv(partie.getListeJoueurs());
+		} catch (ExceptionNoAdv e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		partie.ajouterParticipants(adv.getPseudo());
 		
 		//Test récupération des listes de parties débutées

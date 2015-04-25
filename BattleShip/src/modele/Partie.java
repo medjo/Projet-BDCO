@@ -80,7 +80,7 @@ public class Partie {
 	//Cette méthode a été testé avec BD
 	//Creer une nouvelle partie dans la base de donnée
 	//public void creerNouvellePartie(int idPartie, String pseudo1, String pseudo2)
-	public void creerNouvellePartie(int idPartie)
+	public void creerNouvellePartie()
 	{		
 		//Récupération de l'heure actuelle
 		java.util.Calendar cal = Calendar.getInstance();
@@ -111,7 +111,7 @@ public class Partie {
 				e.printStackTrace(System.err);
 				BattleShip.theConnection.rollbackPerso();
 			}
-			this.idPartie=idPartie;
+			this.idPartie=this.getIdDernierePartie()+1;
 			req.close();
 		
 	}
@@ -156,13 +156,13 @@ public class Partie {
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
-			res.next();
-			indice=res.getInt(1);
+			if(res.next()==false) return 0;
+			else return res.getInt(1);
 		} catch (Exception e) {
 			
 		}
 		req.close();
-		return indice;
+		return 0; //Cas interdit normalement
 	}
 	
 	
