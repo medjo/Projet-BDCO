@@ -2,7 +2,7 @@ package modele;
 import java.sql.*;
 import java.util.*;
 
-import modele.Partie.structInfoPlacementBateau;
+import modele.structInfoPlacementBateau;
 
 import jdbc.*;
 
@@ -43,11 +43,33 @@ public class Rejouer{
 	 * @return liste des bateaux dans leurs états initiaux
 	 */
 	//TODO
-	public ArrayList<structInfoPlacementBateau> init(TheConnection theConnection, int idPartie, String pseudo){
+	public ArrayList<structInfoPlacementBateau> init(int idPartie, String pseudo){
+		ArrayList<structInfoPlacementBateau> retour = new ArrayList<structInfoPlacementBateau>();
 		ShipsFactory fabrique = new ShipsFactory();
 		ArrayList<Ship> shipInit = fabrique.bateauxInitiaux(idPartie, pseudo);
+		int i=0;
+		while(i<shipInit.size()){
+			Ship shipi=shipInit.get(i);
+			structInfoPlacementBateau info = new structInfoPlacementBateau();
+			info.idBateau=shipi.idBateau;
+			info.etat=shipi.etat;
+			if(shipi.dir==Direction.NORD)
+				info.dir="NORD";
+			else if(shipi.dir==Direction.SUD)
+				info.dir="SUD";
+			else if(shipi.dir==Direction.EST)
+				info.dir="EST";
+			else if(shipi.dir==Direction.OUEST)
+				info.dir="OUEST";
+			info.taille=shipi.taille;
+			info.x=shipi.x;
+			info.y=shipi.y;
+			
+			retour.add(info);
+			i++;
+		}
 		numTour = 0;
-		
+		return retour;
 	}
 	
 	

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import modele.BattleShip;
 import modele.InfoPartie;
-import modele.Partie.structInfoPlacementBateau;
+import modele.structInfoPlacementBateau;
 import modele.Utilisateur;
 import modele.idJoueur;
 

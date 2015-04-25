@@ -360,13 +360,4 @@ public class Partie {
 		}
 	}
 	
-	
-	//structure d'info en provenance de l'ihm
-	public class structInfoPlacementBateau{
-		public int idBateau;
-		public int taille;
-		public int x;
-		public int y;
-		public String dir;
-	}
 }
