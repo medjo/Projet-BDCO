@@ -33,7 +33,7 @@ public class ShipsFactory {
 
 	public static ArrayList<Ship> Ships(int idPartie, String pseudo) {
 		ArrayList<Ship> myShips = new ArrayList<Ship>();
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties WHERE idPartie="+idPartie+"AND pseudo="+pseudo);
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM bateaux WHERE iDPartie='"+idPartie+"' AND pseudo='"+pseudo+"'");
 		try{
 			req.execute();
 			ResultSet res = req.getResult();

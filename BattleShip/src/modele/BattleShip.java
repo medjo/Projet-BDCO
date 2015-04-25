@@ -99,7 +99,7 @@ public class BattleShip {
 		ControleurConnexion.connexion("Mordokkai");
 		Partie partie = new Partie();
 		partie.user=user;
-		partie.creerNouvellePartie(1061);
+		partie.creerNouvellePartie(1069);
 		idJoueur adv = partie.selectionnerAdv(partie.getListeJoueurs());
 		partie.ajouterParticipants(adv.getPseudo());
 		
@@ -130,8 +130,14 @@ public class BattleShip {
 		batInit.add(7, new Destroyer(1,5,"O",56));
 		batInit.add(8, new Escorteur(9,9,"N",56));*/
 		
-		partie.executerPlacementBateauxInitiaux(batInit);
+		//Test si une partie est terminée
 		
+		
+		partie.executerPlacementBateauxInitiaux(batInit);
+		if(partie.partieTerminee())
+			System.out.println("La partie est terminée");
+		else
+			System.out.println("La partie n'est pas terminée");
 		//Test de la création d'une partie + ajout des participants
 	}
 		

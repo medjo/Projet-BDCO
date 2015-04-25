@@ -65,6 +65,7 @@ public abstract class Ship {
 		return this.dir;
 	}
 	
+	//TODO a supprimer pour réutiliser la méthode dans Direction
 	public String getDirBateauString() {
 		if(this.dir==Direction.NORD) return "N";
 		else if(this.dir==Direction.SUD) return "S";
