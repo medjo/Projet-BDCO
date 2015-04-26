@@ -21,20 +21,49 @@ public class BattleShipTest {
 			BattleShip.theConnection = new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","ikhaloo","ikhaloo"));
 			BattleShip.theConnection.open();
 			BattleShip.user = new Utilisateur();
-			//BattleShip.user=user;
 			
+			
+			//CONNEXION DE L'UTILISATEUR
 			try {
 				ControleurConnexion.connexion("Rubixbob");
 			} catch (UtilisateurInconnuException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//Test de la création de partie
+			
+			
+			//CREATION DE LA PARTIE
 			BattleShip.partie=new Partie();
 			
-			ControleurPartie.reprendrePartie(89, "Sylvain");
-			if(!ControleurPartie.reprendreAInit())
-				System.out.println(BattleShip.partie.aMoiDeJouer());
+			
+			//ON VA ESSAYER DE REPRENDRE UNE PARTIE
+			//REPREND PARTIE
+			/*
+			 * Set l'id, nTour, Adv, Pseudo, et récupère les bateux courants si au moins positionnés
+			 */
+			
+			if(ControleurPartie.reprendrePartieEnCours(93, "Sylvain")){
+				System.out.println("On reprend une partie en cours");
+			}
+			else{
+				System.out.println("On reprend une partie à l'initialisation");
+				
+				/*
+				 * On vérifie que l'adversaire à bien fini de positionner ses bateaux
+				 */
+				if(ControleurPartie.reprendreAInit()){
+					System.out.println("L'adversaire a bien positionné ses bateaux");
+				}
+				else{
+					System.out.println("L'adversaire n'a pas encore fini de placer ses bateaux");
+				}
+					//System.out.println(BattleShip.partie.aMoiDeJouer());
+				
+			}
+
+			
+			
+			
+			
 			//Affichage du tour récupéré
 			ArrayList<Ship> shipRec=BattleShip.partie.getBateauxCourants();
 			System.out.println("Pb");

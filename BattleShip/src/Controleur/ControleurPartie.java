@@ -103,14 +103,19 @@ public class ControleurPartie {
 			
 	//Méthode pour reprendre une partie déjà commencée
 	//Elle doit setter les paramètres de la partie
-	public static void reprendrePartie(int idPartie, String adv ){
+	//Elle renvoie vraie si on reprend à un tour quelconque
+	//Elle renvoie faux si on reprend à une étape d'intialisation
+	public static boolean reprendrePartieEnCours(int idPartie, String adv ){
 		BattleShip.partie.setIdPartie(idPartie);
 		BattleShip.partie.setNumTour(BattleShip.partie.getNumeroDernierTour());
 		//System.out.println("NumDernierTour"+BattleShip.partie.getNumeroDernierTour());
 		BattleShip.partie.setAdv(adv);
 		System.out.println(BattleShip.user.getPseudo());
-		if(!BattleShip.partie.meAPositionneSesBateaux())
+		if(!BattleShip.partie.meAPositionneSesBateaux()){
 			BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
+			return false;
+		}
+		return true;
 	}
 	
 	//Méthode qui permet de tester si l'on doit reprendre une partie au démarrage ie au 
