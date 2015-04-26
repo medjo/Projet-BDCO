@@ -56,6 +56,7 @@ public class BattleShip {
 		BattleShip.partie=new Partie();
 		BattleShip.user=user;
 		ControleurPartie.reprendrePartie(32, "Rubixbob");
+		System.out.println(BattleShip.partie.aMoiDeJouer());
 		//Affichage du tour récupéré
 		ArrayList<Ship> shipRec=BattleShip.partie.getBateauxCourants();
 		System.out.println("Pb");
