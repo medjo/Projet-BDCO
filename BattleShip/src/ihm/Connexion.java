@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import Controleur.ControleurConnexion;
+import Controleur.ControleurPartie;
 
 import java.sql.*;
 
@@ -118,6 +119,16 @@ public class Connexion extends JFrame {
 		JButton btnNewButton = new JButton("Jouer une partie");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					ControleurPartie.lancerNouvellePartie();
+				} catch (ExceptionNoAdv e1) {
+					// TODO Message erreur
+					System.out.println("Il n'y a pas d'adversaire disponible");
+				}
+				JLabel lblVotre = new JLabel("Votre adversaire " + BattleShip.partie.getPseudoAdv() + " est prêt");
+				lblVotre.setBounds(50, 100, 400, 20);
+				ChercheAdv.add(lblVotre);
+						
 				Connexion.setVisible(false);
 				ChercheAdv.setVisible(true);
 			}
@@ -161,10 +172,6 @@ public class Connexion extends JFrame {
 		btnNewButton_6.setBounds(125, 210, 200, 25);
 		ChercheAdv.add(btnNewButton_6);
 		
-		JLabel lblVotre = new JLabel("Votre adversaire " + BattleShip.partie.getPseudoAdv() + " est prêt");
-		lblVotre.setBounds(50, 100, 400, 20);
-		ChercheAdv.add(lblVotre);
-				
 		JButton btnNewButton_4 = new JButton("Commencer le jeu");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
