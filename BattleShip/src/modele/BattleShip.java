@@ -214,6 +214,23 @@ public class BattleShip {
 			e.printStackTrace();
 		}
 		BattleShip.theConnection.getConnection().commit();
+		
+		try {
+			Tir tir2 = new Tir(0,1231,"Mordokkai",0,1,4,3);
+			try {
+				tir2.execute();
+				tir2.save();
+				BattleShip.theConnection.getConnection().commit();
+			} catch (TirMissed e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (TirOutOfBound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		
 	
 	}
 	
