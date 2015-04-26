@@ -3,13 +3,17 @@ import modele.*;
 
 import java.util.ArrayList;
 
+import oracle.sql.TypeDescriptor;
+
 import modele.BattleShip;
 import modele.ExceptionNoAdv;
 import modele.InfoPartie;
 import modele.TirMissed;
+import modele.TirOutOfBound;
 import modele.structInfoPlacementBateau;
 import modele.Utilisateur;
 import modele.idJoueur;
+import modele.TypeDeplacement;
 
 public class ControleurPartie {
 	
@@ -38,13 +42,25 @@ public class ControleurPartie {
 	
 	
 
-	//Méthode qui retourne true si c'est à mon tour de jouer
+	//Méthode qui retourne true si c'est à mon tour de jouer (sauf dans cas init
 	public boolean rafraichir(){
-		return BattleShip.partie.aMoiDeJouer();
-		
+			return BattleShip.partie.aMoiDeJouer();
 	}
 
+	//Méthode qui retourne true si c'est à mon tour de jouer dans le cas du init
+	public boolean rafraichirInit(){
+		return ControleurPartie.reprendreAInit();
+	}
 	
+	//A ne tester que quand il n'y a pas déjà eu d'actions
+	//Méthode qui permet de tester si je dois jouer une action
+	public static boolean rafraichirAction(){
+		//Si l'adv a bien positionné ses bateaux et que je suis joueur 1 
+		if(BattleShip.partie.advAPositionneSesBateaux() && BattleShip.partie.getJoueur1().equals(BattleShip.user.getPseudo())){
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * execute et sauve l'action et préviens l'ihm si l'action est valide
@@ -64,6 +80,21 @@ public class ControleurPartie {
 		return true;
 	}
 
+	public static Tir Tir(int idBateau, int x, int y){
+		try {
+			return new Tir(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction(),x,y);
+		} catch (TirOutOfBound e) {
+			System.out.println("Vous avez tirer en dehors de la Map !");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static Deplacement Deplacement(int idBateau, TypeDeplacement type){
+		//TODO récupération erreur si en dehors de la map
+			return new Deplacement(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction(),type);
+	}
+	
 	
 	
 	
@@ -81,14 +112,14 @@ public class ControleurPartie {
 	
 	
 	//Méthode de début de tour: elle set l'arraylist de bateauxCourants du joueur
-	public void debutTour(){
+	public static void debutTour(){
 		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
 	}
 	
 	
 	
 	//Méthode qui dit si je peux encore jouer une action
-	public boolean controleurNbActions(int idBateau){
+	public static boolean controleurNbActions(int idBateau){
 		ArrayList<Ship> myShips=BattleShip.partie.getBateauxCourants();
 		for(Ship s:myShips){
 			if(s.getIdBateau()==idBateau){	//Si on tombe sur le bon bateau
@@ -101,6 +132,53 @@ public class ControleurPartie {
 		return false; //Au cas où il aurait sélectionné une case qui ne lui appartient pas
 	}
 			
+	//Méthode pour reprendre une partie déjà commencée
+	//Elle doit setter les paramètres de la partie
+	//Elle renvoie vraie si on reprend à un tour quelconque
+	//Elle renvoie faux si on reprend à l' étape d'intialisation (2 users)
+	public static boolean reprendrePartieEnCours(int idPartie, String adv ){
+		BattleShip.partie.setIdPartie(idPartie);
+		BattleShip.partie.setNumTour(BattleShip.partie.getNumeroDernierTour());
+		//System.out.println("NumDernierTour"+BattleShip.partie.getNumeroDernierTour());
+		BattleShip.partie.setAdv(adv);
+		System.out.println(BattleShip.user.getPseudo());
+		if(!BattleShip.partie.meAPositionneSesBateaux() || !BattleShip.partie.advAPositionneSesBateaux()){
+			BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
+			return false;
+		}
+		return true;
+	}
+	
+	//Méthode qui permet de tester si l'on doit reprendre une partie au démarrage ie au 
+	//positionnement des bateaux (différent de reprendre partie car pas de numéro d'action
+	//pour tester si c'est notre tour ou pas)
+	public static boolean reprendreAInit(){
+		//On lance un test sur la création des bateaux de l'adversaire
+		return BattleShip.partie.advAPositionneSesBateaux();
+		
+		
+	}
+	
+	//Méthode qui permet de placer un bateau à l'état initial juste execute et save
+	//TODO catcher les erreurs
+	public static boolean placerBateau(int x, int y, String dir, int taille){
+		int idBateau=0;
+		int index = BattleShip.partie.getDernierNumeroBateau();
+		if(index==-1) idBateau=0;
+		else idBateau=index+1;
+		if(taille==3){
+			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir,idBateau));
+			return true;
+		}
+		else if(taille==2){
+			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, idBateau));
+			return true;
+		}
+		else{
+			System.out.println("Probleme, bateau de taille inconnu.");
+			return false;
+		}
+	}
 	
 	
 	

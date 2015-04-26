@@ -14,14 +14,15 @@ public class ShipsFactory {
 			ResultSet res = req.getResult();
 			while(res.next()){
 				if(res.getInt(5)==Destroyer.TAILLE_DESTROYER) {
-					allShips.add(new Destroyer(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
+					allShips.add(new Destroyer(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orientation"),res.getInt("idBateau"), res.getString("pseudo")));
 				}
 				else if(res.getInt(5)==Escorteur.TAILLE_ESCORTEUR) {
-					allShips.add(new Escorteur(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
+					allShips.add(new Escorteur(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orientation"),res.getInt("idBateau"), res.getString("pseudo")));
 				}			
 			}
 		} catch (Exception e) {
-			
+			System.out.println("Probleme dans la fabrique de bateau");
+			e.printStackTrace();
 		}
 		
 		req.close();
@@ -38,16 +39,20 @@ public class ShipsFactory {
 			req.execute();
 			ResultSet res = req.getResult();
 			while(res.next()){
+				System.out.println(idPartie+"un bateau de crée");
 				if(res.getInt(5)==Destroyer.TAILLE_DESTROYER) {
-					myShips.add(new Destroyer(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
+					myShips.add(new Destroyer(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orientation"),res.getInt("idBateau"), res.getString("pseudo")));
 					//int etat, int x, int y, String dir, int idBateau, String pseudo
+					System.out.println("Destroyer");
 				}
 				else if(res.getInt(5)==Escorteur.TAILLE_ESCORTEUR) {
-					myShips.add(new Escorteur(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orintation"),res.getInt("idBateau"), res.getString("pseudo")));
-				}			
+					myShips.add(new Escorteur(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orientation"),res.getInt("idBateau"), res.getString("pseudo")));
+					System.out.println("Escorteur");
+				}
 			}
 		} catch (Exception e) {
-			
+			System.out.println("Probleme dans la fabrique de mes bateaux");
+			e.printStackTrace();
 		}
 		
 		req.close();
