@@ -408,4 +408,8 @@ public class Partie {
 	public int getIdPartie(){
 		return this.idPartie;
 	}
+	
+	public String getPseudoAdv(){
+		return this.pseudoAdversaire;
+	}
 }
