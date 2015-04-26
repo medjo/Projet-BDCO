@@ -153,15 +153,27 @@ public class BattleShip {
 		else
 			System.out.println("La partie n'est pas terminée");
 		
-		try{
+		
+		//Test de l'action tir
+		/*try{
 		Tir tir = new Tir(0,1070,"Mordokkai",0,0,4,3);
 		System.out.println("bidon");
 		tir.execute();
 		System.out.println("bidon");
 		tir.save();
 		}
-		catch(Exception e){}
-		//Test de la création d'une partie + ajout des participants
+		catch(Exception e){}*/
+		
+		
+		
+		//Test de l'action de déplacement
+		Deplacement dep = new Deplacement(0, 1070, "Mordokkai", 0, 0, TypeDeplacement.ROTDROITE);
+		try{
+			dep.execute();
+		}catch(Exception e){System.out.println("pb");}
+		//BattleShip.theConnection.rollbackPerso();
+		BattleShip.theConnection.getConnection().commit();
+		
 	}
 		
 }

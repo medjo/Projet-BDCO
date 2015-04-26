@@ -11,16 +11,20 @@ public enum Direction {
 	
 	public static Direction createDirection(String str){
 		Direction type = null;
-		switch(str){
-		case "NORD":
+		if(str.equals("n")) type = Direction.NORD;
+		else if(str.equals("s"))type = Direction.SUD;
+		else if(str.equals("e"))type = Direction.EST;
+		else if(str.equals("o"))type = Direction.OUEST;
+		/*switch(str){
+		case "n":
 			type = Direction.NORD;
-		case "SUD":
+		case "s":
 			type = Direction.SUD;
-		case "OUEST":
+		case "o":
 			type = Direction.OUEST;
-		case "EST":
+		case "e":
 			type = Direction.EST;
-		}
+		}*/
 		return type;
 	}
 	
