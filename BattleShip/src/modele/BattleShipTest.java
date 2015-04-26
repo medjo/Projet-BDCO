@@ -51,16 +51,9 @@ public class BattleShipTest {
 				 * On vérifie que l'adversaire à bien fini de positionner ses bateaux
 				 */
 				if(ControleurPartie.reprendreAInit()){
-					System.out.println("L'adversaire a bien positionné ses bateaux");
-					/*
-					 * On vérifie que l'on est le joueur 1
-					 */
-					if(ControleurPartie.rafraichirAction()) {
-						System.out.println("C'est bon l'adversaire a déjà placé ses bateaux, je peux démarrer");
-					}
-					else{
-						System.out.println("Je suis le joueur 2 donc je ne peux pas démarrer");
-					}
+					System.out.println("L'adversaire a bien positionné ses bateaux. " +
+							"Je peux donc démarrer");
+					
 				}
 				else{
 					System.out.println("L'adversaire n'a pas encore fini de placer ses bateaux");
@@ -70,15 +63,9 @@ public class BattleShipTest {
 			}
 
 			
+			//SUITE DU SCENARIO: A PARTIR DE LA IL Y AURA MODIF DE LA BD
 			
 			
-			
-			//Affichage du tour récupéré
-			ArrayList<Ship> shipRec=BattleShip.partie.getBateauxCourants();
-			System.out.println("Pb");
-			for(Ship s:shipRec){
-				System.out.println("Bateau: "+s.idBateau+"X:"+s.x+"Y:"+s.y+"Etat"+s.etat+"Taille:"+s.taille+"Pseudo"+s.pseudo);
-			}
 			
 			
 			

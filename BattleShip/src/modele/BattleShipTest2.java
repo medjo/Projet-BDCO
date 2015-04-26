@@ -24,7 +24,7 @@ public class BattleShipTest2 {
 				
 				//CONNEXION DE L'UTILISATEUR
 				try {
-					ControleurConnexion.connexion("Rubixbob");
+					ControleurConnexion.connexion("Sylvain");
 				} catch (UtilisateurInconnuException e) {
 					e.printStackTrace();
 				}
@@ -40,7 +40,7 @@ public class BattleShipTest2 {
 				 * Set l'id, nTour, Adv, Pseudo, et récupère les bateux courants si au moins positionnés
 				 */
 				
-				if(ControleurPartie.reprendrePartieEnCours(93, "Sylvain")){
+				if(ControleurPartie.reprendrePartieEnCours(93, "Rubixbob")){
 					System.out.println("On reprend une partie en cours");
 				}
 				else{
@@ -72,13 +72,7 @@ public class BattleShipTest2 {
 				
 				
 				
-				//Affichage du tour récupéré
-				ArrayList<Ship> shipRec=BattleShip.partie.getBateauxCourants();
-				System.out.println("Pb");
-				for(Ship s:shipRec){
-					System.out.println("Bateau: "+s.idBateau+"X:"+s.x+"Y:"+s.y+"Etat"+s.etat+"Taille:"+s.taille+"Pseudo"+s.pseudo);
-				}
-				
+			
 				
 				
 				
