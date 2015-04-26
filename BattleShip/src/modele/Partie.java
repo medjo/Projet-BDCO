@@ -381,6 +381,7 @@ public class Partie {
 		}
 		catch (Exception e){
 			System.err.println("Problème dans la récupération du pseudo de l'adversaire");
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -432,7 +433,40 @@ public class Partie {
 		}
 		catch (Exception e){
 			System.err.println("Problème dans la récupération du dernier indice de tour");
+			e.printStackTrace();
 			return 0;
+		}
+	}
+	
+	public boolean advAPositionneSesBateaux(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie="+this.idPartie+" AND pseudo='"+this.pseudoAdversaire+"'");
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		if(res.next()) return true;
+		else return false;
+		}
+		catch (Exception e){
+			System.err.println("Problème dans le test si l'adversaire a positionné ses bateaux");
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean meAPositionneSesBateaux(){
+		System.out.println(BattleShip.user.getPseudo());
+		System.out.println(this.idPartie);
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie='"+this.idPartie+"' AND pseudo='"+BattleShip.user.getPseudo()+"'");
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		if(res.next()) return true;
+		else return false;
+		}
+		catch (Exception e){
+			System.err.println("Problème dans le test si l'adversaire a positionné ses bateaux");
+			e.printStackTrace();
+			return false;
 		}
 	}
 }

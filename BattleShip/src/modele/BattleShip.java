@@ -55,16 +55,18 @@ public class BattleShip {
 		//Test de la création de partie
 		BattleShip.partie=new Partie();
 		BattleShip.user=user;
-		ControleurPartie.reprendrePartie(32, "Rubixbob");
-		System.out.println(BattleShip.partie.aMoiDeJouer());
-		//Affichage du tour récupéré
-		ArrayList<Ship> shipRec=BattleShip.partie.getBateauxCourants();
-		System.out.println("Pb");
-		for(Ship s:shipRec){
-			System.out.println("Bateau: "+s.idBateau+"X:"+s.x+"Y:"+s.y+"Etat"+s.etat+"Taille:"+s.taille+"Pseudo"+s.pseudo);
+		try {
+			ControleurPartie.lancerNouvellePartie();
+		} catch (ExceptionNoAdv e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		
+		ArrayList<Ship> batInit= new ArrayList<Ship>();
+		batInit.add(0, new Escorteur(5,5,"n",0));
+		batInit.add(1, new Destroyer(4,3,"s",1));
+		partie.executerPlacementBateauxInitiaux(batInit);
 		
 		
 		

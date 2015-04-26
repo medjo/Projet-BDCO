@@ -83,7 +83,6 @@ public class Utilisateur {
 			ResultSet res = req.getResult();
 			if (res.next()){
 				System.out.println("Connexion");
-				
 				//Attribution des valeurs aux attributs de la classe
 				this.pseudo=res.getString(1);
 				this.nom=res.getString(2);

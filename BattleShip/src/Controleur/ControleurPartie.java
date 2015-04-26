@@ -108,8 +108,26 @@ public class ControleurPartie {
 		BattleShip.partie.setNumTour(BattleShip.partie.getNumeroDernierTour());
 		//System.out.println("NumDernierTour"+BattleShip.partie.getNumeroDernierTour());
 		BattleShip.partie.setAdv(adv);
-		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
+		System.out.println(BattleShip.user.getPseudo());
+		if(!BattleShip.partie.meAPositionneSesBateaux())
+			BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
 	}
+	
+	//Méthode qui permet de tester si l'on doit reprendre une partie au démarrage ie au 
+	//positionnement des bateaux (différent de reprendre partie car pas de numéro d'action
+	//pour tester si c'est notre tour ou pas)
+	public static boolean reprendreAInit(){
+		//On lance un test sur la création des bateaux de l'adversaire
+		return BattleShip.partie.advAPositionneSesBateaux();
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 }
