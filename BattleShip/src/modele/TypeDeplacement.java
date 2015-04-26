@@ -11,16 +11,16 @@ enum TypeDeplacement {
 	
 	public static TypeDeplacement createDeplacement(String str){
 		TypeDeplacement type = null;
-		switch(str){
-		case "av":
+		
+		if(str.equals("av"))
 			type = TypeDeplacement.AVANCER;
-		case "ar":
+		else if (str.equals("ar"))
 			type = TypeDeplacement.RECULER;
-		case "rg":
+		else if (str.equals("rg"))
 			type = TypeDeplacement.ROTGAUCHE;
-		case "rd":
+		else if (str.equals("rd"))
 			type = TypeDeplacement.ROTDROITE;
-		}
+		
 		return type;
 	}
 	

@@ -29,7 +29,7 @@ public class Deplacement extends Action{
 			System.out.println("av pb");
 			System.out.println("Resultat"+res.getString(1));
 			orientationI = Direction.createDirection(res.getString(1));
-			System.out.println("OrientationI"+orientationI.toString());
+			//System.out.println("OrientationI"+orientationI.toString());
 			x = res.getInt(2);
 			y = res.getInt(3);
 		} catch (SQLException e) {
@@ -39,14 +39,16 @@ public class Deplacement extends Action{
 		req.close();
 		
 		/* Calcul du xOfset, yOfset et nouvelle orientation */
-		if(type == TypeDeplacement.AVANCER){
+		if(type.equals(TypeDeplacement.AVANCER)){
+			System.out.println("youhou");
 			ofset=1;
 		}
-		if(type == TypeDeplacement.RECULER){
+		if(type.equals(TypeDeplacement.RECULER)){
+			System.out.println("youhou");
 			ofset=-1;
 		}
 		System.out.println("OrientationI"+orientationI.toString());
-		
+		orientationF=orientationI;
 		if(orientationI.equals(Direction.NORD)){
 			y += ofset;
 			System.out.println("on y est1");
@@ -59,8 +61,10 @@ public class Deplacement extends Action{
 			}
 		}
 		else if(orientationI.equals(Direction.SUD)){
-			System.out.println("on y est3");
+			//System.out.println("on y est3");
+			//System.out.println("x et y:"+y);
 			y += ofset;
+			System.out.println("x et y:"+y);
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.OUEST;
 			}
@@ -69,7 +73,7 @@ public class Deplacement extends Action{
 			}
 		}
 		else if(orientationI.equals(Direction.EST)){
-			System.out.println("on y est4");
+			//System.out.println("on y est4");
 			x += ofset;
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.SUD;
@@ -79,7 +83,7 @@ public class Deplacement extends Action{
 			}
 		}
 		else if(orientationI.equals(Direction.OUEST)){
-			System.out.println("on y est5");
+			//System.out.println("on y est5");
 			x += ofset;
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.NORD;
@@ -139,7 +143,7 @@ public class Deplacement extends Action{
 	public void execute() throws ExceptionDeplacement{
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET x=?, y=?, orientation=? WHERE idPartie= ? AND idBateau= ?");
 		try {
-			System.out.println("La nouvelle direction est:"+orientationF.toString());
+			//System.out.println("La nouvelle direction est:"+orientationF.toString());
 			req.getStatement().setInt(1, x);
 			req.getStatement().setInt(2, y);
 			req.getStatement().setString(3, orientationF.toString());
@@ -148,6 +152,7 @@ public class Deplacement extends Action{
 			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
+			System.out.println("pb lors de l'execute du déplacement");
 			e1.printStackTrace();
 		}
 		
@@ -161,16 +166,24 @@ public class Deplacement extends Action{
 
 	@Override
 	public void save() throws ExceptionDeplacement {
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INSERT INTO Actions (iDPartie, idBateau, nTour, nAction, x, y, type, direction)"
-				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?");
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, idBateau, nTour, nAction, x, y, type, direction)"
+				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
 		try{
+			System.out.println("idpartie:"+getIdPartie());
 			req.getStatement().setInt(1, getIdPartie());
+			System.out.println("idBateau:"+getIdBateau());
 			req.getStatement().setInt(2, getIdBateau());
+			System.out.println("NTour:"+getNTour());
 			req.getStatement().setInt(3, getNTour());
+			System.out.println("NAction:"+getNAction());
 			req.getStatement().setInt(4, getNAction());
+			System.out.println("idpartie:"+x);
 			req.getStatement().setInt(5, x);
+			System.out.println("idpartie:"+y);
 			req.getStatement().setInt(6, y);
+			//System.out.println("idpartie:"+type.toString());
 			req.getStatement().setString(7, "Dep");
+			System.out.println("idpartie:"+type.toString());
 			req.getStatement().setString(8, type.toString());
 			
 		} catch (SQLException e1) {

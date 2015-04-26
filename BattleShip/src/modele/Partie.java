@@ -405,4 +405,7 @@ public class Partie {
 		}
 	}
 	
+	public int getIdPartie(){
+		return this.idPartie;
+	}
 }
