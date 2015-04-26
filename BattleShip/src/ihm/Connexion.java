@@ -448,18 +448,33 @@ public class Connexion extends JFrame {
 					Inscription.setVisible(false);
 					Identification.setVisible(true);
 				} catch (NumberFormatException e1) {
+					
 					// TODO Auto-generated catch block
 				} catch (InscriptionInvalideException e1) {
 					// TODO Message Inscription invalide
+					JOptionPane InscriptionInvalide = new JOptionPane(); 
+					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE); 
 					System.out.println("Inscription invalide");
 				} catch (UtilisateurExistantException e1) {
+					JOptionPane UserExistant = new JOptionPane(); 
+					UserExistant.showMessageDialog(null, "Ce pseudo est déjà utilisé", "Warning", JOptionPane.WARNING_MESSAGE); 
 					// TODO Auto-generated catch block
 				}
 				
 			}
 		});
-		btnValider.setBounds(157, 240, 117, 20);
+		btnValider.setBounds(77, 240, 117, 20);
 		Inscription.add(btnValider);
+		
+		JButton btnNewButton_11 = new JButton("Annuler");
+		btnNewButton_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Inscription.setVisible(false);
+				Identification.setVisible(true);
+			}
+		});
+		btnNewButton_11.setBounds(257, 240, 117, 20);
+		Inscription.add(btnNewButton_11);
 		Inscription.setVisible(false);
 		
 		
@@ -473,7 +488,8 @@ public class Connexion extends JFrame {
 					Connexion.setVisible(true);
 					Identification.setVisible(false);
 				} catch (UtilisateurInconnuException e) {
-					// TODO Message utilisateur inconnu
+					JOptionPane IdInconnue = new JOptionPane(); 
+					IdInconnue.showMessageDialog(null, "Utilisateur inconnu", "Erreur", JOptionPane.ERROR_MESSAGE); 
 				}
 			}
 		});
