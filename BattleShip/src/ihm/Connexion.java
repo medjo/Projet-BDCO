@@ -46,6 +46,7 @@ public class Connexion extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_8;
 	private JTable Carte;
+	private JTable table;
 	
 
 	/**
@@ -213,6 +214,12 @@ public class Connexion extends JFrame {
 		});
 		btnQuitter_1.setBounds(232, 235, 188, 25);
 		PrepareBataille.add(btnQuitter_1);
+		
+		TabModel modele= new TabModel(); 
+		table = new JTable(modele);
+		table.setBounds(12, 12, 287, 211);
+		
+		PrepareBataille.add(table);
 		
 		
 		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
