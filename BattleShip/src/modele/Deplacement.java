@@ -166,25 +166,27 @@ public class Deplacement extends Action{
 
 	@Override
 	public void save() throws ExceptionDeplacement {
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, idBateau, nTour, nAction, x, y, type, direction)"
-				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions(iDPartie,pseudo,iDBateau,nTour,nAction,type,direction) "
+				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?)");
 		try{
 			System.out.println("idpartie:"+getIdPartie());
 			req.getStatement().setInt(1, getIdPartie());
+			System.out.println("pseudo"+getIdPartie());
+			req.getStatement().setString(2, BattleShip.user.getPseudo());
 			System.out.println("idBateau:"+getIdBateau());
-			req.getStatement().setInt(2, getIdBateau());
+			req.getStatement().setInt(3, getIdBateau());
 			System.out.println("NTour:"+getNTour());
-			req.getStatement().setInt(3, getNTour());
+			req.getStatement().setInt(4, getNTour());
 			System.out.println("NAction:"+getNAction());
-			req.getStatement().setInt(4, getNAction());
-			System.out.println("idpartie:"+x);
-			req.getStatement().setInt(5, x);
-			System.out.println("idpartie:"+y);
-			req.getStatement().setInt(6, y);
+			req.getStatement().setInt(5, getNAction());
+			System.out.println("X:"+x);
+			//req.getStatement().setInt(6, x);
+			System.out.println("Y:"+y);
+			//req.getStatement().setInt(7, y);
 			//System.out.println("idpartie:"+type.toString());
-			req.getStatement().setString(7, "Dep");
-			System.out.println("idpartie:"+type.toString());
-			req.getStatement().setString(8, type.toString());
+			req.getStatement().setString(6, "dep");
+			System.out.println("Mouv:"+type.toString());
+			req.getStatement().setString(7, type.toString());
 			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block

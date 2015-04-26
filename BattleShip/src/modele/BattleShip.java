@@ -26,7 +26,7 @@ public class BattleShip {
 		req.close();*/
 		
 		//Lancement de l'interface graphique
-		EventQueue.invokeLater(new Runnable() {
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Connexion frame = new Connexion();
@@ -35,7 +35,7 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 		
 		//Test des fonctions de connexions
 		/*
@@ -213,7 +213,24 @@ public class BattleShip {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+		BattleShip.theConnection.getConnection().commit();
+		
+		try {
+			Tir tir2 = new Tir(0,1231,"Mordokkai",0,1,4,3);
+			try {
+				tir2.execute();
+				tir2.save();
+				BattleShip.theConnection.getConnection().commit();
+			} catch (TirMissed e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (TirOutOfBound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		
 	
 	}
 	
