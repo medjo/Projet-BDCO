@@ -45,6 +45,7 @@ public class Connexion extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_8;
 	private JTable Carte;
+	private JTable table;
 	
 
 	/**
@@ -161,7 +162,7 @@ public class Connexion extends JFrame {
 		btnNewButton_6.setBounds(125, 210, 200, 25);
 		ChercheAdv.add(btnNewButton_6);
 		
-		JLabel lblVotre = new JLabel("Votre adversaire " + BattleShip.partie.getPseudoAdv() + " est prêt");
+		JLabel lblVotre = new JLabel("Votre adversaire "+ BattleShip.partie.getPseudoAdv() + " est prêt");
 		lblVotre.setBounds(50, 100, 400, 20);
 		ChercheAdv.add(lblVotre);
 				
@@ -206,6 +207,12 @@ public class Connexion extends JFrame {
 		});
 		btnQuitter_1.setBounds(232, 235, 188, 25);
 		PrepareBataille.add(btnQuitter_1);
+		
+		TabModel modele= new TabModel(); 
+		table = new JTable(modele);
+		table.setBounds(12, 12, 287, 211);
+		
+		PrepareBataille.add(table);
 		
 		
 		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
