@@ -62,7 +62,7 @@ public class Utilisateur {
 				this.email=email;
 				this.nbPartiesJouees=""+0;	// Il faut les guillemets pour cast 0 en String
 			}
-		} catch(Exception e){
+		} catch(SQLException e){
 			System.err.println("Echec à l'inscription");
 			BattleShip.theConnection.rollbackPerso(); //On annule tout si problème
 			throw new InscriptionInvalideException();

@@ -183,8 +183,8 @@ public class Connexion extends JFrame {
 		btnNewButton_4.setBounds(135, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
-		JButton btnNewButton_7 = new JButton("New button");
-		btnNewButton_7.setBounds(323, 30, 117, 25);
+		JButton btnNewButton_7 = new JButton("Nord");
+		btnNewButton_7.setBounds(323, 30, 70, 25);
 		PrepareBataille.add(btnNewButton_7);
 		
 		JButton btnNewButton_8 = new JButton("<");
@@ -193,12 +193,17 @@ public class Connexion extends JFrame {
 			}
 		});
 		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewButton_8.setBounds(268, 67, 55, 37);
+		btnNewButton_8.setBounds(268, 67, 45, 30);
 		PrepareBataille.add(btnNewButton_8);
 		
-		JButton btnNewButton_9 = new JButton("New button");
-		btnNewButton_9.setBounds(311, 110, 117, 25);
+		JButton btnNewButton_9 = new JButton("Sud");
+		btnNewButton_9.setBounds(311, 110, 70, 25);
 		PrepareBataille.add(btnNewButton_9);
+		
+		JButton button = new JButton(">");
+		button.setFont(new Font("Dialog", Font.BOLD, 10));
+		button.setBounds(375, 67, 45, 30);
+		PrepareBataille.add(button);
 		
 		
 		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
@@ -443,18 +448,33 @@ public class Connexion extends JFrame {
 					Inscription.setVisible(false);
 					Identification.setVisible(true);
 				} catch (NumberFormatException e1) {
+					
 					// TODO Auto-generated catch block
 				} catch (InscriptionInvalideException e1) {
 					// TODO Message Inscription invalide
+					JOptionPane InscriptionInvalide = new JOptionPane(); 
+					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE); 
 					System.out.println("Inscription invalide");
 				} catch (UtilisateurExistantException e1) {
+					JOptionPane UserExistant = new JOptionPane(); 
+					UserExistant.showMessageDialog(null, "Ce pseudo est déjà utilisé", "Warning", JOptionPane.WARNING_MESSAGE); 
 					// TODO Auto-generated catch block
 				}
 				
 			}
 		});
-		btnValider.setBounds(157, 240, 117, 20);
+		btnValider.setBounds(77, 240, 117, 20);
 		Inscription.add(btnValider);
+		
+		JButton btnNewButton_11 = new JButton("Annuler");
+		btnNewButton_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Inscription.setVisible(false);
+				Identification.setVisible(true);
+			}
+		});
+		btnNewButton_11.setBounds(257, 240, 117, 20);
+		Inscription.add(btnNewButton_11);
 		Inscription.setVisible(false);
 		
 		
@@ -468,7 +488,8 @@ public class Connexion extends JFrame {
 					Connexion.setVisible(true);
 					Identification.setVisible(false);
 				} catch (UtilisateurInconnuException e) {
-					// TODO Message utilisateur inconnu
+					JOptionPane IdInconnue = new JOptionPane(); 
+					IdInconnue.showMessageDialog(null, "Utilisateur inconnu", "Erreur", JOptionPane.ERROR_MESSAGE); 
 				}
 			}
 		});
