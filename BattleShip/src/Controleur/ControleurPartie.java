@@ -1,6 +1,7 @@
 package Controleur;
 import modele.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import modele.BattleShip;
@@ -21,6 +22,17 @@ public class ControleurPartie {
 		//On sélectionne l'adversaire
 		idJoueur adv = BattleShip.partie.selectionnerAdv(BattleShip.partie.getListeJoueurs());
 		BattleShip.partie.ajouterParticipants(adv.getPseudo());
+	}
+	
+	public static Ship placerBateau(int x, int y, int type) throws SQLException{
+		Ship bat;
+		if (type == 2) {
+			bat = new Destroyer(x, y, "n", 0, BattleShip.user.getPseudo());
+		} else {
+			bat = new Escorteur(x, y, "n", 0, BattleShip.user.getPseudo());
+		}
+		BattleShip.partie.placerBateau(bat);
+		return bat;
 	}
 	
 	//Prepare for battle

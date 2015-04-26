@@ -452,11 +452,10 @@ public class Connexion extends JFrame {
 				} catch (InscriptionInvalideException e1) {
 					// TODO Message Inscription invalide
 					JOptionPane InscriptionInvalide = new JOptionPane(); 
-					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE); 
-					System.out.println("Inscription invalide");
+					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} catch (UtilisateurExistantException e1) {
 					JOptionPane UserExistant = new JOptionPane(); 
-					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE); 
+					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE);
 					// TODO Auto-generated catch block
 				}
 				

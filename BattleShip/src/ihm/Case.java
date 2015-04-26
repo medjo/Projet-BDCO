@@ -2,8 +2,12 @@ package ihm;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 import javax.swing.*;
+
+import modele.Ship;
+import Controleur.ControleurPartie;
 
 
 public class Case{
@@ -18,6 +22,7 @@ public class Case{
 		private JMenuItem supprimer;
 		private Case[][] map;
 		private boolean pivot;
+		private Ship bateau;
 		
 		public Case(int xx, int yy, int typee, Case[][] mapp){
 			this.x = xx;
@@ -37,28 +42,31 @@ public class Case{
 			cell.setBounds(x*32,y*22,30,22);
 			destroyeur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					setType(1);
-					map[getX()][getY()-1].setType(1);
-					map[getX()][getY()-2].setType(1);
-					pivot = true;
-					setBateau();
-					map[getX()][getY()-1].setBateau();
-					map[getX()][getY()-2].setBateau();
+					try {
+						bateau = ControleurPartie.placerBateau(x, y, 2);
+						pivot = true;
+						creerBateau(2);
+					} catch (Exception e) {
+						// TODO Message d'erreur placement impossible
+						System.err.println("Placement impossible");
+					}
 				}
 			});
 			escorteur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					setType(2);
-					map[getX()][getY()-1].setType(2);
-					pivot = true;
-					setBateau();
-					map[getX()][getY()-1].setBateau();
+					try {
+						bateau = ControleurPartie.placerBateau(x, y, 1);
+						pivot = true;
+						creerBateau(1);
+					} catch (Exception e) {
+						// TODO Message d'erreur placement impossible
+						System.err.println("Placement impossible");
+					}
 				}
 			});
 			supprimer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					setType(0);
-					setMer();
+					map[bateau.getXBateau()][bateau.getYBateau()].deleteBateau(type+1, bateau.getDirBateauString());
 				}
 			});
 		}
@@ -79,10 +87,10 @@ public class Case{
 			if (typee == 0) {
 				this.type = typee;
 				cell.setBackground(Color.white);
-			} else if (typee == 1) {
+			} else if (typee == 2) {
 				this.type = typee;
 				cell.setBackground(Color.black);
-			} else if (typee == 2) {
+			} else if (typee == 1) {
 				this.type = typee;
 				cell.setBackground(Color.green);
 			} else {
@@ -90,15 +98,54 @@ public class Case{
 			}
 		}
 		
-		public void setBateau(){
+		public void setMenuBateau(){
 			menu.remove(destroyeur);
 			menu.remove(escorteur);
 			menu.add(supprimer);
 		}
 		
-		public void setMer(){
+		public void setMenuMer(){
 			menu.remove(supprimer);
 			menu.add(destroyeur);
 			menu.add(escorteur);
+		}
+		
+		public void setBateau(Ship bat){
+			this.bateau = bat;
+		}
+		
+		public void creerBateau(int type){
+			Case c;
+			for (int i = 0; i <= type; i++){
+				c = map[x][y-i];
+				c.setType(type);
+				c.setBateau(bateau);
+				c.setMenuBateau();
+			}
+		}
+		
+		public void deleteBateau(int taille, String dir){
+			Case c;
+			for (int i = 0; i < taille; i++){
+				switch(dir){
+				case "n" :
+					c = map[x][y-i];
+					break;
+				case "s" :
+					c = map[x][y+i];
+					break;
+				case "e" :
+					c = map[x+i][y];
+					break;
+				case "o" :
+					c = map[x-i][y];
+					break;
+				default :
+					throw new IllegalArgumentException("Direction incorrecte");
+				}
+				c.setBateau(null);
+				c.setType(0);
+				c.setMenuMer();
+			}
 		}
 }

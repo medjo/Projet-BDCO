@@ -67,9 +67,9 @@ public class Partie {
 		else {
 			joueurMin = listeJoueurs.get(0);
 		}
-		System.out.println("taille de la liste"+listeJoueurs.size());
+		//System.out.println("taille de la liste"+listeJoueurs.size());
 		while(i<listeJoueurs.size()){
-			System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
+			//System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
 			if(listeJoueurs.get(i).getNbParties()<joueurMin.getNbParties()){
 				joueurMin=listeJoueurs.get(i);
 			}
@@ -269,6 +269,34 @@ public class Partie {
 			}
 			i++;
 			req.close();
+		}
+	}
+	
+	public void placerBateau(Ship bat) throws SQLException{
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+		try {
+			req.getStatement().setInt(1, this.idPartie);
+			req.getStatement().setString(2, BattleShip.user.getPseudo());
+			req.getStatement().setInt(3, bat.getIdBateau());
+			req.getStatement().setInt(4, bat.getTailleBateau());
+			req.getStatement().setInt(5, bat.getTailleBateau());
+			req.getStatement().setInt(6, bat.getXBateau());
+			req.getStatement().setInt(7, bat.getYBateau());
+			req.getStatement().setString(8, bat.getDirBateauString());
+			req.getStatement().setInt(9, bat.getXBateau());//valeur initial
+			req.getStatement().setInt(10, bat.getYBateau());//valeur initial
+			req.getStatement().setString(11, bat.getDirBateauString());//valeur initial
+			req.execute();
+		} catch (SQLException e1) {
+			BattleShip.theConnection.rollbackPerso();
+			System.out.println("Problème lors du placement initial des bateaux");
+			throw e1;
+		}
+		try{
+			BattleShip.theConnection.getConnection().commit();
+		}catch(SQLException e){
+			e.printStackTrace();
+			System.out.println("Problème lors d'un commit");
 		}
 	}
 	
