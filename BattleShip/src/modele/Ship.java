@@ -16,10 +16,10 @@ public abstract class Ship {
 		this.x=x;
 		this.y=y;
 		this.idBateau=idBateau;
-		if(dir=="N") this.dir=Direction.NORD;
-		else if(dir=="S") this.dir=Direction.SUD;
-		else if(dir=="E") this.dir=Direction.EST;
-		else if(dir=="O") this.dir=Direction.OUEST;
+		if(dir=="n") this.dir=Direction.NORD;
+		else if(dir=="s") this.dir=Direction.SUD;
+		else if(dir=="e") this.dir=Direction.EST;
+		else if(dir=="o") this.dir=Direction.OUEST;
 		this.coups=etat; //On initialise le nombre de coups à l'état du bateau
 	}
 	
