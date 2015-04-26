@@ -404,4 +404,16 @@ public class Partie {
 	public void setBateauxCourants(ArrayList<Ship> myShips){
 		this.bateauxCourants=myShips;
 	}
+	
+	public void setIdPartie(int idPartie){
+		this.idPartie=idPartie;
+	}
+	
+	public void setNumTour(int num){
+		this.numTour=num;
+	}
+	
+	public void setAdv(String adv){
+		this.pseudoAdversaire=adv;
+	}
 }
