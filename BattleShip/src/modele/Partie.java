@@ -389,17 +389,18 @@ public class Partie {
 	
 	//TESTE
 	//Methode de récupération de l'adversaire
-	public String getAdv(){
+	public  String getAdv(){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT joueur1,joueur2 FROM participants WHERE idPartie="+this.idPartie);
 		try{
 		req.execute();
 		ResultSet res = req.getResult();
 		res.next();
-		if(res.getString(1)==this.user.getPseudo()) return res.getString(2);
-		else return res.getString(1);
+		//System.err.println("ya un pb");
+		if(res.getString(1).equals(this.user.getPseudo())) {System.err.println(res.getString(2)); return res.getString(2);}
+		else { /*System.err.println(res.getString(1));System.err.println(res.getString(2));System.err.println(user.getPseudo());*/ return res.getString(1);}
 		}
 		catch (Exception e){
-			System.out.println("Problème dans la récupération du pseudo de l'adversaire");
+			System.err.println("Problème dans la récupération du pseudo de l'adversaire");
 			return null;
 		}
 	}

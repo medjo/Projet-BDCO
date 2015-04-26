@@ -104,7 +104,7 @@ public class BattleShip {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		Partie partie = new Partie();
+		BattleShip.partie = new Partie();
 		partie.user=user;
 		partie.creerNouvellePartie();
 		idJoueur adv;
@@ -155,6 +155,10 @@ public class BattleShip {
 		
 		try{
 		Tir tir = new Tir(0,1070,"Mordokkai",0,0,4,3);
+		System.out.println("bidon");
+		tir.execute();
+		System.out.println("bidon");
+		tir.save();
 		}
 		catch(Exception e){}
 		//Test de la création d'une partie + ajout des participants

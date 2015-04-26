@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import modele.*;
+import modele.ActionFactory.infoActionJoueur;
 import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
@@ -21,21 +22,10 @@ public class Tir extends Action{
 		}
 		this.x = x;
 		this.y = y;
-		
-		/*on récupère le pseudo de l'adversaire */
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Participants WHERE idPartie= ? AND pseudo <> ?");
-		try {
-			//Ajout de sylvain car oubli possible de Loic
-			req.getStatement().setInt(1, idPartie);
-			req.getStatement().setString(2, pseudo);
-			req.execute();
-			ResultSet res = req.getResult();
-			adversaire = res.getString(1);
-		} catch (Exception e) {
-			System.err.println("impossible de récupérer pseudo adversaire");
-			e.printStackTrace(System.err);
-		}
-		req.close();
+		System.err.println("1");
+		String adversaire = BattleShip.partie.getAdv();
+		System.err.println("2");
+		System.err.println("Adve:"+adversaire);
 		
 		/* on récupère la liste des bateux de l'adversaire */
 		bateauxEnnemis = ShipsFactory.Ships(idPartie, adversaire);
@@ -43,15 +33,23 @@ public class Tir extends Action{
 	
 	@Override
 	public void save() {
+		//System.out.println("save");
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, idBateau, nTour, nAction, x, y, type)"
-				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?");
+				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?)");
 		try {
+			System.out.println(getIdPartie());
 			req.getStatement().setInt(1, getIdPartie());
+			System.out.println(getIdBateau());
 			req.getStatement().setInt(2, getIdBateau());
+			System.out.println(getNTour());
 			req.getStatement().setInt(3, getNTour());
+			System.out.println(getNAction());
 			req.getStatement().setInt(4, getNAction());
+			System.out.println(this.x);
 			req.getStatement().setInt(5, x);
+			System.out.println(this.y);
 			req.getStatement().setInt(6, y);
+			//System.out.println(getIdPartie());
 			req.getStatement().setString(7, "Tir");
 			
 		} catch (SQLException e1) {
@@ -78,7 +76,8 @@ public class Tir extends Action{
 		}
 		/* le tir ne touche aucun bateau */
 		if(idBateau == -1){
-			throw new TirMissed();
+			System.out.println("Bateau non touché");
+			//throw new TirMissed();
 		}
 		
 		/*le tir touche un bateau */
@@ -90,6 +89,11 @@ public class Tir extends Action{
 		} catch (Exception e) {
 			System.err.println("impossible de maj etat bateau après tir");
 			e.printStackTrace(System.err);
+		}
+		try{
+		BattleShip.theConnection.getConnection().commit();
+		}catch(Exception e){
+			System.out.println("pb de commit");
 		}
 		req.close();
 	}
