@@ -1,28 +1,49 @@
 package Controleur;
+import modele.*;
 
 import java.util.ArrayList;
 
 import modele.BattleShip;
+import modele.ExceptionNoAdv;
 import modele.InfoPartie;
-import modele.Partie;
+import modele.structInfoPlacementBateau;
 import modele.Utilisateur;
 import modele.idJoueur;
 
 public class ControleurPartie {
-	private Utilisateur user;
-	public void lancerNouvellePartie(){
-		Partie partie = new Partie();
-		int idPartie = partie.getIdDernierePartie();
+	
+	//Pour créer une nouvelle partie
+	public static void lancerNouvellePartie() throws ExceptionNoAdv{
+		BattleShip.partie = new Partie();
+		int idPartie = BattleShip.partie.getIdDernierePartie();
 		//Maintenant il faut construire la liste des joueurs pas entrain de jouer
-		ArrayList<idJoueur>listeJoueurs=partie.getListeJoueurs();
+		ArrayList<idJoueur>listeJoueurs=BattleShip.partie.getListeJoueurs();
 		//On sélectionne l'adversaire
-		idJoueur adv = partie.selectionnerAdv(listeJoueurs);
+		idJoueur adv = BattleShip.partie.selectionnerAdv(listeJoueurs);
 		//On crée la partie
-		partie.creerNouvellePartie(idPartie,user.getPseudo(),adv.getPseudo());
+		BattleShip.partie.creerNouvellePartie(idPartie);
+	}
+	
+	//Prepare for battle
+	public static void initMap(ArrayList<Ship> mesBateaux) {
+		//La vérification du nombre d'escorteurs devra être fait au-dessus
+		//On place les bateaux envoyés par l'IHM
+		BattleShip.partie.executerPlacementBateauxInitiaux(mesBateaux);
 	}
 
-	public void reprendreUnePartie(){
-		Partie partie= new Partie();
+	//Pour afficher les parties que l'ont a débuté
+	public static ArrayList<InfoPartie> anciennesParties(){
+		BattleShip.partie=new Partie();
+		return BattleShip.partie.partiesDebutees();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

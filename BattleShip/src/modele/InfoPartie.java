@@ -29,9 +29,10 @@ public class InfoPartie {
 	
 	public InfoPartie(TheConnection theConnection, int idPartie, Date date, Boolean fini){
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM vainqueurs NATURAL JOIN participants WHERE idpartie='"+idPartie+"'");
-		req.execute();
-		ResultSet res = req.getResult();
+		
 		try{
+			req.execute();
+			ResultSet res = req.getResult();
 			this.idPartie=idPartie;
 			this.date=date;
 			res.next();

@@ -8,18 +8,21 @@ public class ControleurConnexion {
 	
 	//Méthode appelée pour l'inscription
 	
-	public void inscription(Utilisateur user,String pseudo,String nom,
+	public static void inscription(String pseudo,String nom,
 			String prenom, int jj,int mm, int aaaa,
-			String email, int num, String rue,int cp,String ville) throws InscriptionInvalideException{
-		user.inscription(pseudo, nom, prenom, jj, mm, aaaa, email, num, rue, cp, ville);
+			String email, int num, String rue,int cp,String ville)
+					throws InscriptionInvalideException, UtilisateurExistantException{
+		BattleShip.user.inscription(pseudo, nom, prenom, jj, mm, aaaa, email, num, rue, cp, ville);
 	}
 	
-	public void connexion(Utilisateur user,String pseudo) {
-		user.connexion(pseudo);
+	// Méthode appelée pour la connexion
+	public static void connexion(String pseudo) throws UtilisateurInconnuException {
+		BattleShip.user.connexion(pseudo);
 	}
 	
-	public void quitter(){
-		
+	// Méthode appelée pour quitter l'application
+	public static void quitter(){
+		System.exit(0); //en attendant de trouver mieux
 	}
 	
 }

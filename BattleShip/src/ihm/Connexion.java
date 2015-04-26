@@ -443,16 +443,17 @@ public class Connexion extends JFrame {
 		JButton btnValider = new JButton("Valider");
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inscription.setVisible(false);
-				Identification.setVisible(true);
 				try {
-					ControleurConnexion.inscription(BattleShip.theConnection, pseudo.getText(), nom.getText(), prenom.getText(), Integer.parseInt(txtJj.getText()), Integer.parseInt(txtMm.getText()), Integer.parseInt(txtAnnee.getText()), email.getText(), Integer.parseInt(numeroRue.getText()), rue.getText(), Integer.parseInt(codePoste.getText()), ville.getText());
+					ControleurConnexion.inscription(pseudo.getText(), nom.getText(), prenom.getText(), Integer.parseInt(txtJj.getText()), Integer.parseInt(txtMm.getText()), Integer.parseInt(txtAnnee.getText()), email.getText(), Integer.parseInt(numeroRue.getText()), rue.getText(), Integer.parseInt(codePoste.getText()), ville.getText());
+					Inscription.setVisible(false);
+					Identification.setVisible(true);
 				} catch (NumberFormatException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				} catch (InscriptionInvalideException e1) {
+					// TODO Message Inscription invalide
+					System.out.println("Inscription invalide");
+				} catch (UtilisateurExistantException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 				
 			}
@@ -467,8 +468,13 @@ public class Connexion extends JFrame {
 		JButton btnConnexion = new JButton("Connexion");
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Connexion.setVisible(true);
-				Identification.setVisible(false);
+				try {
+					ControleurConnexion.connexion(txtLogin.getText());
+					Connexion.setVisible(true);
+					Identification.setVisible(false);
+				} catch (UtilisateurInconnuException e) {
+					// TODO Message utilisateur inconnu
+				}
 			}
 		});
 		btnConnexion.setBounds(296, 74, 117, 25);
@@ -504,6 +510,7 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					BattleShip.theConnection.close();
+					ControleurConnexion.quitter();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

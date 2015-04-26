@@ -1,6 +1,8 @@
 package modele;
 import java.sql.*;
 import java.util.*;
+
+import modele.structInfoPlacementBateau;
 import jdbc.*;
 
 public class Rejouer{
@@ -9,9 +11,9 @@ public class Rejouer{
 	
 	public Rejouer(TheConnection theConnection){
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties");
-		req.execute();
-		ResultSet res = req.getResult();
 		try{
+			req.execute();
+			ResultSet res = req.getResult();
 			while(res.next()){
 				listeParties.add(new InfoPartie(theConnection, res.getInt(1), res.getDate(2), res.getBoolean(3)));
 			}
@@ -24,9 +26,6 @@ public class Rejouer{
 		
 	}
 	
-	public void afficher() {
-		// appeler la fonction de yahya qui affiche l'historique
-	}
 	
 	public void voirPartie(String idPartie) {
 		Historique h = new Historique(idPartie); //On instancie l'historique sélectionné
@@ -40,22 +39,13 @@ public class Rejouer{
 	/**
 	 * initialise la partie à rejouer
 	 * @param idPartie
-	 * @return liste des bateaux avec leurs états initiaux
+	 * @return liste des bateaux dans leurs états initiaux
 	 */
-	public ArrayList<Ship> init(TheConnection theConnection, int idPartie){
-		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT  FROM parties");
-		req.execute();
-		ResultSet res = req.getResult();
-		try{
-			while(res.next()){
-				listeParties.add(new InfoPartie(theConnection, res.getInt(1), res.getDate(2), res.getBoolean(3)));
-			}
-		} catch (Exception e) {
-			
-		}
-		
-		req.close();
-		return null;
+	//TODO
+	public ArrayList<Ship> init(int idPartie){
+		ArrayList<Ship> shipsInit = ShipsFactory.shipsInit(idPartie);
+		numTour = 0;
+		return shipsInit;
 	}
 	
 	
@@ -65,8 +55,55 @@ public class Rejouer{
 	 * @return liste des bateaux avec leurs états au tour suivant
 	 */
 	public ArrayList<Ship> suivant(TheConnection theConnection, int idPartie){
+		ArrayList <Action> listeActions = new ArrayList <Action>();
+		ArrayList <Ship> listeBateaux = new ArrayList<Ship>();
+		numTour++;
+		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie= ? AND ntour= ?");
+		try {
+			req.getStatement().setInt(1, idPartie);
+			req.getStatement().setInt(2, numTour);
+			req.execute();
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ResultSet res = req.getResult();
+		try {
+			/*Creation des actions */
+			while(res.next()){
+				if(res.getString("type")=="Tir"){
+					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, int x, int y
+					listeActions.add(new Tir(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), res.getInt("x"), res.getInt("y")));
+				}
+				if(res.getString("type")=="Deplacement"){
+					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type
+					listeActions.add(new Deplacement(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), TypeDeplacement.createDeplacement(res.getString("direction"))));
+				}
+			}
+			
+			/*execution des actions*/
+			for(Action a : listeActions){
+				a.execute();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (TirOutOfBound e) {
+			System.err.println("Erreur tir hors de la map");
+			System.err.println("Anormal car partie déjà jouée !!!!");
+			e.printStackTrace();
+		} catch (ExceptionDeplacement e) {
+			System.err.println("Erreur deplacement invalide");
+			System.err.println("Anormal car partie déjà jouée !!!!");
+			e.printStackTrace();
+		} catch (TirMissed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return null;
+		/*recupère l'etat des bateaux */
+		listeBateaux = ShipsFactory.allShips(idPartie);
+		return listeBateaux;
 	}
 	
 	public ArrayList<InfoPartie> getInfoParties(){
