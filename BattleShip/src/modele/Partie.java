@@ -419,6 +419,10 @@ public class Partie {
 		this.numTour=num;
 	}
 	
+	public int getNumTour(){
+		return this.numTour;
+	}
+	
 	public void setAdv(String adv){
 		this.pseudoAdversaire=adv;
 	}
@@ -483,5 +487,21 @@ public class Partie {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public int getDernierNumeroAction(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(nAction) FROM  actions WHERE idPartie="+this.idPartie+"AND nTour="+this.numTour);
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getInt(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero d'action de ce tour");
+			e.printStackTrace();
+			return 0;
+		}
+	}
 	}
 }

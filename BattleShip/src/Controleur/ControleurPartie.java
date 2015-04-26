@@ -7,6 +7,7 @@ import modele.BattleShip;
 import modele.ExceptionNoAdv;
 import modele.InfoPartie;
 import modele.TirMissed;
+import modele.TirOutOfBound;
 import modele.structInfoPlacementBateau;
 import modele.Utilisateur;
 import modele.idJoueur;
@@ -76,6 +77,16 @@ public class ControleurPartie {
 		return true;
 	}
 
+	public static Tir Tir(int idBateau, int x, int y){
+		try {
+			return new Tir(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction(),x,y);
+		} catch (TirOutOfBound e) {
+			System.out.println("Vous avez tirer en dehors de la Map !");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 	
 	
@@ -139,9 +150,6 @@ public class ControleurPartie {
 		
 		
 	}
-	
-	
-	
 	
 	
 	
