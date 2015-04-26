@@ -76,5 +76,14 @@ public abstract class Ship {
 		return this.coups;
 	}
 	
+	public void setCoupsBateau(int c){
+		this.coups=c;
+	}
+	
+	@Override
+	public boolean equals(Object ship){
+		Ship ship1= (Ship)ship;
+		   return (this.idBateau==ship1.getIdBateau());
+	}
 	
 }
