@@ -61,7 +61,7 @@ public class Partie {
 		
 		int i=0;
 		idJoueur joueurMin;
-		if(listeJoueurs.get(0).getPseudo()==BattleShip.user.getPseudo()){
+		if(listeJoueurs.get(0).getPseudo().equals(BattleShip.user.getPseudo())){
 			joueurMin = listeJoueurs.get(1);
 		}
 		else {
