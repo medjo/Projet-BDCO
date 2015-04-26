@@ -12,6 +12,7 @@ public class Rejouer{
 	
 	//TESTE
 	public Rejouer(){
+		numTour=0;
 		this.listeParties=new ArrayList<InfoPartie>();
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties");
 		try{
@@ -37,10 +38,10 @@ public class Rejouer{
 		
 	}
 	
-	
+	/*
 	public void voirPartie(String idPartie) {
 		Historique h = new Historique(idPartie); //On instancie l'historique sélectionné
-	}
+	}*/
 	/*Lien avec l'interface graphique: 
 	 * -> lorsque l'on entre dans la fenêtre de l'historique on a la liste des parties qui s'affiche.
 	 * -> si on veut voir une partie on appel la méthode, si on veut rafaichir on appel la meme méthode
@@ -68,7 +69,6 @@ public class Rejouer{
 	public ArrayList<Ship> suivant(TheConnection theConnection, int idPartie){
 		ArrayList <Action> listeActions = new ArrayList <Action>();
 		ArrayList <Ship> listeBateaux = new ArrayList<Ship>();
-		numTour++;
 		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie= ? AND ntour= ?");
 		try {
 			req.getStatement().setInt(1, idPartie);
@@ -92,10 +92,13 @@ public class Rejouer{
 					listeActions.add(new Deplacement(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), TypeDeplacement.createDeplacement(res.getString("direction"))));
 				}
 			}
-			
 			/*execution des actions*/
 			for(Action a : listeActions){
 				a.execute();
+			}
+			/* si le tour a bien été joué on passe au suivant */
+			if(res.first()){
+				numTour++;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,6 +117,7 @@ public class Rejouer{
 		
 		/*recupère l'etat des bateaux */
 		listeBateaux = ShipsFactory.allShips(idPartie);
+		
 		return listeBateaux;
 	}
 	
