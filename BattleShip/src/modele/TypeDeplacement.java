@@ -1,21 +1,31 @@
 package modele;
 
 enum TypeDeplacement {
-	AVANCER, RECULER, ROTGAUCHE, ROTDROITE;
+	AVANCER("av"), RECULER("ar"), ROTGAUCHE("rg"), ROTDROITE("rd");
 
+	private String name;
+	
+	private TypeDeplacement(String name) {
+		this.name = name;
+	}
 	
 	public static TypeDeplacement createDeplacement(String str){
 		TypeDeplacement type = null;
 		switch(str){
-		case "AVANCER":
+		case "av":
 			type = TypeDeplacement.AVANCER;
-		case "RECULER":
+		case "ar":
 			type = TypeDeplacement.RECULER;
-		case "ROTGAUCHE":
+		case "rg":
 			type = TypeDeplacement.ROTGAUCHE;
-		case "ROTDROITE":
+		case "rd":
 			type = TypeDeplacement.ROTDROITE;
 		}
 		return type;
+	}
+	
+	@Override
+	public String toString(){
+		return name;
 	}
 }
