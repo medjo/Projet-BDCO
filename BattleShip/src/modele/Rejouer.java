@@ -9,17 +9,28 @@ public class Rejouer{
 	private ArrayList<InfoPartie> listeParties;
 	private int numTour;
 	
-	public Rejouer(TheConnection theConnection){
+	
+	//TESTE
+	public Rejouer(){
 		numTour=0;
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties");
+		this.listeParties=new ArrayList<InfoPartie>();
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties");
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
+			int i=0;
 			while(res.next()){
-				listeParties.add(new InfoPartie(theConnection, res.getInt(1), res.getDate(2), res.getBoolean(3)));
+				System.out.println(res.getInt(1)+"-"+res.getDate(2)+"-"+res.getInt(3));
+				
+				listeParties.add(new InfoPartie(res.getInt(1), res.getDate(2), res.getInt(3)));
+				
+				
+				
+				
 			}
+			System.out.println("Le nombre de partie est:"+i);
 		} catch (Exception e) {
-			
+			e.printStackTrace(System.err);
 		}
 		
 		req.close();
@@ -27,10 +38,10 @@ public class Rejouer{
 		
 	}
 	
-	
+	/*
 	public void voirPartie(String idPartie) {
 		Historique h = new Historique(idPartie); //On instancie l'historique sélectionné
-	}
+	}*/
 	/*Lien avec l'interface graphique: 
 	 * -> lorsque l'on entre dans la fenêtre de l'historique on a la liste des parties qui s'affiche.
 	 * -> si on veut voir une partie on appel la méthode, si on veut rafaichir on appel la meme méthode

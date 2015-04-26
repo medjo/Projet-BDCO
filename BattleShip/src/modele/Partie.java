@@ -19,7 +19,6 @@ public class Partie {
 	private int idPartie;
 	private int numTour;
 	private String vainqueur;
-	Utilisateur user;
 	String pseudoAdversaire;
 	private ArrayList<Ship> bateauxCourants;
 	
@@ -32,7 +31,7 @@ public class Partie {
 	//Selectionne toutes les parties que l'on a déjà commencée
 	public ArrayList<InfoPartie> partiesDebutees() {
 		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants WHERE finie=0 AND (joueur1 ='"+user.getPseudo()+"' OR joueur2='"+user.getPseudo()+"')");
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants WHERE finie=0 AND (joueur1 ='"+BattleShip.user.getPseudo()+"' OR joueur2='"+BattleShip.user.getPseudo()+"')");
 		//SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN joueurs WHERE finie=0 AND pseudo ='"+user.getPseudo()+"'");
 		
 		//Le résultat devrait donner une table de colonnes: idPartie/debut/finie/pseudo/pseudo
@@ -56,13 +55,18 @@ public class Partie {
 	//Méthode testée avec la BD
 	//Sélectionne l'adversaire
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs) throws ExceptionNoAdv{
-		if(listeJoueurs.isEmpty()) {
+		if(listeJoueurs.isEmpty()||listeJoueurs.get(1)==null) {
 			throw new ExceptionNoAdv();
 		}
 		
 		int i=0;
 		idJoueur joueurMin;
-		joueurMin = listeJoueurs.get(0);
+		if(listeJoueurs.get(0).getPseudo().equals(BattleShip.user.getPseudo())){
+			joueurMin = listeJoueurs.get(1);
+		}
+		else {
+			joueurMin = listeJoueurs.get(0);
+		}
 		System.out.println("taille de la liste"+listeJoueurs.size());
 		while(i<listeJoueurs.size()){
 			System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
@@ -124,7 +128,7 @@ public class Partie {
 
 		try{
 			req.getStatement().setInt(1,this.idPartie);
-			req.getStatement().setString(2,this.user.getPseudo());
+			req.getStatement().setString(2,BattleShip.user.getPseudo());
 			req.getStatement().setString(3,this.pseudoAdversaire);
 			req.execute();
 			} catch (Exception e) {
@@ -241,7 +245,7 @@ public class Partie {
 			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 			try {
 				req.getStatement().setInt(1, this.idPartie);
-				req.getStatement().setString(2, this.user.getPseudo());
+				req.getStatement().setString(2, BattleShip.user.getPseudo());
 				req.getStatement().setInt(3, bateaui.getIdBateau());
 				req.getStatement().setInt(4, bateaui.getTailleBateau());
 				req.getStatement().setInt(5, bateaui.getTailleBateau());
@@ -275,9 +279,9 @@ public class Partie {
 		ActionFactory fabrique = new ActionFactory();
 		for(Action action: listeActions){
 			//Application des actions dans la BD
-			
 			action.execute();
 			action.save();
+
 		}
 		try{
 			BattleShip.theConnection.getConnection().commit(); //On ne commit qu'à la fin
@@ -303,7 +307,7 @@ public class Partie {
 			ResultSet res1 = req1.getResult();
 			res1.next();
 			if(res1.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
-				this.vainqueur=this.user.getPseudo();
+				this.vainqueur=BattleShip.user.getPseudo();
 				ok1= true; }
 			else {
 				ok1= false;
@@ -317,7 +321,7 @@ public class Partie {
 		
 		//On test maintenant si nos bateaux ne sont pas tous morts
 		ShipsFactory fabrique = new ShipsFactory();
-		ArrayList<Ship> myShips=fabrique.Ships(this.idPartie, this.user.getPseudo());
+		ArrayList<Ship> myShips=fabrique.Ships(this.idPartie, BattleShip.user.getPseudo());
 		int i=0;
 		while(i<myShips.size()){
 			if(myShips.get(i).etat!=0) ok2=false;
@@ -367,7 +371,7 @@ public class Partie {
 		ResultSet res = req.getResult();
 		res.next();
 		//System.err.println("ya un pb");
-		if(res.getString(1).equals(this.user.getPseudo())) {System.err.println(res.getString(2)); return res.getString(2);}
+		if(res.getString(1).equals(BattleShip.user.getPseudo())) {System.err.println(res.getString(2)); return res.getString(2);}
 		else { /*System.err.println(res.getString(1));System.err.println(res.getString(2));System.err.println(user.getPseudo());*/ return res.getString(1);}
 		}
 		catch (Exception e){
@@ -378,5 +382,9 @@ public class Partie {
 	
 	public int getIdPartie(){
 		return this.idPartie;
+	}
+	
+	public String getPseudoAdv(){
+		return this.pseudoAdversaire;
 	}
 }

@@ -34,24 +34,26 @@ public class Tir extends Action{
 	@Override
 	public void save() {
 		//System.out.println("save");
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, idBateau, nTour, nAction, x, y, type)"
-				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?)");
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, pseudo, idBateau, nTour, nAction, x, y, type)"
+				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
 		try {
 			System.out.println(getIdPartie());
 			req.getStatement().setInt(1, getIdPartie());
+			System.out.println(BattleShip.user.getPseudo());
+			req.getStatement().setString(2, BattleShip.user.getPseudo());
 			System.out.println(getIdBateau());
-			req.getStatement().setInt(2, getIdBateau());
+			req.getStatement().setInt(3, getIdBateau());
 			System.out.println(getNTour());
-			req.getStatement().setInt(3, getNTour());
+			req.getStatement().setInt(4, getNTour());
 			System.out.println(getNAction());
-			req.getStatement().setInt(4, getNAction());
+			req.getStatement().setInt(5, getNAction());
 			System.out.println(this.x);
-			req.getStatement().setInt(5, x);
+			req.getStatement().setInt(6, this.x);
 			System.out.println(this.y);
-			req.getStatement().setInt(6, y);
+			req.getStatement().setInt(7, this.y);
 
 			//System.out.println(getIdPartie());
-			req.getStatement().setString(7, "Tir");
+			req.getStatement().setString(8, "tir");
 
 			
 		} catch (SQLException e1) {

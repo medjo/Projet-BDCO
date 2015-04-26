@@ -16,13 +16,11 @@ public class ControleurPartie {
 	//Pour créer une nouvelle partie
 	public static void lancerNouvellePartie() throws ExceptionNoAdv{
 		BattleShip.partie = new Partie();
-		int idPartie = BattleShip.partie.getIdDernierePartie();
-		//Maintenant il faut construire la liste des joueurs pas entrain de jouer
-		ArrayList<idJoueur>listeJoueurs=BattleShip.partie.getListeJoueurs();
-		//On sélectionne l'adversaire
-		idJoueur adv = BattleShip.partie.selectionnerAdv(listeJoueurs);
 		//On crée la partie
-		BattleShip.partie.creerNouvellePartie(idPartie);
+		BattleShip.partie.creerNouvellePartie();
+		//On sélectionne l'adversaire
+		idJoueur adv = BattleShip.partie.selectionnerAdv(BattleShip.partie.getListeJoueurs());
+		BattleShip.partie.ajouterParticipants(adv.getPseudo());
 	}
 	
 	//Prepare for battle

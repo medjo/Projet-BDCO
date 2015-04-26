@@ -27,21 +27,28 @@ public class InfoPartie {
 		this.vainqueur=vainqueur;
 	}
 	
-	public InfoPartie(TheConnection theConnection, int idPartie, Date date, Boolean fini){
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM vainqueurs NATURAL JOIN participants WHERE idpartie='"+idPartie+"'");
+	public InfoPartie(int idPartie, Date date, int fini){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM participants WHERE idpartie='"+idPartie+"'");
+		SimpleQuery req2 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM vainqueurs WHERE idpartie='"+idPartie+"'");
 		
 		try{
 			req.execute();
+			req2.execute();
 			ResultSet res = req.getResult();
-			this.idPartie=idPartie;
-			this.date=date;
-			res.next();
-			this.pseudo1=res.getString(3);
-			this.vainqueur=res.getString(2);
-			res.next();
-			this.pseudo2=res.getString(3);
-		} catch (Exception e) {
-			
+			ResultSet res2 = req.getResult();
+			if(res.next()){
+				this.idPartie=idPartie;
+				this.date=date;
+				this.pseudo1=res.getString("joueur1");
+				this.pseudo2=res.getString("joueur2");
+				System.out.println(" "+idPartie+date+this.pseudo1+this.pseudo2);
+				if(res2.next()){
+					this.vainqueur=res2.getString("pseudo");
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("erreur");
+			e.printStackTrace(System.err);
 		}
 		
 		req.close();
