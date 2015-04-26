@@ -134,8 +134,8 @@ public class BattleShip {
 		
 		//Test de la méthode de placement des bateaux initiaux
 		ArrayList<Ship> batInit= new ArrayList<Ship>();
-		batInit.add(0, new Escorteur(5,5,"N",56));
-		batInit.add(1, new Destroyer(4,3,"S",57));
+		batInit.add(0, new Escorteur(5,5,"n",56));
+		batInit.add(1, new Destroyer(4,3,"s",57));
 		/*batInit.add(2, new Escorteur(8,6,"E",56));
 		batInit.add(3, new Escorteur(2,1,"O",56));
 		batInit.add(4, new Destroyer(6,5,"N",56));
@@ -167,13 +167,56 @@ public class BattleShip {
 		
 		
 		//Test de l'action de déplacement
-		Deplacement dep = new Deplacement(0, 1070, "Mordokkai", 0, 0, TypeDeplacement.ROTDROITE);
+		//Test rotation
+		Deplacement dep = new Deplacement(0, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.ROTDROITE);
 		try{
 			dep.execute();
 		}catch(Exception e){System.out.println("pb");}
 		//BattleShip.theConnection.rollbackPerso();
 		BattleShip.theConnection.getConnection().commit();
 		
+		
+		
+		//TESTS DES DEPLACEMENTS
+		//Test de recul
+		Deplacement dep2 = new Deplacement(0, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.RECULER);
+		try{
+			//dep2.execute();
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("pb lors de l'execute");}
+		//BattleShip.theConnection.rollbackPerso();
+		BattleShip.theConnection.getConnection().commit();
+		
+		Deplacement dep3 = new Deplacement(1, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.ROTGAUCHE);
+		try{
+			//dep3.execute();
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("pb lors de l'execute");}
+		//BattleShip.theConnection.rollbackPerso();
+		BattleShip.theConnection.getConnection().commit();
+		
+		Deplacement dep4 = new Deplacement(1, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.AVANCER);
+		try{
+			//dep4.execute();
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("pb lors de l'execute");}
+		//BattleShip.theConnection.rollbackPerso();
+		BattleShip.theConnection.getConnection().commit();
+		
+		//Test de la sauvegarde du déplacement
+		try {
+			dep4.save();
+		} catch (ExceptionDeplacement e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	
 	}
+	
+	
 		
 }
