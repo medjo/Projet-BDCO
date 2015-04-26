@@ -213,7 +213,7 @@ public class BattleShip {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+		BattleShip.theConnection.getConnection().commit();
 	
 	}
 	
