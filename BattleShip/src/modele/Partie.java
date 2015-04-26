@@ -416,4 +416,18 @@ public class Partie {
 	public void setAdv(String adv){
 		this.pseudoAdversaire=adv;
 	}
+	
+	public int getNumeroDernierTour(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(nTour) FROM parties NATURAL JOIN actions WHERE idPartie="+this.idPartie);
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getInt(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème dans la récupération du dernier indice de tour");
+			return 0;
+		}
+	}
 }

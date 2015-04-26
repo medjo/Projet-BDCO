@@ -81,14 +81,14 @@ public class ControleurPartie {
 	
 	
 	//Méthode de début de tour: elle set l'arraylist de bateauxCourants du joueur
-	public void debutTour(){
+	public static void debutTour(){
 		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
 	}
 	
 	
 	
 	//Méthode qui dit si je peux encore jouer une action
-	public boolean controleurNbActions(int idBateau){
+	public static boolean controleurNbActions(int idBateau){
 		ArrayList<Ship> myShips=BattleShip.partie.getBateauxCourants();
 		for(Ship s:myShips){
 			if(s.getIdBateau()==idBateau){	//Si on tombe sur le bon bateau
@@ -103,12 +103,12 @@ public class ControleurPartie {
 			
 	//Méthode pour reprendre une partie déjà commencée
 	//Elle doit setter les paramètres de la partie
-	public void reprendrePartie(int idPartie, int num,String adv ){
+	public static void reprendrePartie(int idPartie, String adv ){
 		BattleShip.partie.setIdPartie(idPartie);
-		BattleShip.partie.setNumTour(num);
+		BattleShip.partie.setNumTour(BattleShip.partie.getNumeroDernierTour());
+		//System.out.println("NumDernierTour"+BattleShip.partie.getNumeroDernierTour());
 		BattleShip.partie.setAdv(adv);
 		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
-		
 	}
 	
 	

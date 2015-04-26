@@ -44,6 +44,47 @@ public class BattleShip {
 				"sylvain", 14, 02 , 1994,
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");*/
 		
+		//Test de la reprise d'une partie
+		
+		try {
+			ControleurConnexion.connexion("Sylvain");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		ControleurPartie.reprendrePartie(32, "Rubixbob");
+		//Affichage du tour récupéré
+		ArrayList<Ship> shipRec=BattleShip.partie.getBateauxCourants();
+		System.out.println("Pb");
+		for(Ship s:shipRec){
+			System.out.println("Bateau: "+s.idBateau+"X:"+s.x+"Y:"+s.y+"Etat"+s.etat+"Taille:"+s.taille+"Pseudo"+s.pseudo);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		
 		
 		try {
 			ControleurConnexion.connexion("Sylvain");
@@ -61,6 +102,9 @@ public class BattleShip {
 			e1.printStackTrace();
 		}
 		
+		
+		
+		/*
 		ArrayList<Ship> batInit= new ArrayList<Ship>();
 		batInit.add(0, new Escorteur(5,5,"n",0));
 		batInit.add(1, new Destroyer(4,3,"s",1));
