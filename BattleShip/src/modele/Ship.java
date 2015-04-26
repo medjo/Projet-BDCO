@@ -67,10 +67,10 @@ public abstract class Ship {
 	
 	//TODO a supprimer pour réutiliser la méthode dans Direction
 	public String getDirBateauString() {
-		if(this.dir==Direction.NORD) return "N";
-		else if(this.dir==Direction.SUD) return "S";
-		else if(this.dir==Direction.EST) return "E";
-		else return "O";
+		if(this.dir==Direction.NORD) return "n";
+		else if(this.dir==Direction.SUD) return "s";
+		else if(this.dir==Direction.EST) return "e";
+		else return "o";
 	}
 	public int getCoupsBateau(){
 		return this.coups;
