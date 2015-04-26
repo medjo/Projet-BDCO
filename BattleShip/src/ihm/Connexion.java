@@ -184,8 +184,12 @@ public class Connexion extends JFrame {
 		btnNewButton_4.setBounds(15, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
-		JButton btnNewButton_7 = new JButton("Nord");
-		btnNewButton_7.setBounds(325, 30, 70, 25);
+		JButton btnNewButton_7 = new JButton("Λ");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_7.setBounds(355, 30, 45, 25);
 		PrepareBataille.add(btnNewButton_7);
 		
 		JButton btnNewButton_8 = new JButton("<");
@@ -194,16 +198,16 @@ public class Connexion extends JFrame {
 			}
 		});
 		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewButton_8.setBounds(300, 67, 45, 30);
+		btnNewButton_8.setBounds(330, 60, 45, 30);
 		PrepareBataille.add(btnNewButton_8);
 		
-		JButton btnNewButton_9 = new JButton("Sud");
-		btnNewButton_9.setBounds(325, 110, 70, 25);
+		JButton btnNewButton_9 = new JButton("v");
+		btnNewButton_9.setBounds(355, 95, 45, 25);
 		PrepareBataille.add(btnNewButton_9);
 		
 		JButton button = new JButton(">");
 		button.setFont(new Font("Dialog", Font.BOLD, 10));
-		button.setBounds(370, 67, 45, 30);
+		button.setBounds(385, 60, 45, 30);
 		PrepareBataille.add(button);
 		
 		JButton btnQuitter_1 = new JButton("Quitter");
