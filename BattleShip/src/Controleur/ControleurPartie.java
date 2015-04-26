@@ -3,6 +3,8 @@ import modele.*;
 
 import java.util.ArrayList;
 
+import oracle.sql.TypeDescriptor;
+
 import modele.BattleShip;
 import modele.ExceptionNoAdv;
 import modele.InfoPartie;
@@ -11,6 +13,7 @@ import modele.TirOutOfBound;
 import modele.structInfoPlacementBateau;
 import modele.Utilisateur;
 import modele.idJoueur;
+import modele.TypeDeplacement;
 
 public class ControleurPartie {
 	
@@ -87,6 +90,11 @@ public class ControleurPartie {
 		}
 	}
 	
+	public static Deplacement Deplacement(int idBateau, TypeDeplacement type){
+		//TODO récupération erreur si en dehors de la map
+			return new Deplacement(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction(),type);
+	}
+	
 	
 	
 	
@@ -151,7 +159,22 @@ public class ControleurPartie {
 		
 	}
 	
-	
+	//Méthode qui permet de placer un bateau à l'état initial juste execute et save
+	//TODO catcher les erreurs
+	public static boolean placerBateau(int x, int y, String dir, int taille){
+		if(taille==3){
+			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
+			return true;
+		}
+		else if(taille==2){
+			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
+			return true;
+		}
+		else{
+			System.out.println("Probleme, bateau de taille inconnu.");
+			return false;
+		}
+	}
 	
 	
 	

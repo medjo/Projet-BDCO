@@ -1,6 +1,6 @@
 package modele;
 
-enum TypeDeplacement {
+public enum TypeDeplacement {
 	AVANCER("av"), RECULER("ar"), ROTGAUCHE("rg"), ROTDROITE("rd");
 
 	private String name;

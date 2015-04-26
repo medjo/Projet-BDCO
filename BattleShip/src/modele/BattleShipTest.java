@@ -52,7 +52,7 @@ public class BattleShipTest {
 				 */
 				if(ControleurPartie.reprendreAInit()){
 					System.out.println("L'adversaire a bien positionné ses bateaux. " +
-							"Je peux donc démarrer");
+							"Je peux donc placer mes bateaux");
 					
 				}
 				else{
@@ -65,11 +65,6 @@ public class BattleShipTest {
 			
 			//SUITE DU SCENARIO: A PARTIR DE LA IL Y AURA MODIF DE LA BD
 			
-			//On commence par indiquer que l'on débute le tour (récupération de nos ships depuis la BD
-			ControleurPartie.debutTour();
-			
-			//On exécute et save les actions une par une sans committer pour l'instant
-			Action tir1= new Tir();
 			
 			
 			

@@ -272,6 +272,32 @@ public class Partie {
 		}
 	}
 	
+	//TESTE
+	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
+	public void executerPlacementBateauInitial(Ship batInit){
+		//On enregistre dans la BD le placement des bateaux à l'état initial
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+		try {
+			req.getStatement().setInt(1, this.idPartie);
+			req.getStatement().setString(2, BattleShip.user.getPseudo());
+			req.getStatement().setInt(3, batInit.getIdBateau());
+			req.getStatement().setInt(4, batInit.getTailleBateau());
+			req.getStatement().setInt(5, batInit.getTailleBateau());
+			req.getStatement().setInt(6, batInit.getXBateau());
+			req.getStatement().setInt(7, batInit.getYBateau());
+			req.getStatement().setString(8, batInit.getDirBateauString());
+			req.getStatement().setInt(9, batInit.getXBateau());//valeur initial
+			req.getStatement().setInt(10, batInit.getYBateau());//valeur initial
+			req.getStatement().setString(11, batInit.getDirBateauString());//valeur initial
+			req.execute();
+		} catch (SQLException e1) {
+			BattleShip.theConnection.rollbackPerso();
+			e1.printStackTrace();
+			System.out.println("Problème lors du placement initial du bateau");
+			}
+			req.close();
+	
+		}
 	
 	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
 	public void joueurTour(ArrayList<Action> listeActions){
@@ -503,5 +529,20 @@ public class Partie {
 			return 0;
 		}
 	}
+	
+	public int getDernierNumeroBateau(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idBateau) FROM  bateaux WHERE idPartie="+this.idPartie+"AND pseudo="+BattleShip.user.getPseudo());
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getInt(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
+			return 0;
+		}
 	}
+	
 }
