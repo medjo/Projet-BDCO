@@ -26,7 +26,7 @@ public class BattleShip {
 		req.close();*/
 		
 		//Lancement de l'interface graphique
-		/*EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Connexion frame = new Connexion();
@@ -35,7 +35,7 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});*/
+		});
 		
 		//Test des fonctions de connexions
 		/*
@@ -97,7 +97,7 @@ public class BattleShip {
 		
 		
 		//Exemple de controleur pour la création de partie
-		
+		/*
 		try {
 			ControleurConnexion.connexion("Mordokkai");
 		} catch (UtilisateurInconnuException e1) {
@@ -145,7 +145,7 @@ public class BattleShip {
 		batInit.add(8, new Escorteur(9,9,"N",56));*/
 		
 		//Test si une partie est terminée
-		
+		/*
 		
 		partie.executerPlacementBateauxInitiaux(batInit);
 		if(partie.partieTerminee())
@@ -232,6 +232,7 @@ public class BattleShip {
 			*/	
 		
 		//Test de la récupération de toutes les parties avec leurs participants...
+		/*
 		Rejouer histo = new Rejouer();
 		ArrayList<InfoPartie>liste = histo.getInfoParties();
 		int i=0;
@@ -242,7 +243,7 @@ public class BattleShip {
 			i++;
 		}
 		System.out.println("Nb parties"+i);
-		BattleShip.theConnection.close();
+		BattleShip.theConnection.close();*/
 	}
 	
 	

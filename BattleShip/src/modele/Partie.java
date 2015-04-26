@@ -55,7 +55,7 @@ public class Partie {
 	//Méthode testée avec la BD
 	//Sélectionne l'adversaire
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs) throws ExceptionNoAdv{
-		if(listeJoueurs.isEmpty()||listeJoueurs.get(0).getPseudo()==BattleShip.user.getPseudo()) {
+		if(listeJoueurs.isEmpty()||listeJoueurs.get(1)==null) {
 			throw new ExceptionNoAdv();
 		}
 		
