@@ -10,6 +10,7 @@ public class Rejouer{
 	private int numTour;
 	
 	public Rejouer(TheConnection theConnection){
+		numTour=0;
 		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties");
 		try{
 			req.execute();
@@ -57,7 +58,6 @@ public class Rejouer{
 	public ArrayList<Ship> suivant(TheConnection theConnection, int idPartie){
 		ArrayList <Action> listeActions = new ArrayList <Action>();
 		ArrayList <Ship> listeBateaux = new ArrayList<Ship>();
-		numTour++;
 		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie= ? AND ntour= ?");
 		try {
 			req.getStatement().setInt(1, idPartie);
@@ -81,10 +81,13 @@ public class Rejouer{
 					listeActions.add(new Deplacement(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), TypeDeplacement.createDeplacement(res.getString("direction"))));
 				}
 			}
-			
 			/*execution des actions*/
 			for(Action a : listeActions){
 				a.execute();
+			}
+			/* si le tour a bien été joué on passe au suivant */
+			if(res.first()){
+				numTour++;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -103,6 +106,7 @@ public class Rejouer{
 		
 		/*recupère l'etat des bateaux */
 		listeBateaux = ShipsFactory.allShips(idPartie);
+		
 		return listeBateaux;
 	}
 	
