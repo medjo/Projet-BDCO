@@ -180,10 +180,7 @@ public class Deplacement extends Action{
 			System.out.println("NAction:"+getNAction());
 			req.getStatement().setInt(5, getNAction());
 			System.out.println("X:"+x);
-			//req.getStatement().setInt(6, x);
 			System.out.println("Y:"+y);
-			//req.getStatement().setInt(7, y);
-			//System.out.println("idpartie:"+type.toString());
 			req.getStatement().setString(6, "dep");
 			System.out.println("Mouv:"+type.toString());
 			req.getStatement().setString(7, type.toString());

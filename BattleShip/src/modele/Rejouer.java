@@ -9,16 +9,27 @@ public class Rejouer{
 	private ArrayList<InfoPartie> listeParties;
 	private int numTour;
 	
-	public Rejouer(TheConnection theConnection){
-		SimpleQuery req = new SimpleQuery(theConnection.getConnection(),"SELECT * FROM parties");
+	
+	//TESTE
+	public Rejouer(){
+		this.listeParties=new ArrayList<InfoPartie>();
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties");
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
+			int i=0;
 			while(res.next()){
-				listeParties.add(new InfoPartie(theConnection, res.getInt(1), res.getDate(2), res.getBoolean(3)));
+				System.out.println(res.getInt(1)+"-"+res.getDate(2)+"-"+res.getInt(3));
+				
+				listeParties.add(new InfoPartie(res.getInt(1), res.getDate(2), res.getInt(3)));
+				
+				
+				
+				
 			}
+			System.out.println("Le nombre de partie est:"+i);
 		} catch (Exception e) {
-			
+			e.printStackTrace(System.err);
 		}
 		
 		req.close();

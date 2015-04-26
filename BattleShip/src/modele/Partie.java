@@ -56,13 +56,18 @@ public class Partie {
 	//Méthode testée avec la BD
 	//Sélectionne l'adversaire
 	public idJoueur selectionnerAdv(ArrayList<idJoueur> listeJoueurs) throws ExceptionNoAdv{
-		if(listeJoueurs.isEmpty()) {
+		if(listeJoueurs.isEmpty()||listeJoueurs.get(0).getPseudo()==BattleShip.user.getPseudo()) {
 			throw new ExceptionNoAdv();
 		}
 		
 		int i=0;
 		idJoueur joueurMin;
-		joueurMin = listeJoueurs.get(0);
+		if(listeJoueurs.get(0).getPseudo()==BattleShip.user.getPseudo()){
+			joueurMin = listeJoueurs.get(1);
+		}
+		else {
+			joueurMin = listeJoueurs.get(0);
+		}
 		System.out.println("taille de la liste"+listeJoueurs.size());
 		while(i<listeJoueurs.size()){
 			System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());

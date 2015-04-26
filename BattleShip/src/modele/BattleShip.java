@@ -168,18 +168,18 @@ public class BattleShip {
 		
 		//Test de l'action de déplacement
 		//Test rotation
-		Deplacement dep = new Deplacement(0, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.ROTDROITE);
+		/*Deplacement dep = new Deplacement(0, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.ROTDROITE);
 		try{
 			dep.execute();
 		}catch(Exception e){System.out.println("pb");}
 		//BattleShip.theConnection.rollbackPerso();
-		BattleShip.theConnection.getConnection().commit();
+		BattleShip.theConnection.getConnection().commit();*/
 		
 		
 		
 		//TESTS DES DEPLACEMENTS
 		//Test de recul
-		Deplacement dep2 = new Deplacement(0, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.RECULER);
+	/*	Deplacement dep2 = new Deplacement(0, partie.getIdPartie(), "Mordokkai", 0, 0, TypeDeplacement.RECULER);
 		try{
 			//dep2.execute();
 		}catch(Exception e){
@@ -204,17 +204,17 @@ public class BattleShip {
 			e.printStackTrace();
 			System.out.println("pb lors de l'execute");}
 		//BattleShip.theConnection.rollbackPerso();
-		BattleShip.theConnection.getConnection().commit();
+		BattleShip.theConnection.getConnection().commit();*/
 		
 		//Test de la sauvegarde du déplacement
-		try {
+		/*try {
 			dep4.save();
 		} catch (ExceptionDeplacement e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		BattleShip.theConnection.getConnection().commit();
-		
+		BattleShip.theConnection.getConnection().commit();*/
+		/*
 		try {
 			Tir tir2 = new Tir(0,1231,"Mordokkai",0,1,4,3);
 			try {
@@ -229,9 +229,20 @@ public class BattleShip {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
+			*/	
 		
-	
+		//Test de la récupération de toutes les parties avec leurs participants...
+		Rejouer histo = new Rejouer();
+		ArrayList<InfoPartie>liste = histo.getInfoParties();
+		int i=0;
+		for(InfoPartie a:liste){
+			System.out.println("x");
+			System.out.println(a.getId()+" "+a.getPseudo1()+" "+a.getPseudo2()+" "+a.getDate());
+			if (a.getVainqueur()!=null)System.out.println(a.getVainqueur());
+			i++;
+		}
+		System.out.println("Nb parties"+i);
+		BattleShip.theConnection.close();
 	}
 	
 	
