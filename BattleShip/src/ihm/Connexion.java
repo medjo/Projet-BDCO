@@ -201,7 +201,7 @@ public class Connexion extends JFrame {
 		btnNewButton_8.setBounds(330, 60, 45, 30);
 		PrepareBataille.add(btnNewButton_8);
 		
-		JButton btnNewButton_9 = new JButton("v");
+		JButton btnNewButton_9 = new JButton("V");
 		btnNewButton_9.setBounds(355, 95, 45, 25);
 		PrepareBataille.add(btnNewButton_9);
 		
