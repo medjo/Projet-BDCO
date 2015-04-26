@@ -32,7 +32,7 @@ public abstract class Action {
 	 * @param theConnection
 	 * @throws ExceptionDeplacement 
 	 */
-	public abstract void save() throws ExceptionDeplacement;
+	public abstract void save();
 	
 	public int getIdBateau(){
 		return idBateau;

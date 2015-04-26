@@ -152,7 +152,7 @@ public class Deplacement extends Action{
 			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			System.out.println("pb lors de l'execute du déplacement");
+			System.out.println("pb lors de creation de requete du déplacement");
 			e1.printStackTrace();
 		}
 		
@@ -193,7 +193,8 @@ public class Deplacement extends Action{
 		try {
 		req.execute();
 		} catch (Exception e) {
-			throw new ExceptionDeplacement();
+			System.out.println("pb lors de la sauvgarde du déplacement");
+			e.printStackTrace();
 		}
 		req.close();
 		

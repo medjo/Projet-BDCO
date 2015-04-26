@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import modele.BattleShip;
 import modele.ExceptionNoAdv;
 import modele.InfoPartie;
+import modele.TirMissed;
 import modele.structInfoPlacementBateau;
 import modele.Utilisateur;
 import modele.idJoueur;
@@ -36,34 +37,33 @@ public class ControleurPartie {
 	}
 	
 	
+
 	//Méthode qui retourne true si c'est à mon tour de jouer
 	public boolean rafraichir(){
 		return BattleShip.partie.aMoiDeJouer();
 		
 	}
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	/**
+	 * execute et sauve l'action et préviens l'ihm si l'action est valide
+	 * @param action
+	 * @return true si l'action est valide, false si elle ne respecte pas les contraintes
+	 * @throws TirMissed exception tirMissed pour prévenir l'IHM
+	 */
+	public static boolean jouerAction(Action action) throws TirMissed{
+		try{
+			action.execute();
+		}
+		catch(ExceptionDeplacement e){
+			return false;
+		}
+		/* si il n'y a pas d'exception on enregistre l'action */
+		action.save();
+		return true;
+	}
+
 	
 	
 	

@@ -235,7 +235,7 @@ public class BattleShip {
 		//Test si une partie est terminée
 		/*
 		
-		partie.executerPlacementBateauxInitiaux(batInit);
+/*		partie.executerPlacementBateauxInitiaux(batInit);
 		if(partie.partieTerminee())
 			System.out.println("La partie est terminée");
 		else

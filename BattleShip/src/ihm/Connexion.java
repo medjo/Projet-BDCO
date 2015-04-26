@@ -32,6 +32,7 @@ public class Connexion extends JFrame {
 	private JPanel ChercheAdv;
 	private JPanel PrepareBataille;
 	private JPanel Jouer;
+	private JPanel pan;
 	private JTextField pseudo;
 	private JTextField nom;
 	private JTextField prenom;
@@ -183,8 +184,12 @@ public class Connexion extends JFrame {
 		btnNewButton_4.setBounds(15, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
-		JButton btnNewButton_7 = new JButton("Nord");
-		btnNewButton_7.setBounds(325, 30, 70, 25);
+		JButton btnNewButton_7 = new JButton("Λ");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_7.setBounds(355, 30, 45, 25);
 		PrepareBataille.add(btnNewButton_7);
 		
 		JButton btnNewButton_8 = new JButton("<");
@@ -193,16 +198,16 @@ public class Connexion extends JFrame {
 			}
 		});
 		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewButton_8.setBounds(300, 67, 45, 30);
+		btnNewButton_8.setBounds(330, 60, 45, 30);
 		PrepareBataille.add(btnNewButton_8);
 		
-		JButton btnNewButton_9 = new JButton("Sud");
-		btnNewButton_9.setBounds(325, 110, 70, 25);
+		JButton btnNewButton_9 = new JButton("V");
+		btnNewButton_9.setBounds(355, 95, 45, 25);
 		PrepareBataille.add(btnNewButton_9);
 		
 		JButton button = new JButton(">");
 		button.setFont(new Font("Dialog", Font.BOLD, 10));
-		button.setBounds(370, 67, 45, 30);
+		button.setBounds(385, 60, 45, 30);
 		PrepareBataille.add(button);
 		
 		JButton btnQuitter_1 = new JButton("Quitter");
@@ -215,35 +220,12 @@ public class Connexion extends JFrame {
 		btnQuitter_1.setBounds(232, 235, 188, 25);
 		PrepareBataille.add(btnQuitter_1);
 		
-		TabModel modele= new TabModel(); 
-		table = new JTable(modele);
-		table.setBounds(12, 12, 287, 211);
 		
-		PrepareBataille.add(table);
-		
-		
-		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
+		//JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
-				boutonChiffresJo1[i][j]= new JMenuBar();
-				boutonChiffresJo1[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
-				JMenu Menu= new JMenu("|__|");
-				JMenuItem Destroyeur = new JMenuItem("Destroyeur");
-				JMenuItem Escorteur = new JMenuItem("Escorteur");
-				Menu.add(Destroyeur);
-				Menu.add(Escorteur);
-				boutonChiffresJo1[i][j].add(Menu);
-				Destroyeur.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
-				Escorteur.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
-				boutonChiffresJo1[i][j].setBounds(i*32, j*22, 32, 22);
-				boutonChiffresJo1[i][j].setBackground(Color.white);
-				PrepareBataille.add(boutonChiffresJo1[i][j]);	
+				Case C = new Case(i, j, 0); 
+				PrepareBataille.add(C.getCell());	
 			}	
 		}
 		Connexion.setVisible(false);
@@ -492,8 +474,6 @@ public class Connexion extends JFrame {
 		btnNewButton_11.setBounds(257, 240, 117, 20);
 		Inscription.add(btnNewButton_11);
 		Inscription.setVisible(false);
-		
-		
 
 //Contenu de l'interface Identification
 		JButton btnConnexion = new JButton("Connexion");

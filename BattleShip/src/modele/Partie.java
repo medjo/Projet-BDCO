@@ -8,7 +8,7 @@ import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
 import modele.ShipsFactory;
-import modele.ActionFactory.infoActionJoueur;
+import modele.ActionFactory.InfoActionJoueur;
 
 
 import java.sql.*;
@@ -274,43 +274,14 @@ public class Partie {
 	
 	
 	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
-	public void joueurTour(ArrayList<infoActionJoueur> infosActions){
+	public void joueurTour(ArrayList<Action> listeActions){
 		int i=0;
 		ActionFactory fabrique = new ActionFactory();
-		
-		try{
-			while(i<infosActions.size()){
-				infoActionJoueur infoi = infosActions.get(i);
-			
-				//Application des actions dans la BD
-				fabrique.actionsJoueur(infosActions,this.idPartie,this.numTour);
-				
-					fabrique.execute();
-					//BattleShip.theConnection.getConnection().commit();
-				
-				//Enregistrement dans la BD de l'action
-				ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO actions VALUES (?,?,?,?,?,?,?,?,?,?)");
-				
-				
-					req.getStatement().setInt(1,idPartie);
-					req.getStatement().setString(2,BattleShip.user.getPseudo());
-					req.getStatement().setInt(3,infoi.idBateau);
-					req.getStatement().setInt(4,this.numTour);
-					req.getStatement().setInt(5,i);
-					req.getStatement().setString(6,infoi.type);
-					req.getStatement().setInt(7,infoi.x);
-					req.getStatement().setInt(8,infoi.y);
-					req.getStatement().setString(9,infoi.typeMouvement);
-					req.getStatement().setString(10,infoi.dir);
-					req.execute();
-						
-			req.close();
-			i++;
-		}
-		}catch(SQLException e){
-			BattleShip.theConnection.rollbackPerso();
-			e.printStackTrace();
-			System.out.println("Problème lors de l'enregistrement des actions du joueur");
+		for(Action action: listeActions){
+			//Application des actions dans la BD
+			action.execute();
+			action.save();
+
 		}
 		try{
 			BattleShip.theConnection.getConnection().commit(); //On ne commit qu'à la fin
