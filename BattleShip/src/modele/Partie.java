@@ -416,4 +416,21 @@ public class Partie {
 	public String getPseudoAdv(){
 		return this.pseudoAdversaire;
 	}
+	
+	
+	//Méthode qui retourne la liste de mes bateaux
+	public ArrayList<Ship> getMyShips(){
+		ShipsFactory fabrique= new ShipsFactory();
+		return fabrique.Ships(idPartie, BattleShip.user.getPseudo());
+	}
+	
+	
+	//Retourne la liste des bateaux courants si elle a déjà étét crée
+	public ArrayList<Ship> getBateauxCourants(){
+		return this.bateauxCourants;
+	}
+	
+	public void setBateauxCourants(ArrayList<Ship> myShips){
+		this.bateauxCourants=myShips;
+	}
 }

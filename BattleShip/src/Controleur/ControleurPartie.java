@@ -36,11 +36,71 @@ public class ControleurPartie {
 	}
 	
 	
+	//Méthode qui retourne true si c'est à mon tour de jouer
+	public boolean rafraichir(){
+		return BattleShip.partie.aMoiDeJouer();
+		
+	}
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//Méthode de début de tour: elle set l'arraylist de bateauxCourants du joueur
+	public void debutTour(){
+		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
+	}
+	
+	
+	
+	//Méthode qui dit si je peux encore jouer une action
+	public boolean controleurNbActions(int idBateau){
+		ArrayList<Ship> myShips=BattleShip.partie.getBateauxCourants();
+		for(Ship s:myShips){
+			if(s.getIdBateau()==idBateau){	//Si on tombe sur le bon bateau
+				if(s.getCoupsBateau()==0)
+					return false;
+				else
+					return true;
+			}
+		}
+		return false; //Au cas où il aurait sélectionné une case qui ne lui appartient pas
+	}
+			
 	
 	
 	
