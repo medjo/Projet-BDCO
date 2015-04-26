@@ -116,7 +116,7 @@ public class Connexion extends JFrame {
 		Inscription.setLayout(null);
 				
 //Contenu de l'interface connexion
-		JLabel lblNewLabel_1 = new JLabel("Vous Souhaitez: ");
+		JLabel lblNewLabel_1 = new JLabel("Bienvenue" + BattleShip.user.getPseudo());
 		lblNewLabel_1.setBounds(164, 51, 130, 15);
 		Connexion.add(lblNewLabel_1);
 				
