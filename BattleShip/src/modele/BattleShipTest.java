@@ -64,10 +64,15 @@ public class BattleShipTest {
 
 			
 			//SUITE DU SCENARIO: A PARTIR DE LA IL Y AURA MODIF DE LA BD
+			System.out.println("Dernier num bateau: "+BattleShip.partie.getDernierNumeroBateau());
+			System.out.println("Placement: "+ControleurPartie.placerBateau(5, 5, "e", 3));
+			System.out.println("Dernier num bateau: "+BattleShip.partie.getDernierNumeroBateau());
+			System.out.println("Placement: "+ControleurPartie.placerBateau(6, 7, "s", 2));
+			System.out.println("Dernier num bateau: "+BattleShip.partie.getDernierNumeroBateau());
+			System.out.println("Placement: "+ControleurPartie.placerBateau(2, 3, "o", 3));
 			
 			
-			
-			
+			BattleShip.theConnection.getConnection().commit();
 			
 			
 			

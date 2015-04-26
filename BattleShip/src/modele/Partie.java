@@ -289,6 +289,7 @@ public class Partie {
 			req.getStatement().setInt(9, batInit.getXBateau());//valeur initial
 			req.getStatement().setInt(10, batInit.getYBateau());//valeur initial
 			req.getStatement().setString(11, batInit.getDirBateauString());//valeur initial
+			System.out.println("On execute");
 			req.execute();
 		} catch (SQLException e1) {
 			BattleShip.theConnection.rollbackPerso();
@@ -531,11 +532,11 @@ public class Partie {
 	}
 	
 	public int getDernierNumeroBateau(){
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idBateau) FROM  bateaux WHERE idPartie="+this.idPartie+"AND pseudo="+BattleShip.user.getPseudo());
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idBateau) FROM  bateaux WHERE idPartie="+this.idPartie+"AND pseudo='"+BattleShip.user.getPseudo()+"'");
 		try{
 		req.execute();
 		ResultSet res = req.getResult();
-		res.next();
+		if(!res.next()) return -1;
 		return res.getInt(1);
 		}
 		catch (Exception e){

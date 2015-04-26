@@ -162,12 +162,16 @@ public class ControleurPartie {
 	//Méthode qui permet de placer un bateau à l'état initial juste execute et save
 	//TODO catcher les erreurs
 	public static boolean placerBateau(int x, int y, String dir, int taille){
+		int idBateau=0;
+		int index = BattleShip.partie.getDernierNumeroBateau();
+		if(index==-1) idBateau=0;
+		else idBateau=index+1;
 		if(taille==3){
-			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
+			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir,idBateau));
 			return true;
 		}
 		else if(taille==2){
-			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
+			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, idBateau));
 			return true;
 		}
 		else{
