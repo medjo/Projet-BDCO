@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import Controleur.ControleurConnexion;
+import Controleur.ControleurPartie;
 
 import java.sql.*;
 
@@ -45,7 +46,7 @@ public class Connexion extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_8;
 	private JTable Carte;
-	private JTextField textField_9;
+	private JTable table;
 	
 
 	/**
@@ -116,18 +117,24 @@ public class Connexion extends JFrame {
 		Inscription.setLayout(null);
 				
 //Contenu de l'interface connexion
-		JLabel lblNewLabel_1 = new JLabel("Bienvenue" + BattleShip.user.getPseudo());
-		lblNewLabel_1.setBounds(164, 51, 130, 15);
-		Connexion.add(lblNewLabel_1);
-				
 		JButton btnNewButton = new JButton("Jouer une partie");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					ControleurPartie.lancerNouvellePartie();
+				} catch (ExceptionNoAdv e1) {
+					// TODO Message erreur
+					System.out.println("Il n'y a pas d'adversaire disponible");
+				}
+				JLabel lblVotre = new JLabel("Votre adversaire " + BattleShip.partie.getPseudoAdv() + " est prêt");
+				lblVotre.setBounds(50, 100, 400, 20);
+				ChercheAdv.add(lblVotre);
+						
 				Connexion.setVisible(false);
 				ChercheAdv.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(125, 102, 230, 25);
+		btnNewButton.setBounds(125, 82, 230, 25);
 		Connexion.add(btnNewButton);
 				
 		JButton btnNewButton_1 = new JButton("Observer une partie");
@@ -137,30 +144,23 @@ public class Connexion extends JFrame {
 				OberservationPartie.setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(125, 154, 230, 25);
+		btnNewButton_1.setBounds(125, 156, 230, 25);
 		Connexion.add(btnNewButton_1);
 				
-		JButton btnNewButton_2 = new JButton("Vous déconnecter");
+		JButton btnNewButton_2 = new JButton("Déconnexion");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Connexion.remove(3);
 				Connexion.setVisible(false);
 				Identification.setVisible(true);
 			}
 		});
-		btnNewButton_2.setBounds(125, 213, 230, 25);
+		btnNewButton_2.setBounds(125, 193, 230, 25);
 		Connexion.add(btnNewButton_2);
 		
-//contenu de l'interface de connexion -> lancer une partie 
-		
-		//Contenu de interface de connexion-> lancer une partie->		
-		JButton btnNewButton_5 = new JButton("Chercher Adversaire");
-		btnNewButton_5.setBounds(125, 70, 200, 25);
-		ChercheAdv.add(btnNewButton_5);
-				
-		textField_9 = new JTextField();
-		textField_9.setBounds(125, 105, 200, 25);
-		ChercheAdv.add(textField_9);
-		textField_9.setColumns(10);
+		JButton btnReprendreUnePartie = new JButton("Reprendre une partie");
+		btnReprendreUnePartie.setBounds(125, 119, 230, 25);
+		Connexion.add(btnReprendreUnePartie);
 		
 		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille
 		JButton btnNewButton_6 = new JButton("Preparer Bataille ");
@@ -172,7 +172,7 @@ public class Connexion extends JFrame {
 		});
 		btnNewButton_6.setBounds(125, 210, 200, 25);
 		ChercheAdv.add(btnNewButton_6);
-				
+		
 		JButton btnNewButton_4 = new JButton("Commencer le jeu");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -180,11 +180,11 @@ public class Connexion extends JFrame {
 				Jouer.setVisible(true);
 			}
 		});
-		btnNewButton_4.setBounds(135, 235, 188, 25);
+		btnNewButton_4.setBounds(15, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
 		JButton btnNewButton_7 = new JButton("Nord");
-		btnNewButton_7.setBounds(323, 30, 70, 25);
+		btnNewButton_7.setBounds(325, 30, 70, 25);
 		PrepareBataille.add(btnNewButton_7);
 		
 		JButton btnNewButton_8 = new JButton("<");
@@ -193,17 +193,33 @@ public class Connexion extends JFrame {
 			}
 		});
 		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewButton_8.setBounds(268, 67, 45, 30);
+		btnNewButton_8.setBounds(300, 67, 45, 30);
 		PrepareBataille.add(btnNewButton_8);
 		
 		JButton btnNewButton_9 = new JButton("Sud");
-		btnNewButton_9.setBounds(311, 110, 70, 25);
+		btnNewButton_9.setBounds(325, 110, 70, 25);
 		PrepareBataille.add(btnNewButton_9);
 		
 		JButton button = new JButton(">");
 		button.setFont(new Font("Dialog", Font.BOLD, 10));
-		button.setBounds(375, 67, 45, 30);
+		button.setBounds(370, 67, 45, 30);
 		PrepareBataille.add(button);
+		
+		JButton btnQuitter_1 = new JButton("Quitter");
+		btnQuitter_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PrepareBataille.setVisible(false);
+				Connexion.setVisible(true);
+			}
+		});
+		btnQuitter_1.setBounds(232, 235, 188, 25);
+		PrepareBataille.add(btnQuitter_1);
+		
+		TabModel modele= new TabModel(); 
+		table = new JTable(modele);
+		table.setBounds(12, 12, 287, 211);
+		
+		PrepareBataille.add(table);
 		
 		
 		JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
@@ -485,6 +501,9 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ControleurConnexion.connexion(txtLogin.getText());
+					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + BattleShip.user.getPseudo());
+					lblNewLabel_1.setBounds(164, 51, 230, 15);
+					Connexion.add(lblNewLabel_1);
 					Connexion.setVisible(true);
 					Identification.setVisible(false);
 				} catch (UtilisateurInconnuException e) {
