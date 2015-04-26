@@ -116,10 +116,6 @@ public class Connexion extends JFrame {
 		Inscription.setLayout(null);
 				
 //Contenu de l'interface connexion
-		JLabel lblNewLabel_1 = new JLabel("Bienvenue" + BattleShip.user.getPseudo());
-		lblNewLabel_1.setBounds(164, 51, 130, 15);
-		Connexion.add(lblNewLabel_1);
-				
 		JButton btnNewButton = new JButton("Jouer une partie");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -143,6 +139,7 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_2 = new JButton("Vous déconnecter");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Connexion.remove(3);
 				Connexion.setVisible(false);
 				Identification.setVisible(true);
 			}
@@ -485,6 +482,9 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ControleurConnexion.connexion(txtLogin.getText());
+					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + BattleShip.user.getPseudo());
+					lblNewLabel_1.setBounds(164, 51, 230, 15);
+					Connexion.add(lblNewLabel_1);
 					Connexion.setVisible(true);
 					Identification.setVisible(false);
 				} catch (UtilisateurInconnuException e) {
