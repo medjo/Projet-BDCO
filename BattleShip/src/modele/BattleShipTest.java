@@ -52,6 +52,15 @@ public class BattleShipTest {
 				 */
 				if(ControleurPartie.reprendreAInit()){
 					System.out.println("L'adversaire a bien positionné ses bateaux");
+					/*
+					 * On vérifie que l'on est le joueur 1
+					 */
+					if(ControleurPartie.rafraichirAction()) {
+						System.out.println("C'est bon l'adversaire a déjà placé ses bateaux, je peux démarrer");
+					}
+					else{
+						System.out.println("Je suis le joueur 2 donc je ne peux pas démarrer");
+					}
 				}
 				else{
 					System.out.println("L'adversaire n'a pas encore fini de placer ses bateaux");

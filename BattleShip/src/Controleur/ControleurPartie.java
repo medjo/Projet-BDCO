@@ -38,13 +38,25 @@ public class ControleurPartie {
 	
 	
 
-	//Méthode qui retourne true si c'est à mon tour de jouer
+	//Méthode qui retourne true si c'est à mon tour de jouer (sauf dans cas init
 	public boolean rafraichir(){
-		return BattleShip.partie.aMoiDeJouer();
-		
+			return BattleShip.partie.aMoiDeJouer();
 	}
 
+	//Méthode qui retourne true si c'est à mon tour de jouer dans le cas du init
+	public boolean rafraichirInit(){
+		return ControleurPartie.reprendreAInit();
+	}
 	
+	//A ne tester que quand il n'y a pas déjà eu d'actions
+	//Méthode qui permet de tester si je dois jouer une action
+	public static boolean rafraichirAction(){
+		//Si l'adv a bien positionné ses bateaux et que je suis joueur 1 
+		if(BattleShip.partie.advAPositionneSesBateaux() && BattleShip.partie.getJoueur1().equals(BattleShip.user.getPseudo())){
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * execute et sauve l'action et préviens l'ihm si l'action est valide

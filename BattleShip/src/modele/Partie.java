@@ -456,7 +456,7 @@ public class Partie {
 	public boolean meAPositionneSesBateaux(){
 		System.out.println(BattleShip.user.getPseudo());
 		System.out.println(this.idPartie);
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie='"+this.idPartie+"' AND pseudo='"+BattleShip.user.getPseudo()+"'");
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie="+this.idPartie+" AND pseudo='"+BattleShip.user.getPseudo()+"'");
 		try{
 		req.execute();
 		ResultSet res = req.getResult();
@@ -467,6 +467,21 @@ public class Partie {
 			System.err.println("Problème dans le test si l'adversaire a positionné ses bateaux");
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public String getJoueur1(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT joueur1 FROM  participants WHERE idPartie="+this.idPartie);
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getString(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du joueur1");
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
