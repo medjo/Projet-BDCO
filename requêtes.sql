@@ -73,6 +73,7 @@ END;
 
 --Frequently Used Commands
 drop table Parties;
+drop trigger trg_check_dates;
 select * from Parties;
 
 --Insertions valides
@@ -217,12 +218,12 @@ CREATE TABLE Bateaux (
 	iDBateau INT,
 	etat INT NOT NULL,
 	taille INT NOT NULL,
-	x INT DEFAULT xI,
-	y INT DEFAULT yI,
-	orientation CHAR DEFAULT orientationI,
 	xI INT NOT NULL,
 	yI INT NOT NULL,
 	orientationI CHAR NOT NULL,
+	x INT,
+	y INT,
+	orientation CHAR,
 	PRIMARY KEY (iDPartie, pseudo, iDBateau),
     FOREIGN KEY (iDPartie) REFERENCES Parties (iDPartie),
     FOREIGN KEY (pseudo) REFERENCES Joueurs (pseudo),
@@ -234,24 +235,87 @@ CREATE TABLE Bateaux (
     	AND (etat BETWEEN 0 AND taille)
     	AND (taille IN (2,3))
     	AND (
-    	(orientationI = 'n' ) AND)
-    	OR ((orientationI = 's' ) AND )
-    	OR ((orientationI = 'e' ) AND )
-    	OR ((orientationI = 'o' ) AND )
+    	((orientationI = 'n' ) AND (y + taille <= 9))
+    	OR ((orientationI = 's' ) AND (y - taille >= 0))
+    	OR ((orientationI = 'e' ) AND (x + taille <= 9))
+    	OR ((orientationI = 'o' ) AND (x - taille >= 0))
+    	)
     )
 );
+
+CREATE OR REPLACE TRIGGER trg_init_bateaux
+BEFORE INSERT OR UPDATE ON Bateaux
+FOR EACH ROW
+DECLARE cnt integer;
+BEGIN
+	IF(:new.orientation IS NULL)
+	THEN
+		IF(:old.orientation IS NULL)
+		THEN
+			:new.orientation := :new.orientationI;
+		ELSE
+			:new.orientation := :old.orientation;
+		END IF;
+	END IF;
+
+	IF(:new.x IS NULL)
+	THEN
+		IF(:old.x IS NULL)
+		THEN
+			:new.x := :new.xI;
+		ELSE
+			:new.x := :old.x;
+		END IF;
+	END IF;
+	
+	IF(:new.y IS NULL)
+	THEN
+		IF(:old.y IS NULL)
+		THEN
+			:new.y := :new.yI;
+		ELSE
+			:new.y := :old.y;
+		END IF;
+	END IF;
+	
+	SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (y = :new.y));
+	IF(cnt > 0)
+	THEN
+		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (x = :new.x));
+		IF(cnt > 0)
+		THEN
+			RAISE_APPLICATION_ERROR( -20003, 'There is already a boat at the same place.');
+		END IF;
+	ELSE
+		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (x = :new.x));
+		IF(cnt > 0)
+		THEN
+			RAISE_APPLICATION_ERROR( -20003, 'Invalid x: BOBAE');
+		END IF;
+	END IF;
+	
+	
+	IF(:new.orientation = 'e')
+	THEN
+		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (orientation = 'e'));
+		IF (cnt > 0)
+		THEN
+			RAISE_APPLICATION_ERROR( -20003, 'Invalid x: BOBAE');
+		END IF;
+	END IF;
+END;
+/
+
 
 --Frequently Used Commands
 drop table Bateaux;
 select * from Bateaux;
 
 --Insertions valides
-INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, etat, taille, x, y, orientation, xI, yI, orientationI) VALUES (1064, 'Mordokkai', 56, 0, 0, 0, 0, 'tir');
-
+INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, etat, taille, x, y, orientation) VALUES (11, 'Mordokkai', 1, 0, 3, 0, 0,'e');
+INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, etat, taille, x, y, orientation) VALUES (11, 'Mordokkai', 2, 0, 3, 0, 0,'e');
 --Insertions invalides
-INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, nTour, nAction,y, type) VALUES (1062, 'ninja58', 56, 0, 0,0, 'tir');
-INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, nTour, nAction, type) VALUES (1062, 'ninja58', 56, 0, 0, 'dep');
-
+INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, etat, taille, x, y, orientation) VALUES (11, 'Mordokkai', 2, 0, 3, 4, 3,'e');
 
 --------------------------------------------------------------------------------
 --Display
@@ -295,6 +359,7 @@ drop table Participants;
 drop table Bateaux;
 drop table Adresses;
 
+select * from participants where idpartie=1062;
 
 --Efface toutes les tables
 --------------------------------------------------------------------------------
@@ -302,5 +367,6 @@ delete from joueurs;
 delete from Parties;
 delete from Vainqueurs;
 delete from Participants;
+delete from Actions;
 delete from Bateaux;
 delete from Adresses;
