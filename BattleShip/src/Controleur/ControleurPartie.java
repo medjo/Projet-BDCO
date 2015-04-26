@@ -101,7 +101,15 @@ public class ControleurPartie {
 		return false; //Au cas où il aurait sélectionné une case qui ne lui appartient pas
 	}
 			
-	
+	//Méthode pour reprendre une partie déjà commencée
+	//Elle doit setter les paramètres de la partie
+	public void reprendrePartie(int idPartie, int num,String adv ){
+		BattleShip.partie.setIdPartie(idPartie);
+		BattleShip.partie.setNumTour(num);
+		BattleShip.partie.setAdv(adv);
+		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
+		
+	}
 	
 	
 }
