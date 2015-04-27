@@ -124,6 +124,7 @@ public class ControleurPartie {
 	//Méthode de début de tour: elle set l'arraylist de bateauxCourants du joueur
 	public static void debutTour(){
 		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
+		BattleShip.partie.actualiserNumTour();
 	}
 	
 	
@@ -211,7 +212,6 @@ public class ControleurPartie {
 	public static void validerTour(){
 		try {
 			BattleShip.theConnection.getConnection().commit();
-			BattleShip.partie.incrNumTour();
 		} catch (SQLException e) {
 			System.err.println("erreur lors du commit des actions");
 			e.printStackTrace();
@@ -257,6 +257,7 @@ public class ControleurPartie {
 		if(BattleShip.partie.meAPositionneSesBateaux() && BattleShip.partie.advAPositionneSesBateaux() && !BattleShip.partie.aucuneAction() && BattleShip.partie.aMoiDeJouer()) {
 			//Si les 2 joueurs ont placé leurs bateaux et que c'est à moi de jouer
 			tour.tour=true;
+			System.out.println("isiciicici");
 		}
 		return tour;
 	}

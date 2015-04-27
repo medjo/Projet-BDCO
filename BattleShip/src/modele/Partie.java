@@ -555,6 +555,17 @@ public class Partie {
 	}
 
 			
-
+	public void actualiserNumTour() {
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(nTour) FROM actions WHERE idPartie="+this.idPartie);
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+			if(res.next()) this.numTour=res.getInt(1)+1;
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.sql.*;
 import java.util.ArrayList;
 
+import javax.swing.DebugGraphics;
+
 import jdbc.*;
 import Controleur.ControleurConnexion;
 import Controleur.ControleurHistorique;
@@ -40,8 +42,8 @@ public class BattleShip {
 			}
 		});*/
 		
-		BattleShip.rejouer=new Rejouer();
-		System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
+		//BattleShip.rejouer=new Rejouer();
+		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
 		
 		//Test des fonctions de connexions
 		/*
@@ -171,7 +173,7 @@ public class BattleShip {
 		
 		ControleurPartie.validerTour();
 		*/
-		/*
+
 		try {
 			ControleurConnexion.connexion("Sylvain");
 		} catch (UtilisateurInconnuException e) {
@@ -183,9 +185,18 @@ public class BattleShip {
 		BattleShip.user=user;
 		
 		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Rubixbob");
+		ControleurPartie.debutTour();
 		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
-		*/
 		
+		ControleurPartie.debutTour();
+		try {
+			ControleurPartie.jouerAction(ControleurPartie.Tir(0, 5, 5));
+		} catch (TirMissed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ControleurPartie.validerTour();
 		/*
 		try {
 			ControleurPartie.lancerNouvellePartie();
