@@ -12,16 +12,13 @@ public class Case{
 		private int y; 
 		private JMenuBar cell;
 		private JMenu menu;
-<<<<<<< HEAD
-		private int type; 
-=======
 		private int type;
 		private JMenuItem destroyeur;
 		private JMenuItem escorteur;
 		private JMenuItem supprimer;
 		private Case[][] map;
 		private boolean pivot;
->>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
+
 		
 		public Case(int xx, int yy, int typee, Case[][] mapp){
 			this.x = xx;
@@ -79,8 +76,7 @@ public class Case{
 			return cell;
 		}
 		
-<<<<<<< HEAD
-=======
+
 		public void setType(int typee){
 			if (typee == 0) {
 				this.type = typee;
@@ -107,5 +103,4 @@ public class Case{
 			menu.add(destroyeur);
 			menu.add(escorteur);
 		}
->>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
 }

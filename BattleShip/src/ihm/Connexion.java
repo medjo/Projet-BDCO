@@ -225,19 +225,13 @@ public class Connexion extends JFrame {
 		PrepareBataille.add(btnQuitter_1);
 		
 		
-<<<<<<< HEAD
-		for (int i=0; i<10; i++){
-			for (int j=0; j<10; j++){
-				Case c = new Case(i, j, 0); 
-				PrepareBataille.add(c.getCell());	
-=======
+
 		Case[][] map = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map);
 				map[i][j]=C;
 				PrepareBataille.add(C.getCell());	
->>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
 			}	
 		}
 		Connexion.setVisible(false);
