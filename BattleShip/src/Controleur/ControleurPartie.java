@@ -195,18 +195,6 @@ public class ControleurPartie {
 	 * @param typeDep type de deplacement (av, ar rd, rg)
 	 * @return true si l'action est valide, false si elle ne respecte pas les contraintes
 	 */
-	public static boolean jouerDeplacement(int idBateau, TypeDeplacement typeDep){
-		Deplacement dep = new Deplacement(idBateau, BattleShip.partie.getIdPartie(), BattleShip.user.getPseudo(), BattleShip.partie.getNTour(), BattleShip.partie.getNAction(), typeDep);
-		try{
-			dep.execute();
-			dep.save();
-		}
-		catch(ExceptionDeplacement e){
-			return false;
-		}
-		/* si il n'y a pas d'exception on enregistre l'action */
-		return true;
-	}
 	
 	
 }

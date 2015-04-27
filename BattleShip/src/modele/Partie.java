@@ -17,7 +17,7 @@ import java.sql.*;
 
 public class Partie {
 	private int idPartie;
-	private int nTour;
+	private int numTour;
 	private int nAction;
 	private String vainqueur;
 	String pseudoAdversaire;
@@ -273,9 +273,9 @@ public class Partie {
 		}
 	}
 	
-<<<<<<< HEAD
-	/*
-=======
+
+	
+
 	//TESTE
 	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
 	public void executerPlacementBateauInitial(Ship batInit){
@@ -303,8 +303,8 @@ public class Partie {
 			req.close();
 	
 		}
-	
->>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
+	/*
+
 	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
 	public void joueurTour(ArrayList<Action> listeActions){
 		int i=0;
@@ -425,15 +425,8 @@ public class Partie {
 	public String getPseudoAdv(){
 		return this.pseudoAdversaire;
 	}
-<<<<<<< HEAD
 
-	public int getNTour() {
-		return nTour;
-	}
 
-	public void setNTour(int nTour) {
-		this.nTour = nTour;
-	}
 
 	public int getNAction() {
 		return nAction;
@@ -442,8 +435,7 @@ public class Partie {
 	public void setNAction(int nAction) {
 		this.nAction = nAction;
 	}
-=======
-	
+
 	
 	//Méthode qui retourne la liste de mes bateaux
 	public ArrayList<Ship> getMyShips(){
@@ -558,10 +550,10 @@ public class Partie {
 	public int getDernierNumeroBateau(){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idBateau) FROM  bateaux WHERE idPartie="+this.idPartie+"AND pseudo='"+BattleShip.user.getPseudo()+"'");
 		try{
-		req.execute();
-		ResultSet res = req.getResult();
-		if(!res.next()) return -1;
-		return res.getInt(1);
+			req.execute();
+			ResultSet res = req.getResult();
+			if(!res.next()) return -1;
+			return res.getInt(1);
 		}
 		catch (Exception e){
 			System.err.println("Problème lors de la récupération du dernier numero de bateau");
@@ -569,6 +561,5 @@ public class Partie {
 			return 0;
 		}
 	}
-	
->>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
+
 }

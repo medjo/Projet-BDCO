@@ -1284,3 +1284,12 @@ Java Model Exception: Java Model Status [<project root> [in BattleShip] is not o
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2015-04-26 18:28:57.846
 !MESSAGE Can't handle class org.eclipse.jdt.internal.compiler.ast.AllocationExpression as parent of completion location.
+!SESSION 2015-04-27 14:34:50.034 -----------------------------------------------
+eclipse.buildId=debbuild
+java.version=1.8.0_20
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=fr_FR
+Command-line arguments:  -os linux -ws gtk -arch x86
+
+!ENTRY org.eclipse.ui 2 2 2015-04-27 15:48:16.565
+!MESSAGE Invalid property category path: ValidationPropertiesPage (bundle: org.eclipse.wst.xml.ui, propertyPage: org.eclipse.wst.xml.ui.propertyPage.project.validation)
