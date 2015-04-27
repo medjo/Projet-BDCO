@@ -14,7 +14,7 @@ public class ControleurHistorique {
 	}
 	
 	public ArrayList<InfoPartie> lancerHistorique(){
-		Rejouer rejouer=new Rejouer(BattleShip.theConnection);
+		Rejouer rejouer=new Rejouer();
 		return rejouer.getInfoParties();
 	}
 	

@@ -48,6 +48,7 @@ public class Connexion extends JFrame {
 	private JTextField textField_8;
 	private JTable Carte;
 	private JTable table;
+	private JTextField txtJoueurN;
 	
 
 	/**
@@ -95,7 +96,6 @@ public class Connexion extends JFrame {
 //interface de connexion
 		final JPanel Connexion = new JPanel();
 		contentPane.add(Connexion, "name_31673698091126");
-		Connexion.setLayout(null);
 		
 //interface de connexion->Lancer Partie 	
 		final JPanel ChercheAdv = new JPanel();
@@ -110,7 +110,31 @@ public class Connexion extends JFrame {
 //interface de connexion -> lancer partie -> preparer bataille -> Jouer 
 		final JPanel Jouer = new JPanel();
 		contentPane.add(Jouer, "name_61813199911534");
+		
+		JButton btnRetour = new JButton("Quitter la partie");
+		btnRetour.setBounds(275, 235, 150, 25);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Jouer.setVisible(false);
+				PrepareBataille.setVisible(true);
+			}
+		});
 		Jouer.setLayout(null);
+		Jouer.add(btnRetour);
+		
+		JButton btnRafraichir = new JButton("Rafraichir");
+		btnRafraichir.setBounds(5, 235, 120, 25);
+		Jouer.add(btnRafraichir);
+		
+		txtJoueurN = new JTextField();
+		txtJoueurN.setText("Tour Joueur...");
+		txtJoueurN.setBounds(130, 235, 135, 25);
+		Jouer.add(txtJoueurN);
+		txtJoueurN.setColumns(10);
+//interface de connexion -> Observer une partie 
+		final JPanel OberservationPartie = new JPanel();
+		contentPane.add(OberservationPartie, "name_2587200245776");
+		OberservationPartie.setLayout(null);
 		
 //interface d'inscription
 		final JPanel Inscription = new JPanel();
@@ -119,6 +143,7 @@ public class Connexion extends JFrame {
 				
 //Contenu de l'interface connexion
 		JButton btnNewButton = new JButton("Jouer une partie");
+		btnNewButton.setBounds(125, 82, 230, 25);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -135,20 +160,21 @@ public class Connexion extends JFrame {
 				ChercheAdv.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(125, 82, 230, 25);
+		Connexion.setLayout(null);
 		Connexion.add(btnNewButton);
 				
 		JButton btnNewButton_1 = new JButton("Observer une partie");
+		btnNewButton_1.setBounds(125, 156, 230, 25);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Connexion.setVisible(false);
 				OberservationPartie.setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(125, 156, 230, 25);
 		Connexion.add(btnNewButton_1);
 				
 		JButton btnNewButton_2 = new JButton("Déconnexion");
+		btnNewButton_2.setBounds(125, 193, 230, 25);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connexion.remove(3);
@@ -156,7 +182,6 @@ public class Connexion extends JFrame {
 				Identification.setVisible(true);
 			}
 		});
-		btnNewButton_2.setBounds(125, 193, 230, 25);
 		Connexion.add(btnNewButton_2);
 		
 		JButton btnReprendreUnePartie = new JButton("Reprendre une partie");
@@ -181,34 +206,8 @@ public class Connexion extends JFrame {
 				Jouer.setVisible(true);
 			}
 		});
-		btnNewButton_4.setBounds(15, 235, 188, 25);
+		btnNewButton_4.setBounds(5, 235, 160, 25);
 		PrepareBataille.add(btnNewButton_4);
-		
-		JButton btnNewButton_7 = new JButton("Î›");
-		btnNewButton_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_7.setBounds(355, 30, 45, 25);
-		PrepareBataille.add(btnNewButton_7);
-		
-		JButton btnNewButton_8 = new JButton("<");
-		btnNewButton_8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewButton_8.setBounds(330, 60, 45, 30);
-		PrepareBataille.add(btnNewButton_8);
-		
-		JButton btnNewButton_9 = new JButton("V");
-		btnNewButton_9.setBounds(355, 95, 45, 25);
-		PrepareBataille.add(btnNewButton_9);
-		
-		JButton button = new JButton(">");
-		button.setFont(new Font("Dialog", Font.BOLD, 10));
-		button.setBounds(385, 60, 45, 30);
-		PrepareBataille.add(button);
 		
 		JButton btnQuitter_1 = new JButton("Quitter");
 		btnQuitter_1.addActionListener(new ActionListener() {
@@ -217,10 +216,31 @@ public class Connexion extends JFrame {
 				Connexion.setVisible(true);
 			}
 		});
-		btnQuitter_1.setBounds(232, 235, 188, 25);
+		btnQuitter_1.setBounds(340, 235, 85, 25);
 		PrepareBataille.add(btnQuitter_1);
 		
+		JLabel lblEscortreur = new JLabel("Destroyeur");
+		lblEscortreur.setBounds(330, 48, 100, 30);
+		PrepareBataille.add(lblEscortreur);
 		
+		JLabel lblEscortreurPlac = new JLabel("Escorteur ");
+		lblEscortreurPlac.setBounds(330, 76, 100, 30);
+		PrepareBataille.add(lblEscortreurPlac);
+		
+		JLabel lblBateauxPlacs = new JLabel("Bateaux à placer");
+		lblBateauxPlacs.setBounds(320, 12, 150, 30);
+		PrepareBataille.add(lblBateauxPlacs);
+		
+		JButton btnAnnulerPlacement = new JButton("Annuler Placement");
+		btnAnnulerPlacement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnAnnulerPlacement.setBounds(167, 235, 170, 25);
+		PrepareBataille.add(btnAnnulerPlacement);
+		
+		
+
 		Case[][] map = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
@@ -234,44 +254,23 @@ public class Connexion extends JFrame {
 		
 		
 		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille-> Jouer
-		JButton[][] boutonChiffresJ1 = new JButton[10][10];
-		JButton[][] boutonChiffresJ2 = new JButton[10][10];
+		Case[][] map1 = new Case[10][10];
+		Case[][] map2 = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
-				boutonChiffresJ1[i][j]= new JButton("");
-				boutonChiffresJ2[i][j]= new JButton("");
-				
-				boutonChiffresJ1[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
-				boutonChiffresJ2[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
-				
-				boutonChiffresJ1[i][j].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
-				boutonChiffresJ2[i][j].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
-				
-				boutonChiffresJ1[i][j].setBounds(i*21, j*17, 21, 17);
-				boutonChiffresJ2[i][j].setBounds(230+i*21,j*17, 21, 17);
-				
-				boutonChiffresJ1[i][j].setBackground(Color.white);
-				boutonChiffresJ2[i][j].setBackground(Color.LIGHT_GRAY);
-				
-				Jouer.add(boutonChiffresJ1[i][j]);
-				Jouer.add(boutonChiffresJ2[i][j]);
-			}
-			
+				Case C = new Case(i, j, 0, map1, map2);
+				map[i][j]=C;
+				Jouer.add(C.getCell());
+				Jouer.add(C.getCell1());
+			}	
 		}
 		Connexion.setVisible(false);
 		PrepareBataille.setVisible(false);
 		
-//interface de connexion -> Observer une partie 
-		final JPanel OberservationPartie = new JPanel();
-		contentPane.add(OberservationPartie, "name_2587200245776");
-		OberservationPartie.setLayout(null);
+		JPanel ReprendrePartie = new JPanel();
+		contentPane.add(ReprendrePartie, "name_11310189880415");
 		
+//Contenu interface de connexion -> Observer une partie 		
 		JLabel lblNewLabel_2 = new JLabel("Identifiant de Partie");
 		lblNewLabel_2.setBounds(56, 84, 165, 15);
 		OberservationPartie.add(lblNewLabel_2);
@@ -452,11 +451,10 @@ public class Connexion extends JFrame {
 				} catch (InscriptionInvalideException e1) {
 					// TODO Message Inscription invalide
 					JOptionPane InscriptionInvalide = new JOptionPane(); 
-					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE); 
-					System.out.println("Inscription invalide");
+					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} catch (UtilisateurExistantException e1) {
 					JOptionPane UserExistant = new JOptionPane(); 
-					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE); 
+					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE);
 					// TODO Auto-generated catch block
 				}
 				

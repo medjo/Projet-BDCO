@@ -3,10 +3,10 @@ select table_name from user_tables;
 
 --Display
 set linesize 250
-column email format a35
+column email format a33
 column dateDeNaissance format a15
 column prenom format a10
-column nom format a10
+column nom format a12
 column pseudo format a10
 --column nbPartiesJouees format a10
 
@@ -297,11 +297,8 @@ BEGIN
 			RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
 		END IF;
 		
-		--A modifier
-		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (((:new.orientation = 'e') AND (orientation = 'o')) OR ((:new.orientation = 'o' ) AND orientation = 'e')) AND ( ((x - :new.x > 0) AND ABS(x - :new.x) < :new.taille ) OR ((x - :new.x < 0) AND ABS(x - :new.x) < taille) ));
+		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (((orientation = 'o') AND (:new.orientation = 'e') AND (x - :new.x < taille + :new.taille - 1)) OR ((orientation = 'e') AND (:new.orientation = 'o') AND (:new.x - x < taille + :new.taille - 1))));
 		IF(cnt > 0)
-		
-		
 		THEN
 			RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
 		END IF;
@@ -314,6 +311,11 @@ BEGIN
 			THEN
 				RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
 			END IF;
+			SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (((orientation = 'n') AND (:new.orientation = 's') AND (y - :new.y < taille + :new.taille - 1)) OR ((orientation = 's') AND (:new.orientation = 'n') AND (:new.y - y < taille + :new.taille - 1))));
+			IF(cnt > 0)
+			THEN
+				RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
+			END IF;
 		END IF;
 	END IF;
 END;
@@ -322,6 +324,7 @@ END;
 
 --Frequently Used Commands
 drop table Bateaux;
+drop trigger trg_init_bateaux;
 select * from Bateaux;
 
 --Insertions valides
