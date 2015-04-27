@@ -19,7 +19,26 @@
 <entry path="/usr/java/jdk1.7.0_67/jre/lib/endorsed"/>
 </endorsedDirs>
 </libraryInfo>
-<libraryInfo home="/usr/lib/jvm/java-7-openjdk-amd64" version="1.7.0_79">
+<libraryInfo home="C:\Program Files\Java\jre1.8.0_31" version="1.8.0_31">
+<bootpath>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\resources.jar"/>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\rt.jar"/>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\sunrsasign.jar"/>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\jsse.jar"/>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\jce.jar"/>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\charsets.jar"/>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\jfr.jar"/>
+<entry path="C:\Program Files\Java\jre1.8.0_31\classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\ext"/>
+<entry path="C:\Windows\Sun\Java\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="C:\Program Files\Java\jre1.8.0_31\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="/usr/lib/jvm/java-7-openjdk-amd64/jre" version="1.7.0_75">
 <bootpath>
 <entry path="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar"/>
 <entry path="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar"/>
@@ -58,7 +77,7 @@
 <entry path="/usr/java/jdk1.7.0_67/jre/lib/endorsed"/>
 </endorsedDirs>
 </libraryInfo>
-<libraryInfo home="/usr/lib/jvm/java-7-openjdk-amd64/jre" version="1.7.0_75">
+<libraryInfo home="/usr/lib/jvm/java-7-openjdk-amd64" version="1.7.0_79">
 <bootpath>
 <entry path="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar"/>
 <entry path="/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar"/>
