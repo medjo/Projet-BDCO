@@ -318,8 +318,10 @@ public class Partie {
 			res.next();
 			if(res.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
 				this.vainqueur=BattleShip.user.getPseudo();
+				System.out.println("La partie a été terminée par l'adversaire");
 				ok1= true; }
 			else {
+				System.out.println("La partie n'a pas été terminée par l'adversaire");
 				ok1= false;
 			}
 			req.close();
@@ -334,13 +336,13 @@ public class Partie {
 		ArrayList<Ship> myShips=fabrique.Ships(this.idPartie, BattleShip.user.getPseudo());
 		int i=0;
 		while(i<myShips.size()){
-			if(myShips.get(i).etat!=0) ok2=false;
+			if(myShips.get(i).etat!=0) {ok2=false;}
 			i++;
 		}
 		if(ok2==true) {
 			this.vainqueur=this.getAdv();
 		}
-		return ok1 && ok2;
+		return ok1 || ok2;
 	}
 	
 	
