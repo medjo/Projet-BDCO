@@ -18,6 +18,7 @@ import java.sql.*;
 public class Partie {
 	private int idPartie;
 	private int numTour;
+	private int nAction;
 	private String vainqueur;
 	String pseudoAdversaire;
 	private ArrayList<Ship> bateauxCourants;
@@ -272,6 +273,8 @@ public class Partie {
 		}
 	}
 	
+
+	
 	//TESTE
 	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
 	public void executerPlacementBateauInitial(Ship batInit) throws SQLException{
@@ -299,7 +302,7 @@ public class Partie {
 			req.close();
 	
 		}
-	
+	/*
 	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
 	public void joueurTour(ArrayList<Action> listeActions){
 		int i=0;
@@ -317,7 +320,7 @@ public class Partie {
 			BattleShip.theConnection.rollbackPerso();
 		}
 	}
-	
+	*/
 	
 	
 	//TESTE juste si finie=true mais pas avec état des bateaux
@@ -420,14 +423,20 @@ public class Partie {
 	public String getPseudoAdv(){
 		return this.pseudoAdversaire;
 	}
-	
+
+	public int getNAction() {
+		return nAction;
+	}
+
+	public void setNAction(int nAction) {
+		this.nAction = nAction;
+	}
 	
 	//Méthode qui retourne la liste de mes bateaux
 	public ArrayList<Ship> getMyShips(){
 		ShipsFactory fabrique= new ShipsFactory();
 		return fabrique.Ships(idPartie, BattleShip.user.getPseudo());
 	}
-	
 	
 	//Retourne la liste des bateaux courants si elle a déjà étét crée
 	public ArrayList<Ship> getBateauxCourants(){
