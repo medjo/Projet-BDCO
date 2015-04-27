@@ -184,7 +184,7 @@ public class Connexion extends JFrame {
 		btnNewButton_4.setBounds(15, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
-		JButton btnNewButton_7 = new JButton("Î›");
+		JButton btnNewButton_7 = new JButton("Λ");
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}

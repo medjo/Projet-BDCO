@@ -278,29 +278,42 @@ BEGIN
 		END IF;
 	END IF;
 	
+	SELECT COUNT(iDBateau) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) );
+	IF(cnt > 2)
+	THEN
+		RAISE_APPLICATION_ERROR( -20003, 'One player cannot have more than 3 boats.');
+	END IF;
 	SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (y = :new.y));
 	IF(cnt > 0)
 	THEN
 		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (x = :new.x));
 		IF(cnt > 0)
 		THEN
-			RAISE_APPLICATION_ERROR( -20003, 'There is already a boat at the same place.');
+			RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
+		END IF;
+		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND ((:new.orientation = 'e') OR (:new.orientation = 'o' )) AND (orientation = :new.orientation) AND ( ((x - :new.x > 0) AND ABS(x - :new.x) < :new.taille ) OR ((x - :new.x < 0) AND ABS(x - :new.x) < taille) ));
+		IF(cnt > 0)
+		THEN
+			RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
+		END IF;
+		
+		--A modifier
+		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (((:new.orientation = 'e') AND (orientation = 'o')) OR ((:new.orientation = 'o' ) AND orientation = 'e')) AND ( ((x - :new.x > 0) AND ABS(x - :new.x) < :new.taille ) OR ((x - :new.x < 0) AND ABS(x - :new.x) < taille) ));
+		IF(cnt > 0)
+		
+		
+		THEN
+			RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
 		END IF;
 	ELSE
 		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (x = :new.x));
-		IF(cnt > 0)
+	IF(cnt > 0)
 		THEN
-			RAISE_APPLICATION_ERROR( -20003, 'Invalid x: BOBAE');
-		END IF;
-	END IF;
-	
-	
-	IF(:new.orientation = 'e')
-	THEN
-		SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND (orientation = 'e'));
-		IF (cnt > 0)
-		THEN
-			RAISE_APPLICATION_ERROR( -20003, 'Invalid x: BOBAE');
+			SELECT COUNT(*) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) AND ((:new.orientation = 'e') OR (:new.orientation = 'o' )) AND (orientation = :new.orientation) AND ( ((y - :new.y > 0) AND ABS(y - :new.y) < :new.taille ) OR ((y - :new.y < 0) AND ABS(y - :new.y) < taille) ));
+			IF(cnt > 0)
+			THEN
+				RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
+			END IF;
 		END IF;
 	END IF;
 END;

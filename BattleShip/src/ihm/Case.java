@@ -43,7 +43,7 @@ public class Case{
 			destroyeur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						bateau = ControleurPartie.placerBateau(x, y, 2);
+						bateau = ControleurPartie.placerBateau(x, y, 3);
 						pivot = true;
 						creerBateau(2);
 					} catch (Exception e) {
@@ -55,7 +55,7 @@ public class Case{
 			escorteur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						bateau = ControleurPartie.placerBateau(x, y, 1);
+						bateau = ControleurPartie.placerBateau(x, y, 2);
 						pivot = true;
 						creerBateau(1);
 					} catch (Exception e) {

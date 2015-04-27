@@ -272,34 +272,33 @@ public class Partie {
 		}
 	}
 	
-	public void placerBateau(Ship bat) throws SQLException{
+	//TESTE
+	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
+	public void executerPlacementBateauInitial(Ship batInit) throws SQLException{
+		//On enregistre dans la BD le placement des bateaux à l'état initial
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 		try {
 			req.getStatement().setInt(1, this.idPartie);
 			req.getStatement().setString(2, BattleShip.user.getPseudo());
-			req.getStatement().setInt(3, bat.getIdBateau());
-			req.getStatement().setInt(4, bat.getTailleBateau());
-			req.getStatement().setInt(5, bat.getTailleBateau());
-			req.getStatement().setInt(6, bat.getXBateau());
-			req.getStatement().setInt(7, bat.getYBateau());
-			req.getStatement().setString(8, bat.getDirBateauString());
-			req.getStatement().setInt(9, bat.getXBateau());//valeur initial
-			req.getStatement().setInt(10, bat.getYBateau());//valeur initial
-			req.getStatement().setString(11, bat.getDirBateauString());//valeur initial
+			req.getStatement().setInt(3, batInit.getIdBateau());
+			req.getStatement().setInt(4, batInit.getTailleBateau());
+			req.getStatement().setInt(5, batInit.getTailleBateau());
+			req.getStatement().setInt(6, batInit.getXBateau());
+			req.getStatement().setInt(7, batInit.getYBateau());
+			req.getStatement().setString(8, batInit.getDirBateauString());
+			req.getStatement().setInt(9, batInit.getXBateau());//valeur initial
+			req.getStatement().setInt(10, batInit.getYBateau());//valeur initial
+			req.getStatement().setString(11, batInit.getDirBateauString());//valeur initial
+			System.out.println("On execute");
 			req.execute();
 		} catch (SQLException e1) {
 			BattleShip.theConnection.rollbackPerso();
-			System.out.println("Problème lors du placement initial des bateaux");
+			System.out.println("Problème lors du placement initial du bateau");
 			throw e1;
-		}
-		try{
-			BattleShip.theConnection.getConnection().commit();
-		}catch(SQLException e){
-			e.printStackTrace();
-			System.out.println("Problème lors d'un commit");
-		}
-	}
+			}
+			req.close();
 	
+		}
 	
 	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
 	public void joueurTour(ArrayList<Action> listeActions){
@@ -365,26 +364,31 @@ public class Partie {
 	//Méthode qui permet de tester si c'est bien à mon tour de jouer
 	public boolean aMoiDeJouer(){
 		//on regarde quel joueur est le premier à avoir jouer pour déterminer si c'est notre tour
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour=0");
+		//SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour=0");
 		//On regarde le numéro du dernier tour
 		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour>=ALL(SELECT nTour FROM Actions WHERE idPartie="+this.idPartie+")");
 		try{
-		req.execute();
+		//req.execute();
 		req1.execute();
-		ResultSet res = req.getResult();
+		//ResultSet res = req.getResult();
 		ResultSet res1 = req1.getResult();
-		res.next();
+		//res.next();
 		res1.next();
-		if(res.getString(1)!=res1.getString(1)){
+		//System.out.println("Num1:"+res.getString(1)+"Num2:"+res1.getString(1));
+		//if(res.getString(1))
+		if(res1.getString(1).equals(this.pseudoAdversaire)){
+			//System.out.println("On a un souci2");
 			//Dans ce cas-là c'est à nous de jouer maintenant
 			return true;
 		}
 		else{
+			System.out.println("On a un souci");
 			return false;
 		}
 		}
 		catch (Exception e){
 			System.out.println("Problème dans l'attribution des tours");
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -404,6 +408,7 @@ public class Partie {
 		}
 		catch (Exception e){
 			System.err.println("Problème dans la récupération du pseudo de l'adversaire");
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -441,7 +446,105 @@ public class Partie {
 		this.numTour=num;
 	}
 	
+	public int getNumTour(){
+		return this.numTour;
+	}
+	
 	public void setAdv(String adv){
 		this.pseudoAdversaire=adv;
 	}
+	
+	public int getNumeroDernierTour(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(nTour) FROM parties NATURAL JOIN actions WHERE idPartie="+this.idPartie);
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getInt(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème dans la récupération du dernier indice de tour");
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public boolean advAPositionneSesBateaux(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie="+this.idPartie+" AND pseudo='"+this.pseudoAdversaire+"'");
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		if(res.next()) return true;
+		else return false;
+		}
+		catch (Exception e){
+			System.err.println("Problème dans le test si l'adversaire a positionné ses bateaux");
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean meAPositionneSesBateaux(){
+		System.out.println(BattleShip.user.getPseudo());
+		System.out.println(this.idPartie);
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie="+this.idPartie+" AND pseudo='"+BattleShip.user.getPseudo()+"'");
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		if(res.next()) return true;
+		else return false;
+		}
+		catch (Exception e){
+			System.err.println("Problème dans le test si l'adversaire a positionné ses bateaux");
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public String getJoueur1(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT joueur1 FROM  participants WHERE idPartie="+this.idPartie);
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		return res.getString(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du joueur1");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public int getDernierNumeroAction(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(nAction) FROM  actions WHERE idPartie="+this.idPartie+"AND nTour="+this.numTour);
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		if(!res.next())return -1;
+		System.out.println("On devrait pas etre la");
+		return res.getInt(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero d'action de ce tour");
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public int getDernierNumeroBateau(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idBateau) FROM  bateaux WHERE idPartie="+this.idPartie+"AND pseudo='"+BattleShip.user.getPseudo()+"'");
+		try{
+		req.execute();
+		ResultSet res = req.getResult();
+		if(!res.next()) return -1;
+		return res.getInt(1);
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
 }
