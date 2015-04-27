@@ -71,6 +71,15 @@ public class ControleurPartie {
 	public static boolean jouerAction(Action action) throws TirMissed{
 		try{
 			action.execute();
+			ArrayList<Ship> ships= BattleShip.partie.getBateauxCourants();
+			int i=0;
+			for(Ship s: ships){
+				if(s.getIdBateau()==action.getIdBateau()){
+					s.setCoupsBateau(s.getCoupsBateau()-1);
+				}
+			i++;
+			}
+			
 		}
 		catch(ExceptionDeplacement e){
 			return false;
@@ -82,7 +91,8 @@ public class ControleurPartie {
 
 	public static Tir Tir(int idBateau, int x, int y){
 		try {
-			return new Tir(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction(),x,y);
+			System.out.println("Le dernier numéro d'action est:"+BattleShip.partie.getDernierNumeroAction());
+			return new Tir(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction()+1,x,y);
 		} catch (TirOutOfBound e) {
 			System.out.println("Vous avez tirer en dehors de la Map !");
 			e.printStackTrace();
@@ -92,7 +102,7 @@ public class ControleurPartie {
 	
 	public static Deplacement Deplacement(int idBateau, TypeDeplacement type){
 		//TODO récupération erreur si en dehors de la map
-			return new Deplacement(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction(),type);
+			return new Deplacement(idBateau,BattleShip.partie.getIdPartie(),BattleShip.user.getPseudo(),BattleShip.partie.getNumTour(),BattleShip.partie.getDernierNumeroAction()+1,type);
 	}
 	
 	
@@ -123,7 +133,8 @@ public class ControleurPartie {
 		ArrayList<Ship> myShips=BattleShip.partie.getBateauxCourants();
 		for(Ship s:myShips){
 			if(s.getIdBateau()==idBateau){	//Si on tombe sur le bon bateau
-				if(s.getCoupsBateau()==0)
+				System.out.println("Il reste: "+ s.getCoupsBateau()+" coups.");
+				if(s.getCoupsBateau()<=0)
 					return false;
 				else
 					return true;

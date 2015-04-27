@@ -521,7 +521,8 @@ public class Partie {
 		try{
 		req.execute();
 		ResultSet res = req.getResult();
-		res.next();
+		if(!res.next())return -1;
+		System.out.println("On devrait pas etre la");
 		return res.getInt(1);
 		}
 		catch (Exception e){
