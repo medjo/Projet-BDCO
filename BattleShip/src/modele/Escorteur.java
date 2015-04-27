@@ -25,6 +25,13 @@ public class Escorteur extends Ship{
 			this.etat=etat;
 		}
 		
+		public Escorteur(int etat, int x, int y, String dir, int idBateau, String pseudo, int coups){
+			super(x,y,dir,idBateau, pseudo);
+			this.taille=TAILLE_ESCORTEUR;
+			this.etat=etat;
+			this.coups=etat;
+		}
+		
 		//Constucteur appelé pour un bateau crée au début 
 		public Escorteur(int x, int y, String dir, int idBateau, String pseudo){
 			super(x,y,dir,idBateau, pseudo);

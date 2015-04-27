@@ -76,7 +76,44 @@ public class BattleShipTest2 {
 				ControleurPartie.debutTour();
 				
 				//On exécute et save les actions une par une sans committer pour l'instant
-				Action tir1= ControleurPartie.Tir();
+				Tir tir1= ControleurPartie.Tir(0, 3, 3);
+				try {
+					ControleurPartie.jouerAction(tir1);
+				} catch (TirMissed e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//Attention il faut faire au moins un premier commit dès maintennant
+				BattleShip.theConnection.getConnection().commit();
+				
+				
+				if(ControleurPartie.controleurNbActions(0)) System.out.println("Je peux encore faire une action");
+				else System.out.println("Je ne peux plus faire d'action");
+				
+				Tir tir2= ControleurPartie.Tir(0, 3, 3);
+				try {
+					ControleurPartie.jouerAction(tir2);
+				} catch (TirMissed e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				BattleShip.theConnection.getConnection().commit();
+				
+				
+				if(ControleurPartie.controleurNbActions(0)) System.out.println("Je peux encore faire une action");
+				else System.out.println("Je ne peux plus faire d'action");
+				
+				Tir tir3=ControleurPartie.Tir(0, 3, 3);
+				try {
+					ControleurPartie.jouerAction(tir3);
+				} catch (TirMissed e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				BattleShip.theConnection.getConnection().commit();
+				
+				if(ControleurPartie.controleurNbActions(0)) System.out.println("Je peux encore faire une action");
+				else System.out.println("Je ne peux plus faire d'action");
 				
 				
 			

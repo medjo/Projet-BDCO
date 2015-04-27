@@ -22,9 +22,7 @@ public class Tir extends Action{
 		}
 		this.x = x;
 		this.y = y;
-		System.err.println("1");
 		String adversaire = BattleShip.partie.getAdv();
-		System.err.println("2");
 		System.err.println("Adve:"+adversaire);
 		
 		/* on récupère la liste des bateux de l'adversaire */
@@ -93,11 +91,6 @@ public class Tir extends Action{
 		} catch (Exception e) {
 			System.err.println("impossible de maj etat bateau après tir");
 			e.printStackTrace(System.err);
-		}
-		try{
-		BattleShip.theConnection.getConnection().commit();
-		}catch(Exception e){
-			System.out.println("pb de commit");
 		}
 		req.close();
 	}

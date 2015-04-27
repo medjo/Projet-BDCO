@@ -71,7 +71,7 @@ public class BattleShipTest {
 			System.out.println("Dernier num bateau: "+BattleShip.partie.getDernierNumeroBateau());
 			System.out.println("Placement: "+ControleurPartie.placerBateau(2, 3, "o", 3));
 			
-			
+			//On valide les positionnements
 			BattleShip.theConnection.getConnection().commit();
 			
 			
