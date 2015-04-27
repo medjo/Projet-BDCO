@@ -1,6 +1,9 @@
+<<<<<<< HEAD
+=======
 .metadata/
 bin/
 
+>>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
 *.classpath*
 *.class
 *.metadata

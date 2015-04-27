@@ -35,6 +35,7 @@ public class Case{
 		private int xBateau;
 		private int yBateau;
 		private String dirBateau;
+		private Case[][] map2;
 		
 		public Case(int xx, int yy, int typee, Case[][] mapp){
 			this.x = xx;
@@ -137,6 +138,11 @@ public class Case{
 			});
 		}
 		
+		public Case(int xx, int yy, int typee, Case[][] map1, Case[][] map2){
+			this(xx,yy,typee,map1);
+			this.map2 = map2;
+		}
+		
 		public int getX(){
 			return x;
 		}
@@ -149,6 +155,7 @@ public class Case{
 			return cell;
 		}
 		
+
 		public void setType(int typee){
 			if (typee == 0) {
 				this.type = typee;
