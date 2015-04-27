@@ -2,16 +2,19 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="javax.swing.JButton"/>
 <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-<fullyQualifiedTypeName name="javax.swing.JMenuBar"/>
-<fullyQualifiedTypeName name="javax.swing.JMenu"/>
 <fullyQualifiedTypeName name="modele.ControleurConnexion"/>
 <fullyQualifiedTypeName name="jdbc.TheConnection"/>
 <fullyQualifiedTypeName name="modele.BattleShip"/>
 <fullyQualifiedTypeName name="javax.swing.JMenuItem"/>
 <fullyQualifiedTypeName name="java.awt.Menu"/>
 <fullyQualifiedTypeName name="ihm.NatureBateau"/>
-<fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="ihm.Position"/>
 <fullyQualifiedTypeName name="javax.swing.JTable"/>
 <fullyQualifiedTypeName name="javax.swing.table.TableModel"/>
+<fullyQualifiedTypeName name="javax.swing.JPanel"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+<fullyQualifiedTypeName name="javax.swing.JMenu"/>
+<fullyQualifiedTypeName name="javax.swing.JMenuBar"/>
 </qualifiedTypeNameHistroy>
