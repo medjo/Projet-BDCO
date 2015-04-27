@@ -27,7 +27,7 @@ public class BattleShip {
 		req.close();*/
 		
 		//Lancement de l'interface graphique
-		/*EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Connexion frame = new Connexion();
@@ -36,7 +36,7 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});*/
+		});
 		
 		//Test des fonctions de connexions
 		/*
@@ -45,7 +45,7 @@ public class BattleShip {
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");*/
 		
 		//Test de la reprise d'une partie
-		
+/*	
 		try {
 			ControleurConnexion.connexion("Sylvain");
 		} catch (UtilisateurInconnuException e) {
