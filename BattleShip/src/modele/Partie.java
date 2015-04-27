@@ -311,19 +311,18 @@ public class Partie {
 		boolean ok1,ok2=true;
 		try{
 		//On vérifie d'abord si l'adversaire n'a pas terminé la partie(tous ses bateaux sont morts)
-		System.out.println(""+this.idPartie+"");
-		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) AS nb FROM parties WHERE idPartie="+this.idPartie+" AND finie=1");
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) AS nb FROM parties WHERE idPartie="+this.idPartie+" AND finie=1");
 		
-			req1.execute();
-			ResultSet res1 = req1.getResult();
-			res1.next();
-			if(res1.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
+			req.execute();
+			ResultSet res = req.getResult();
+			res.next();
+			if(res.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
 				this.vainqueur=BattleShip.user.getPseudo();
 				ok1= true; }
 			else {
 				ok1= false;
 			}
-			req1.close();
+			req.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 			System.out.println("Problème lors du test de partie terminée");

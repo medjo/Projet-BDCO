@@ -123,6 +123,7 @@ public class ControleurPartie {
 	
 	//Méthode de début de tour: elle set l'arraylist de bateauxCourants du joueur
 	public static void debutTour(){
+		System.out.println("Partie terminée ?: "+ BattleShip.partie.partieTerminee());
 		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
 		BattleShip.partie.actualiserNumTour();
 	}

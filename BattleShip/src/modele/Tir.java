@@ -95,10 +95,11 @@ public class Tir extends Action{
 				}
 				break;
 			}*/
-			System.out.println("fezzeffez"+s.idBateau+"gvjh:"+s.pseudo+s.getDirBateauString());
+			System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
 			if(s.getDirBateauString().equals(Direction.NORD.toString())){
 				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
 					idBateau = s.getIdBateau();
+					System.out.println("BAAAAAAAANNNNNNNNNNNNGGGGGGGGGGGGGG!!!!!!!!!!!!!!!!!!!");
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.SUD.toString())){
@@ -125,7 +126,7 @@ public class Tir extends Action{
 		/* le tir ne touche aucun bateau */
 		if(idBateau == -1){
 			System.out.println("Bateau non touché");
-			throw new TirMissed();
+			//throw new TirMissed();
 		}
 		
 		/*le tir touche un bateau */

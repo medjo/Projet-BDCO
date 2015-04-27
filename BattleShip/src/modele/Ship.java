@@ -16,10 +16,10 @@ public abstract class Ship {
 		this.x=x;
 		this.y=y;
 		this.idBateau=idBateau;
-		if(dir=="n") this.dir=Direction.NORD;
-		else if(dir=="s") this.dir=Direction.SUD;
-		else if(dir=="e") this.dir=Direction.EST;
-		else if(dir=="o") this.dir=Direction.OUEST;
+		if(dir.equals("n")) this.dir=Direction.NORD;
+		else if(dir.equals("s")) this.dir=Direction.SUD;
+		else if(dir.equals("e")) this.dir=Direction.EST;
+		else if(dir.equals("o")) this.dir=Direction.OUEST;
 		this.coups=etat; //On initialise le nombre de coups à l'état du bateau
 	}
 	
@@ -67,9 +67,10 @@ public abstract class Ship {
 	
 	//TODO a supprimer pour réutiliser la méthode dans Direction
 	public String getDirBateauString() {
-		if(this.dir==Direction.NORD) return "n";
-		else if(this.dir==Direction.SUD) return "s";
-		else if(this.dir==Direction.EST) return "e";
+		System.out.println(this.dir.toString()+Direction.NORD.toString());
+		if(this.dir.toString().equals(Direction.NORD.toString())) return "n";
+		else if(this.dir.toString().equals(Direction.SUD.toString())) return "s";
+		else if(this.dir.toString().equals(Direction.EST.toString())) return "e";
 		else return "o";
 	}
 	public int getCoupsBateau(){

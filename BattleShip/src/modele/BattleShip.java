@@ -175,7 +175,7 @@ public class BattleShip {
 		*/
 
 		try {
-			ControleurConnexion.connexion("Sylvain");
+			ControleurConnexion.connexion("Rubixbob");
 		} catch (UtilisateurInconnuException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,19 +184,21 @@ public class BattleShip {
 		BattleShip.partie=new Partie();
 		BattleShip.user=user;
 		
-		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Rubixbob");
+		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Sylvain");
 		ControleurPartie.debutTour();
 		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
 		
-		ControleurPartie.debutTour();
-		try {
-			ControleurPartie.jouerAction(ControleurPartie.Tir(0, 5, 5));
+	
+		/*try {
+			ControleurPartie.jouerAction(ControleurPartie.Tir(1, 5, 6));
+			ControleurPartie.jouerAction(ControleurPartie.Tir(1, 5, 7));
+			
 		} catch (TirMissed e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		ControleurPartie.validerTour();
+		ControleurPartie.validerTour();*/
 		/*
 		try {
 			ControleurPartie.lancerNouvellePartie();
