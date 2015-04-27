@@ -13,20 +13,24 @@ public class ControleurHistorique {
 		ControleurConnexion conn = new ControleurConnexion(); 
 	}
 	
-	public ArrayList<InfoPartie> lancerHistorique(){
-		Rejouer rejouer=new Rejouer();
-		return rejouer.getInfoParties();
+	public void lancerHistorique(){
+		BattleShip.rejouer=new Rejouer();
 	}
 	
 	public void voirPartie(TheConnection theConnection, String idPartie){
 		
 	}
 	
-	public void suivant(TheConnection theConnection){
+	public static void suivant(TheConnection theConnection){
 		
 	}
 	
 	public void recommencer(TheConnection theConnection){
 		
+	}
+	
+	public static InfoPartie suivant(){
+		BattleShip.rejouer.setIdPartieSelec(BattleShip.rejouer.getIdPartieSelec()+1);
+		return BattleShip.rejouer.getListeParties().get(BattleShip.rejouer.getIdPartieSelec()-1);
 	}
 }
