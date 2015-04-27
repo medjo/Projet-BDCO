@@ -165,7 +165,7 @@ public class Deplacement extends Action{
 	}
 
 	@Override
-	public void save() throws ExceptionDeplacement {
+	public void save() {
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions(iDPartie,pseudo,iDBateau,nTour,nAction,type,direction) "
 				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?)");
 		try{
