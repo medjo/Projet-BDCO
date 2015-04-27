@@ -188,7 +188,7 @@ public class Connexion extends JFrame {
 		btnNewButton_4.setBounds(15, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
-		JButton btnNewButton_7 = new JButton("Î›");
+		JButton btnNewButton_7 = new JButton("Λ");
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -456,11 +456,10 @@ public class Connexion extends JFrame {
 				} catch (InscriptionInvalideException e1) {
 					// TODO Message Inscription invalide
 					JOptionPane InscriptionInvalide = new JOptionPane(); 
-					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE); 
-					System.out.println("Inscription invalide");
+					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} catch (UtilisateurExistantException e1) {
 					JOptionPane UserExistant = new JOptionPane(); 
-					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE); 
+					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE);
 					// TODO Auto-generated catch block
 				}
 				

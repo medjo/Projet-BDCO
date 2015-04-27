@@ -1,6 +1,7 @@
 package Controleur;
 import modele.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import oracle.sql.TypeDescriptor;
@@ -63,31 +64,29 @@ public class ControleurPartie {
 	}
 
 	/**
-	 * execute et sauve l'action et préviens l'ihm si l'action est valide
-	 * @param action
-	 * @return true si l'action est valide, false si elle ne respecte pas les contraintes
-	 * @throws TirMissed exception tirMissed pour prévenir l'IHM
-	 */
-	public static boolean jouerAction(Action action) throws TirMissed{
-		try{
-			action.execute();
-			ArrayList<Ship> ships= BattleShip.partie.getBateauxCourants();
-			int i=0;
-			for(Ship s: ships){
-				if(s.getIdBateau()==action.getIdBateau()){
-					s.setCoupsBateau(s.getCoupsBateau()-1);
-				}
-			i++;
-			}
-			
-		}
-		catch(ExceptionDeplacement e){
-			return false;
-		}
-		/* si il n'y a pas d'exception on enregistre l'action */
-		action.save();
-		return true;
-	}
+     * execute et sauve l'action et préviens l'ihm si l'action est valide
+     * @param action
+     * @return true si l'action est valide, false si elle ne respecte pas les contraintes
+     * @throws TirMissed exception tirMissed pour prévenir l'IHM
+     */
+    public static boolean jouerAction(Action action) throws TirMissed{
+            try{
+                    action.execute();
+                    ArrayList<Ship> ships= BattleShip.partie.getBateauxCourants();
+                    for(Ship s: ships){
+                            if(s.getIdBateau()==action.getIdBateau()){
+                                    s.setCoupsBateau(s.getCoupsBateau()-1);
+                            }
+                    }
+
+            }
+            catch(ExceptionDeplacement e){
+                    return false;
+            }
+            /* si il n'y a pas d'exception on enregistre l'action */
+            action.save();
+            return true;
+    }
 
 	public static Tir Tir(int idBateau, int x, int y){
 		try {
@@ -172,25 +171,51 @@ public class ControleurPartie {
 	
 	//Méthode qui permet de placer un bateau à l'état initial juste execute et save
 	//TODO catcher les erreurs
-	public static boolean placerBateau(int x, int y, String dir, int taille){
+	public static Ship placerBateau(int x, int y, int taille) throws SQLException{
 		int idBateau=0;
 		int index = BattleShip.partie.getDernierNumeroBateau();
-		if(index==-1) idBateau=0;
-		else idBateau=index+1;
+		idBateau=index+1;
+		Ship bat;
 		if(taille==3){
-			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir,idBateau));
-			return true;
-		}
-		else if(taille==2){
-			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, idBateau));
-			return true;
+			bat = new Destroyer(x, y, "n",idBateau);
 		}
 		else{
-			System.out.println("Probleme, bateau de taille inconnu.");
+			bat = new Escorteur(x, y, "n", idBateau);
+		}
+		BattleShip.partie.executerPlacementBateauInitial(bat);
+		return bat;
+	}
+/*
+	public static Ship placerBateau(int x, int y, int type) throws SQLException{
+		Ship bat;
+		if (type == 2) {
+			bat = new Destroyer(x, y, "n", 0, BattleShip.user.getPseudo());
+		} else {
+			bat = new Escorteur(x, y, "n", 0, BattleShip.user.getPseudo());
+		}
+		BattleShip.partie.placerBateau(bat);
+		return bat;
+	}
+*/	
+	
+	/**
+	 * crée, execute et sauve le deplacement. Et préviens l'ihm si l'action est valide
+	 * @param idBateau id du bateau qui effectue l'action
+	 * @param typeDep type de deplacement (av, ar rd, rg)
+	 * @return true si l'action est valide, false si elle ne respecte pas les contraintes
+	 */
+	public static boolean jouerDeplacement(int idBateau, TypeDeplacement typeDep){
+		Deplacement dep = new Deplacement(idBateau, BattleShip.partie.getIdPartie(), BattleShip.user.getPseudo(), BattleShip.partie.getNumTour(), BattleShip.partie.getNAction(), typeDep);
+		try{
+			dep.execute();
+			dep.save();
+		}
+		catch(ExceptionDeplacement e){
 			return false;
 		}
+		/* si il n'y a pas d'exception on enregistre l'action */
+		return true;
 	}
-	
 	
 	
 }
