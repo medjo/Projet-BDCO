@@ -1,10 +1,10 @@
 package Controleur;
 import modele.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import oracle.sql.TypeDescriptor;
-
 import modele.BattleShip;
 import modele.ExceptionNoAdv;
 import modele.InfoPartie;
@@ -190,24 +190,15 @@ public class ControleurPartie {
 		}
 	}
 	
-	/**
-	 * crée, execute et sauve le deplacement. Et préviens l'ihm si l'action est valide
-	 * @param idBateau id du bateau qui effectue l'action
-	 * @param typeDep type de deplacement (av, ar rd, rg)
-	 * @return true si l'action est valide, false si elle ne respecte pas les contraintes
-	 */
-	public static boolean jouerDeplacement(int idBateau, TypeDeplacement typeDep){
-		Deplacement dep = new Deplacement(idBateau, BattleShip.partie.getIdPartie(), BattleShip.user.getPseudo(), BattleShip.partie.getNumTour(), BattleShip.partie.getNAction(), typeDep);
-		try{
-			dep.execute();
-			dep.save();
+	public static void validerTour(){
+		try {
+			BattleShip.theConnection.getConnection().commit();
+			BattleShip.partie.incrNumTour();
+		} catch (SQLException e) {
+			System.err.println("erreur lors du commit des actions");
+			e.printStackTrace();
 		}
-		catch(ExceptionDeplacement e){
-			return false;
-		}
-		/* si il n'y a pas d'exception on enregistre l'action */
-		return true;
+		
 	}
-	
 	
 }
