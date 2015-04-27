@@ -7,7 +7,9 @@
 1429633885701	Delete element
 1429633972148	Delete element
 1429633975272	Delete element
-1429898704212	Delete element
-1429907625058	Delete element
-1430036754009	Delete element
-1430036758214	Delete element
+1429955292997	Change method 'Action'
+1430043892129	Rename type 'infoActionJoueur'
+1430064994941	Change method 'jouerTir'
+1430065569535	Rename field 'numTour'
+1430065636232	Encapsulate field 'nTour'
+1430065657124	Encapsulate field 'nAction'
