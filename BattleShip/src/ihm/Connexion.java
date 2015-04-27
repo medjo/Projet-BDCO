@@ -198,16 +198,16 @@ public class Connexion extends JFrame {
 		btnQuitter_1.setBounds(340, 235, 85, 25);
 		PrepareBataille.add(btnQuitter_1);
 		
-		JLabel lblEscortreur = new JLabel(""+"+ Destroyeur placé");
-		lblEscortreur.setBounds(290, 48, 150, 30);
+		JLabel lblEscortreur = new JLabel("Destroyeur");
+		lblEscortreur.setBounds(330, 48, 100, 30);
 		PrepareBataille.add(lblEscortreur);
 		
-		JLabel lblEscortreurPlac = new JLabel(""+"+ Escortreur placé");
-		lblEscortreurPlac.setBounds(290, 76, 150, 30);
+		JLabel lblEscortreurPlac = new JLabel("Escorteur ");
+		lblEscortreurPlac.setBounds(330, 76, 100, 30);
 		PrepareBataille.add(lblEscortreurPlac);
 		
-		JLabel lblBateauxPlacs = new JLabel("Bateaux placés");
-		lblBateauxPlacs.setBounds(311, 12, 150, 30);
+		JLabel lblBateauxPlacs = new JLabel("Bateaux à placer");
+		lblBateauxPlacs.setBounds(320, 12, 150, 30);
 		PrepareBataille.add(lblBateauxPlacs);
 		
 		JButton btnAnnulerPlacement = new JButton("Annuler Placement");

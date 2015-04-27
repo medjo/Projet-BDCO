@@ -19,6 +19,9 @@ public class Case{
 		private int type;
 		private JMenuItem destroyeur;
 		private JMenuItem escorteur;
+		private JMenuItem deplacer;
+		private JMenuItem tirer;
+		private JMenuItem attaquer;
 		private JMenuItem supprimer;
 		private Case[][] map;
 		private Case[][] map2;
@@ -74,23 +77,20 @@ public class Case{
 		}
 		
 		public Case(int xx, int yy, int typee, Case[][] map1, Case[][] map2){
-			this.x = xx;
-			this.y = yy;
-			this.type = typee;
-			this.map = map1;
+			this(xx, yy, typee, map1);
 			this.map2 = map2; 
 			this.pivot = false;
 			cell = new JMenuBar();
 			menu = new JMenu("    ");
-			destroyeur = new JMenuItem("Destroyeur");
-			escorteur = new JMenuItem("Escorteur");
-			supprimer = new JMenuItem("Supprimer");
-			menu.add(destroyeur);
-			menu.add(escorteur);
+			deplacer = new JMenuItem("Déplacer");
+			tirer = new JMenuItem("Tirer");
+			attaquer = new JMenuItem("Attaquer");
+			menu.add(deplacer);
+			menu.add(tirer);
 			cell.add(menu);
 			cell.setBackground(Color.white);
 			cell.setBounds(x*32,y*22,30,22);
-			destroyeur.addActionListener(new ActionListener() {
+			deplacer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						bateau = ControleurPartie.placerBateau(x, y, 3);
@@ -103,7 +103,7 @@ public class Case{
 				}
 			});
 			
-			escorteur.addActionListener(new ActionListener() {
+			tirer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						bateau = ControleurPartie.placerBateau(x, y, 2);
