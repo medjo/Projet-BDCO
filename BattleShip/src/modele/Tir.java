@@ -22,7 +22,7 @@ public class Tir extends Action{
 		}
 		this.x = x;
 		this.y = y;
-		String adversaire = BattleShip.partie.getAdv();
+		this.adversaire = BattleShip.partie.getAdv();
 		System.err.println("Adve:"+adversaire);
 		
 		/* on récupère la liste des bateux de l'adversaire */
@@ -83,10 +83,12 @@ public class Tir extends Action{
 		}
 		
 		/*le tir touche un bateau */
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie= ? AND idBateau= ?");
+		System.out.println("idpartie:"+getIdPartie()+"idbteau"+idBateau+"pseudo:"+adversaire);
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie =? AND idBateau = ? AND pseudo=?");
 		try {
 			req.getStatement().setInt(1, getIdPartie());
 			req.getStatement().setInt(2, idBateau);
+			req.getStatement().setString(3, adversaire);
 			req.execute();
 		} catch (Exception e) {
 			System.err.println("impossible de maj etat bateau après tir");
