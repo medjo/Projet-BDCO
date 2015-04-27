@@ -185,34 +185,8 @@ public class Connexion extends JFrame {
 				Jouer.setVisible(true);
 			}
 		});
-		btnNewButton_4.setBounds(15, 235, 188, 25);
+		btnNewButton_4.setBounds(5, 235, 160, 25);
 		PrepareBataille.add(btnNewButton_4);
-		
-		JButton btnNewButton_7 = new JButton("Λ");
-		btnNewButton_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_7.setBounds(355, 30, 45, 25);
-		PrepareBataille.add(btnNewButton_7);
-		
-		JButton btnNewButton_8 = new JButton("<");
-		btnNewButton_8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_8.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewButton_8.setBounds(330, 60, 45, 30);
-		PrepareBataille.add(btnNewButton_8);
-		
-		JButton btnNewButton_9 = new JButton("V");
-		btnNewButton_9.setBounds(355, 95, 45, 25);
-		PrepareBataille.add(btnNewButton_9);
-		
-		JButton button = new JButton(">");
-		button.setFont(new Font("Dialog", Font.BOLD, 10));
-		button.setBounds(385, 60, 45, 30);
-		PrepareBataille.add(button);
 		
 		JButton btnQuitter_1 = new JButton("Quitter");
 		btnQuitter_1.addActionListener(new ActionListener() {
@@ -221,8 +195,28 @@ public class Connexion extends JFrame {
 				Connexion.setVisible(true);
 			}
 		});
-		btnQuitter_1.setBounds(232, 235, 188, 25);
+		btnQuitter_1.setBounds(340, 235, 85, 25);
 		PrepareBataille.add(btnQuitter_1);
+		
+		JLabel lblEscortreur = new JLabel(""+"+ Destroyeur placé");
+		lblEscortreur.setBounds(290, 48, 150, 30);
+		PrepareBataille.add(lblEscortreur);
+		
+		JLabel lblEscortreurPlac = new JLabel(""+"+ Escortreur placé");
+		lblEscortreurPlac.setBounds(290, 76, 150, 30);
+		PrepareBataille.add(lblEscortreurPlac);
+		
+		JLabel lblBateauxPlacs = new JLabel("Bateaux placés");
+		lblBateauxPlacs.setBounds(311, 12, 150, 30);
+		PrepareBataille.add(lblBateauxPlacs);
+		
+		JButton btnAnnulerPlacement = new JButton("Annuler Placement");
+		btnAnnulerPlacement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnAnnulerPlacement.setBounds(167, 235, 170, 25);
+		PrepareBataille.add(btnAnnulerPlacement);
 		
 		
 

@@ -21,12 +21,9 @@ public class Case{
 		private JMenuItem escorteur;
 		private JMenuItem supprimer;
 		private Case[][] map;
+		private Case[][] map2;
 		private boolean pivot;
-<<<<<<< HEAD
-
-=======
 		private Ship bateau;
->>>>>>> 075447e429f94715f39c5b47045a061dd30cf602
 		
 		public Case(int xx, int yy, int typee, Case[][] mapp){
 			this.x = xx;
@@ -56,6 +53,56 @@ public class Case{
 					}
 				}
 			});
+			
+			escorteur.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						bateau = ControleurPartie.placerBateau(x, y, 2);
+						pivot = true;
+						creerBateau(1);
+					} catch (Exception e) {
+						// TODO Message d'erreur placement impossible
+						System.err.println("Placement impossible");
+					}
+				}
+			});
+			supprimer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					map[bateau.getXBateau()][bateau.getYBateau()].deleteBateau(type+1, bateau.getDirBateauString());
+				}
+			});
+		}
+		
+		public Case(int xx, int yy, int typee, Case[][] map1, Case[][] map2){
+			this.x = xx;
+			this.y = yy;
+			this.type = typee;
+			this.map = map1;
+			this.map2 = map2; 
+			this.pivot = false;
+			cell = new JMenuBar();
+			menu = new JMenu("    ");
+			destroyeur = new JMenuItem("Destroyeur");
+			escorteur = new JMenuItem("Escorteur");
+			supprimer = new JMenuItem("Supprimer");
+			menu.add(destroyeur);
+			menu.add(escorteur);
+			cell.add(menu);
+			cell.setBackground(Color.white);
+			cell.setBounds(x*32,y*22,30,22);
+			destroyeur.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						bateau = ControleurPartie.placerBateau(x, y, 3);
+						pivot = true;
+						creerBateau(2);
+					} catch (Exception e) {
+						// TODO Message d'erreur placement impossible
+						System.err.println("Placement impossible");
+					}
+				}
+			});
+			
 			escorteur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
