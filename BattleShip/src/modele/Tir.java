@@ -92,11 +92,6 @@ public class Tir extends Action{
 			System.err.println("impossible de maj etat bateau après tir");
 			e.printStackTrace(System.err);
 		}
-		try{
-		BattleShip.theConnection.getConnection().commit();
-		}catch(Exception e){
-			System.out.println("pb de commit");
-		}
 		req.close();
 	}
 	
