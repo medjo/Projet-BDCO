@@ -22,9 +22,7 @@ public class Tir extends Action{
 		}
 		this.x = x;
 		this.y = y;
-		System.err.println("1");
 		String adversaire = BattleShip.partie.getAdv();
-		System.err.println("2");
 		System.err.println("Adve:"+adversaire);
 		
 		/* on récupère la liste des bateux de l'adversaire */
