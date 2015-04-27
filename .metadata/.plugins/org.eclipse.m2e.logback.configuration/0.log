@@ -1,1 +1,0 @@
-2015-04-26 18:28:57,839 [main] WARN  o.e.r.i.c.rcp.TypeBindingAnalyzer - Can't handle class org.eclipse.jdt.internal.compiler.ast.AllocationExpression as parent of completion location.
