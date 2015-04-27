@@ -274,11 +274,7 @@ public class Partie {
 	}
 	
 
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 	//TESTE
 	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
 	public void executerPlacementBateauInitial(Ship batInit) throws SQLException{
@@ -305,21 +301,7 @@ public class Partie {
 			}
 			req.close();
 	
-<<<<<<< HEAD
-		}
-	
-=======
-		}
-	/*
-	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
-	public void joueurTour(ArrayList<Action> listeActions){
-		int i=0;
-		ActionFactory fabrique = new ActionFactory();
-		for(Action action: listeActions){
-			//Application des actions dans la BD
-			action.execute();
-			action.save();
->>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
+	}
 
 	
 	//TESTE juste si finie=true mais pas avec état des bateaux
@@ -421,11 +403,7 @@ public class Partie {
 	
 	public String getPseudoAdv(){
 		return this.pseudoAdversaire;
-<<<<<<< HEAD
 	}
-=======
-	}
->>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 
 	public int getNAction() {
 		return nAction;
@@ -433,12 +411,8 @@ public class Partie {
 
 	public void setNAction(int nAction) {
 		this.nAction = nAction;
-<<<<<<< HEAD
 	}	
-=======
-	}
->>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
-	
+
 	//Méthode qui retourne la liste de mes bateaux
 	public ArrayList<Ship> getMyShips(){
 		ShipsFactory fabrique= new ShipsFactory();
@@ -565,10 +539,6 @@ public class Partie {
 			e.printStackTrace();
 			return 0;
 		}
-<<<<<<< HEAD
-	}
-=======
 	}
 	
->>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 }
