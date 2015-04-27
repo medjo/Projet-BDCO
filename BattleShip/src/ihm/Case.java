@@ -15,7 +15,9 @@ public class Case{
 		private int x;
 		private int y; 
 		private JMenuBar cell;
+		private JMenuBar cell1;
 		private JMenu menu;
+		private JMenu menu1;
 		private int type;
 		private JMenuItem destroyeur;
 		private JMenuItem escorteur;
@@ -143,13 +145,26 @@ public class Case{
 		public Case(int xx, int yy, int typee, Case[][] map1, Case[][] map2){
 			this(xx, yy, typee, map1);
 			this.map2 = map2;
-			tirer = new JMenuItem("Tirer");
+			cell1 = new JMenuBar();
+			menu1 = new JMenu("    ");
 			attaquer = new JMenuItem("Attaquer");
+			tirer = new JMenuItem("Tirer");
+			this.destroyeur.setText("Déplacer");
+			this.escorteur.setText("Pivoter");
 			menu.add(tirer);
+			menu1.add(attaquer);
+			cell1.add(menu1);
+			cell1.setBackground(Color.gray);
+			setCellSize(22, 21);
+			setCell1Size(22, 21);
 			tirer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
+					// TODO Auto-generated method stub	
+				}
+			});
+			attaquer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub	
 				}
 			});
 		}
@@ -165,6 +180,17 @@ public class Case{
 		
 		public JMenuBar getCell(){
 			return cell;
+		}
+		
+		public JMenuBar getCell1(){
+			return cell1;
+		}
+		
+		public void setCellSize(int a, int b){
+			cell.setBounds(x*a,y*b,a-2,b);
+		}
+		public void setCell1Size(int a, int b){
+			cell1.setBounds(10*a+x*a,y*b,a-2,b);
 		}
 		
 
