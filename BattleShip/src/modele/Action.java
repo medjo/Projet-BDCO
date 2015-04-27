@@ -49,4 +49,8 @@ public abstract class Action {
 	public int getNAction(){
 		return nAction;
 	}
+	
+	public String getPseudo(){
+		return pseudo;
+	}
 }
