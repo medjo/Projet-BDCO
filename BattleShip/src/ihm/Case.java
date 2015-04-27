@@ -149,8 +149,10 @@ public class Case{
 			menu1 = new JMenu("    ");
 			attaquer = new JMenuItem("Attaquer");
 			tirer = new JMenuItem("Tirer");
-			this.destroyeur.setText("Déplacer");
-			this.escorteur.setText("Pivoter");
+			menu.remove(destroyeur);
+			menu.remove(escorteur);
+			menu.add(deplacer);
+			menu.add(pivoter);
 			menu.add(tirer);
 			menu1.add(attaquer);
 			cell1.add(menu1);
@@ -159,12 +161,17 @@ public class Case{
 			setCell1Size(22, 21);
 			tirer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					menu.remove(deplacer);
+					menu.remove(pivoter);
+					
 					// TODO Auto-generated method stub	
 				}
 			});
 			attaquer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub	
+					menu.add(deplacer);
+					menu.add(pivoter);
 				}
 			});
 		}

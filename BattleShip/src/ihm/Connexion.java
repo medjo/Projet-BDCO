@@ -49,6 +49,8 @@ public class Connexion extends JFrame {
 	private JTable Carte;
 	private JTable table;
 	private JTextField txtJoueurN;
+	private String pseudoAdv;
+	private String pseudoJo;
 	
 
 	/**
@@ -124,13 +126,24 @@ public class Connexion extends JFrame {
 		
 		JButton btnRafraichir = new JButton("Rafraichir");
 		btnRafraichir.setBounds(5, 235, 120, 25);
+		btnRafraichir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( (boolean)BattleShip.partie.aMoiDeJouer()){ //>>>>>>A voir pb dans Partie<<<<<<<
+					txtJoueurN.setText("Tour de "+pseudoJo);
+				}
+				txtJoueurN.setText("Tour de " + pseudoAdv);
+			}
+		});
+		Jouer.setLayout(null);
 		Jouer.add(btnRafraichir);
+		
 		
 		txtJoueurN = new JTextField();
 		txtJoueurN.setText("Tour Joueur...");
 		txtJoueurN.setBounds(130, 235, 135, 25);
 		Jouer.add(txtJoueurN);
 		txtJoueurN.setColumns(10);
+		
 //interface de connexion -> Observer une partie 
 		final JPanel OberservationPartie = new JPanel();
 		contentPane.add(OberservationPartie, "name_2587200245776");
@@ -152,7 +165,8 @@ public class Connexion extends JFrame {
 					// TODO Message erreur
 					System.out.println("Il n'y a pas d'adversaire disponible");
 				}
-				JLabel lblVotre = new JLabel("Votre adversaire " + BattleShip.partie.getPseudoAdv() + " est prêt");
+				pseudoAdv =BattleShip.partie.getPseudoAdv();
+				JLabel lblVotre = new JLabel("Votre adversaire " + pseudoAdv + " est prêt");
 				lblVotre.setBounds(50, 100, 400, 20);
 				ChercheAdv.add(lblVotre);
 						
@@ -480,7 +494,8 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ControleurConnexion.connexion(txtLogin.getText());
-					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + BattleShip.user.getPseudo());
+					pseudoJo = BattleShip.user.getPseudo();
+					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + pseudoJo);
 					lblNewLabel_1.setBounds(164, 51, 230, 15);
 					Connexion.add(lblNewLabel_1);
 					Connexion.setVisible(true);
