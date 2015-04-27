@@ -63,36 +63,29 @@ public class ControleurPartie {
 	}
 
 	/**
-	 * crée, execute et sauve le tir. Et préviens l'ihm si l'action est valide
-	 * @param idBateau id du bateau qui effectue l'action
-	 * @param xTir coord de tir
-	 * @param yTir coor de tir
-	 * @return true si l'action est valide, false si elle ne respecte pas les contraintes
-	 * @throws TirMissed exception tirMissed pour prévenir l'IHM
-	 */
-	public static boolean jouerTir(int idBateau, int xTir, int yTir) throws TirMissed{
-		try{
-<<<<<<< HEAD
-			Tir tir = new Tir(idBateau, BattleShip.partie.getIdPartie(), BattleShip.user.getPseudo(), BattleShip.partie.getNTour(), BattleShip.partie.getNAction(), xTir, yTir);
-			tir.execute();
-			tir.save();
-=======
-			action.execute();
-			ArrayList<Ship> ships= BattleShip.partie.getBateauxCourants();
-			for(Ship s: ships){
-				if(s.getIdBateau()==action.getIdBateau()){
-					s.setCoupsBateau(s.getCoupsBateau()-1);
-				}
-			}
-			
->>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
-		}
-		catch(TirOutOfBound e){
-			return false;
-		}
-		/* si il n'y a pas d'exception on enregistre l'action */
-		return true;
-	}
+     * execute et sauve l'action et préviens l'ihm si l'action est valide
+     * @param action
+     * @return true si l'action est valide, false si elle ne respecte pas les contraintes
+     * @throws TirMissed exception tirMissed pour prévenir l'IHM
+     */
+    public static boolean jouerAction(Action action) throws TirMissed{
+            try{
+                    action.execute();
+                    ArrayList<Ship> ships= BattleShip.partie.getBateauxCourants();
+                    for(Ship s: ships){
+                            if(s.getIdBateau()==action.getIdBateau()){
+                                    s.setCoupsBateau(s.getCoupsBateau()-1);
+                            }
+                    }
+
+            }
+            catch(ExceptionDeplacement e){
+                    return false;
+            }
+            /* si il n'y a pas d'exception on enregistre l'action */
+            action.save();
+            return true;
+    }
 
 	public static Tir Tir(int idBateau, int x, int y){
 		try {
