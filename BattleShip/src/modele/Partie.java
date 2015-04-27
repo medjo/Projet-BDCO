@@ -438,6 +438,10 @@ public class Partie {
 		this.numTour=num;
 	}
 	
+	public void incrNumTour(){
+		numTour++;
+	}
+	
 	public int getNumTour(){
 		return this.numTour;
 	}
