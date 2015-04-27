@@ -10,6 +10,7 @@ import Controleur.ControleurConnexion;
 import Controleur.ControleurPartie;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import jdbc.*;
 import ihm.org.eclipse.wb.swing.FocusTraversalOnArray;
@@ -202,6 +203,11 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_4 = new JButton("Commencer le jeu");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+/*				JMenuBar[] map = (JMenuBar[])PrepareBataille.getComponents();
+				ArrayList<Ship> batInit= new ArrayList<Ship>();
+				for (JMenuBar c : map){
+					
+				}*/
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}
@@ -219,11 +225,11 @@ public class Connexion extends JFrame {
 		btnQuitter_1.setBounds(340, 235, 85, 25);
 		PrepareBataille.add(btnQuitter_1);
 		
-		JLabel lblEscortreur = new JLabel("Destroyeur");
+		JLabel lblEscortreur = new JLabel("Destroyeur : 1");
 		lblEscortreur.setBounds(330, 48, 100, 30);
 		PrepareBataille.add(lblEscortreur);
 		
-		JLabel lblEscortreurPlac = new JLabel("Escorteur ");
+		JLabel lblEscortreurPlac = new JLabel("Escorteur : 2");
 		lblEscortreurPlac.setBounds(330, 76, 100, 30);
 		PrepareBataille.add(lblEscortreurPlac);
 		

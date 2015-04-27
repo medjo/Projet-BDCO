@@ -301,14 +301,7 @@ public class Partie {
 			throw e1;
 			}
 			req.close();
-
-		}
-
-	
-
-
-		
-	
+	}
 
 	
 	//TESTE juste si finie=true mais pas avec état des bateaux
@@ -403,7 +396,6 @@ public class Partie {
 	
 	public String getPseudoAdv(){
 		return this.pseudoAdversaire;
-
 	}
 
 
@@ -414,11 +406,8 @@ public class Partie {
 
 	public void setNAction(int nAction) {
 		this.nAction = nAction;
-
 	}
-
-
-
+	
 	
 	//Méthode qui retourne la liste de mes bateaux
 	public ArrayList<Ship> getMyShips(){
@@ -564,5 +553,8 @@ public class Partie {
 			return false;
 		}
 	}
+
+			
+
 
 }

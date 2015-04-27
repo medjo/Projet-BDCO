@@ -39,6 +39,9 @@ public class Case{
 		private int xBateau;
 		private int yBateau;
 		private String dirBateau;
+		private int idBateau;
+		private int nDes;
+		private int nEsc;
 		private Case[][] map2;
 		
 		public Case(int xx, int yy, int typee, Case[][] mapp){
@@ -46,6 +49,9 @@ public class Case{
 			this.y = yy;
 			this.type = typee;
 			this.map = mapp;
+			this.idBateau = 0;
+			this.nDes = 0;
+			this.nEsc = 0;
 			cell = new JMenuBar();
 			menu = new JMenu("    ");
 			destroyeur = new JMenuItem("Destroyeur");
@@ -77,7 +83,12 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						//bateau = ControleurPartie.placerBateau(x, y, 3);
-						creerBateau(3, "n");
+						if(map[0][0].getNDes()==0) {
+							creerBateau(3, "n", getNBateau()+1);
+							map[0][0].setNDes(1);
+						} else {
+							System.err.println("Plus de destroyer disponible");
+						}
 					} catch (Exception e) {
 						// TODO Message d'erreur placement impossible
 						System.err.println("Placement impossible");
@@ -88,7 +99,13 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						//bateau = ControleurPartie.placerBateau(x, y, 2);
-						creerBateau(2, "n");
+						int ne = map[0][0].getNEsc();
+						if(ne==0 || ne ==1) {
+							creerBateau(2, "n", getNBateau()+1);
+							map[0][0].setNEsc(ne+1);
+						} else {
+							System.err.println("Plus d'escorteur disponible");
+						}
 					} catch (Exception e) {
 						// TODO Message d'erreur placement impossible
 						System.err.println("Placement impossible");
@@ -102,42 +119,82 @@ public class Case{
 			});*/
 			dnord.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					deplacerBateau("n", type+1);
+					try {
+						deplacerBateau("n", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 			dsud.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					deplacerBateau("s", type+1);
+					try {
+						deplacerBateau("s", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 			dest.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					deplacerBateau("e", type+1);
+					try {
+						deplacerBateau("e", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 			douest.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					deplacerBateau("o", type+1);
+					try {
+						deplacerBateau("o", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 			pnord.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					pivoterBateau("n", type+1);
+					try {
+						pivoterBateau("n", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 			psud.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					pivoterBateau("s", type+1);
+					try {
+						pivoterBateau("s", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 			pest.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					pivoterBateau("e", type+1);
+					try {
+						pivoterBateau("e", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 			pouest.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					pivoterBateau("o", type+1);
+					try {
+						pivoterBateau("o", type+1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println(e.getMessage());
+					}
 				}
 			});
 		}
@@ -244,7 +301,8 @@ public class Case{
 			menu.add(escorteur);
 		}
 		
-		public void creerBateau(int taille, String dir){
+		public void creerBateau(int taille, String dir, int id) throws Exception{
+			checkBateau(dir, taille);
 			Case c;
 			for (int i = 0; i < taille; i++){
 				switch(dir){
@@ -263,6 +321,7 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
+				c.setIdBateau(id);
 				c.setCoordBateau(x, y);
 				c.setType(taille-1);
 				c.setDirBateau(dir);
@@ -270,34 +329,81 @@ public class Case{
 			}
 		}
 		
-		public void deplacerBateau(String dir, int taille){
-			Case c = map[xBateau][yBateau];
-			String dirB = dirBateau;
-			c.deleteBateau(taille, dirBateau);
-			switch(dir){
-			case "n" :
-				c = map[xBateau][yBateau-1];
-				break;
-			case "s" :
-				c = map[xBateau][yBateau+1];
-				break;
-			case "e" :
-				c = map[xBateau+1][yBateau];
-				break;
-			case "o" :
-				c = map[xBateau-1][yBateau];
-				break;
-			default :
-				throw new IllegalArgumentException("Direction incorrecte");
+		public void checkBateau(String dir, int taille) throws Exception{
+			Case c;
+			for (int i = 0; i < taille; i++){
+				switch(dir){
+				case "n" :
+					c = map[x][y-i];
+					break;
+				case "s" :
+					c = map[x][y+i];
+					break;
+				case "e" :
+					c = map[x+i][y];
+					break;
+				case "o" :
+					c = map[x-i][y];
+					break;
+				default :
+					throw new IllegalArgumentException("Direction incorrecte");
+				}
+				if (c.getIdBateau() != 0){
+					throw new IllegalArgumentException("Case occupée");
+				}
 			}
-			c.creerBateau(taille, dirBateau);
 		}
 		
-		public void pivoterBateau(String dir, int taille){
+		public void deplacerBateau(String dir, int taille) throws Exception{
 			Case c = map[xBateau][yBateau];
 			String dirB = dirBateau;
+			int id = idBateau;
 			c.deleteBateau(taille, dirBateau);
-			c.creerBateau(taille, dir);
+			try {
+				switch(dir){
+				case "n" :
+					c = map[xBateau][yBateau-1];
+					break;
+				case "s" :
+					c = map[xBateau][yBateau+1];
+					break;
+				case "e" :
+					c = map[xBateau+1][yBateau];
+					break;
+				case "o" :
+					c = map[xBateau-1][yBateau];
+					break;
+				default :
+					throw new IllegalArgumentException("Direction incorrecte");
+				}
+				//c.checkBateau(dirB, taille);
+				c.creerBateau(taille, dirB, id);
+			} catch (IllegalArgumentException e) {
+				c = map[xBateau][yBateau];
+				c.creerBateau(taille, dirB, id);
+				throw new IllegalArgumentException("Case occupée");
+			} catch (Exception e) {
+				c = map[xBateau][yBateau];
+				c.creerBateau(taille, dirB, id);
+				throw new IllegalArgumentException("Case en dehors de la carte");
+			}
+		}
+		
+		public void pivoterBateau(String dir, int taille) throws Exception{
+			Case c = map[xBateau][yBateau];
+			String dirB = dirBateau;
+			int id = idBateau;
+			c.deleteBateau(taille, dirB);
+			try{
+				//c.checkBateau(dir, taille);
+				c.creerBateau(taille, dir, id);
+			} catch (IllegalArgumentException e) {
+				c.creerBateau(taille, dirB, id);
+				throw new IllegalArgumentException("Case occupée");
+			} catch (Exception e) {
+				c.creerBateau(taille, dirB, id);
+				throw new IllegalArgumentException("Case en dehors de la carte");
+			}
 		}
 		
 		public void deleteBateau(int taille, String dir){
@@ -319,6 +425,7 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
+				c.setIdBateau(0);
 				c.setType(0);
 				c.setMenuMer();
 			}
@@ -331,5 +438,33 @@ public class Case{
 		
 		public void setDirBateau(String dir){
 			dirBateau = dir;
+		}
+		
+		public int getNBateau(){
+			return map[0][0].getNDes()+map[0][0].getNEsc();
+		}
+		
+		public int getNDes(){
+			return nDes;
+		}
+		
+		public int getNEsc(){
+			return nEsc;
+		}
+		
+		public void setIdBateau(int id){
+			idBateau = id;
+		}
+		
+		public int getIdBateau(){
+			return idBateau;
+		}
+		
+		public void setNDes(int nd){
+			nDes = nd;
+		}
+		
+		public void setNEsc(int ne){
+			nEsc = ne;
 		}
 }
