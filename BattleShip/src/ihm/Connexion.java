@@ -168,7 +168,7 @@ public class Connexion extends JFrame {
 		Connexion.add(btnReprendreUnePartie);
 		
 		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille
-		JButton btnNewButton_6 = new JButton("Preparer Bataille ");
+		JButton btnNewButton_6 = new JButton("Préparer Bataille ");
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ChercheAdv.setVisible(false);
@@ -188,7 +188,7 @@ public class Connexion extends JFrame {
 		btnNewButton_4.setBounds(15, 235, 188, 25);
 		PrepareBataille.add(btnNewButton_4);
 		
-		JButton btnNewButton_7 = new JButton("Λ");
+		JButton btnNewButton_7 = new JButton("Î›");
 		btnNewButton_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -225,10 +225,19 @@ public class Connexion extends JFrame {
 		PrepareBataille.add(btnQuitter_1);
 		
 		
+<<<<<<< HEAD
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case c = new Case(i, j, 0); 
 				PrepareBataille.add(c.getCell());	
+=======
+		Case[][] map = new Case[10][10];
+		for (int i=0; i<10; i++){
+			for (int j=0; j<10; j++){
+				Case C = new Case(i, j, 0, map);
+				map[i][j]=C;
+				PrepareBataille.add(C.getCell());	
+>>>>>>> cf20b4496ddcf3c04b7dbff8d6689d3e7dee0ce6
 			}	
 		}
 		Connexion.setVisible(false);
@@ -354,7 +363,7 @@ public class Connexion extends JFrame {
 		label.setBounds(12, 20, 31, 15);
 		InfosPerso.add(label);
 		
-		JLabel label_1 = new JLabel("Prenom");
+		JLabel label_1 = new JLabel("Prénom");
 		label_1.setBounds(12, 40, 54, 15);
 		InfosPerso.add(label_1);
 		
@@ -457,7 +466,7 @@ public class Connexion extends JFrame {
 					System.out.println("Inscription invalide");
 				} catch (UtilisateurExistantException e1) {
 					JOptionPane UserExistant = new JOptionPane(); 
-					UserExistant.showMessageDialog(null, "Ce pseudo est déjà utilisé", "Warning", JOptionPane.WARNING_MESSAGE); 
+					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE); 
 					// TODO Auto-generated catch block
 				}
 				

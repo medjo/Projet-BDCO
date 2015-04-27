@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import jdbc.*;
 import Controleur.ControleurConnexion;
+import Controleur.ControleurPartie;
 
 public class BattleShip {
 	
@@ -26,7 +27,7 @@ public class BattleShip {
 		req.close();*/
 		
 		//Lancement de l'interface graphique
-		EventQueue.invokeLater(new Runnable() {
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Connexion frame = new Connexion();
@@ -35,20 +36,154 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 		
 		//Test des fonctions de connexions
 		/*
 		ControleurConnexion.inscription("MordokkaiserBest4","guy",
 				"sylvain", 14, 02 , 1994,
-				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");
-		ControleurConnexion.connexion("Mordokkaiser");
-		Test de la création de partie
-		Partie partie = new Partie();
-		partie.user=user;
-		partie.creerNouvellePartie(105);
-		if(partie.partieTerminee()) System.out.println("Partie terminée");
-		else System.out.println("Partie en cours");*/
+				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");*/
+		
+		//Test de la reprise d'une partie
+		
+		try {
+			ControleurConnexion.connexion("Sylvain");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		try {
+			ControleurPartie.lancerNouvellePartie();
+		} catch (ExceptionNoAdv e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		ArrayList<Ship> batInit= new ArrayList<Ship>();
+		batInit.add(0, new Escorteur(5,5,"n",0));
+		batInit.add(1, new Destroyer(4,3,"s",1));
+		partie.executerPlacementBateauxInitiaux(batInit);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		
+		
+		try {
+			ControleurConnexion.connexion("Sylvain");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		try {
+			ControleurPartie.lancerNouvellePartie();
+		} catch (ExceptionNoAdv e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		/*
+		ArrayList<Ship> batInit= new ArrayList<Ship>();
+		batInit.add(0, new Escorteur(5,5,"n",0));
+		batInit.add(1, new Destroyer(4,3,"s",1));
+		partie.executerPlacementBateauxInitiaux(batInit);
+		
+		Tir tir;
+		tir=null;
+		try {
+			tir = new Tir(0,BattleShip.partie.getIdPartie(),"Mordokkai",0,0,4,3);
+		} catch (TirOutOfBound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			tir.execute();
+		} catch (TirMissed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tir.save();
+		BattleShip.theConnection.getConnection().commit();
+		
+		
+		if(BattleShip.partie.aMoiDeJouer()) {System.out.println("C'est à moi de jouer");}
+		else{System.out.println("Ce n'est pas à moi de jouer");}
+		
+		BattleShip.user = new Utilisateur();
+		try {
+			ControleurConnexion.connexion("Rubixbob");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		
+		Tir tir2;
+		tir2=null;
+		try {
+			tir2 = new Tir(0,BattleShip.partie.getIdPartie(),"Rubixbob",1,0,4,3);
+		} catch (TirOutOfBound e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			tir2.execute();
+		} catch (TirMissed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tir2.save();
+		BattleShip.theConnection.getConnection().commit();
+		
+		if(BattleShip.partie.aMoiDeJouer()) {System.out.println("C'est à moi de jouer");}
+		else{System.out.println("Ce n'est pas à moi de jouer");}
+		
+		
+		
+		
+		
+		
+		//Test si une partie est terminée
+		/*
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//if(partie.partieTerminee()) System.out.println("Partie terminée");
+		//else System.out.println("Partie en cours");
 		
 		//Test de la récupération du dernier indice de partie
 		//System.out.println(partie.getIdDernierePartie());
@@ -147,7 +282,7 @@ public class BattleShip {
 		//Test si une partie est terminée
 		/*
 		
-/*		partie.executerPlacementBateauxInitiaux(batInit);
+		partie.executerPlacementBateauxInitiaux(batInit);
 		if(partie.partieTerminee())
 			System.out.println("La partie est terminée");
 		else
