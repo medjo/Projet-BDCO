@@ -196,11 +196,11 @@ public class Partie {
 	
 	//A PLACER AILLEURS SUREMENT
 	//A partir de la liste des infos de placement cela retourne la liste des bateaux initiaux
-	/*public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
-		ShipsFactory bateaux = new ShipsFactory();
-		this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
-	}
-	
+	//public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
+	//	ShipsFactory bateaux = new ShipsFactory();
+		//this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
+	//}
+	/*
 	public void executerPlacementBateaux(){
 		//On enregistre dans la BD le placement des bateaux
 		int i=0;
@@ -232,8 +232,8 @@ public class Partie {
 		}
 		req.close();
 		}
-	}*/
-	
+	}
+	*/
 	
 	//TESTE
 	//Méthode qui enregistre les positions initiales des bateaux à partir des informations fournies par l'ihm
@@ -275,6 +275,7 @@ public class Partie {
 	
 
 
+
 	//TESTE
 	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
 	public void executerPlacementBateauInitial(Ship batInit) throws SQLException{
@@ -300,7 +301,6 @@ public class Partie {
 			throw e1;
 			}
 			req.close();
-	
 	}
 
 	
@@ -405,14 +405,17 @@ public class Partie {
 		return this.pseudoAdversaire;
 	}
 
+
+
 	public int getNAction() {
 		return nAction;
 	}
 
 	public void setNAction(int nAction) {
 		this.nAction = nAction;
-	}	
-
+	}
+	
+	
 	//Méthode qui retourne la liste de mes bateaux
 	public ArrayList<Ship> getMyShips(){
 		ShipsFactory fabrique= new ShipsFactory();
@@ -529,10 +532,10 @@ public class Partie {
 	public int getDernierNumeroBateau(){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idBateau) FROM  bateaux WHERE idPartie="+this.idPartie+"AND pseudo='"+BattleShip.user.getPseudo()+"'");
 		try{
-		req.execute();
-		ResultSet res = req.getResult();
-		if(!res.next()) return -1;
-		return res.getInt(1);
+			req.execute();
+			ResultSet res = req.getResult();
+			if(!res.next()) return -1;
+			return res.getInt(1);
 		}
 		catch (Exception e){
 			System.err.println("Problème lors de la récupération du dernier numero de bateau");
@@ -541,4 +544,5 @@ public class Partie {
 		}
 	}
 	
+
 }
