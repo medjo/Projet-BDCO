@@ -95,7 +95,6 @@ public class Connexion extends JFrame {
 //interface de connexion
 		final JPanel Connexion = new JPanel();
 		contentPane.add(Connexion, "name_31673698091126");
-		Connexion.setLayout(null);
 		
 //interface de connexion->Lancer Partie 	
 		final JPanel ChercheAdv = new JPanel();
@@ -111,6 +110,10 @@ public class Connexion extends JFrame {
 		final JPanel Jouer = new JPanel();
 		contentPane.add(Jouer, "name_61813199911534");
 		Jouer.setLayout(null);
+//interface de connexion -> Observer une partie 
+		final JPanel OberservationPartie = new JPanel();
+		contentPane.add(OberservationPartie, "name_2587200245776");
+		OberservationPartie.setLayout(null);
 		
 //interface d'inscription
 		final JPanel Inscription = new JPanel();
@@ -119,6 +122,7 @@ public class Connexion extends JFrame {
 				
 //Contenu de l'interface connexion
 		JButton btnNewButton = new JButton("Jouer une partie");
+		btnNewButton.setBounds(125, 82, 230, 25);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -135,20 +139,21 @@ public class Connexion extends JFrame {
 				ChercheAdv.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(125, 82, 230, 25);
+		Connexion.setLayout(null);
 		Connexion.add(btnNewButton);
 				
 		JButton btnNewButton_1 = new JButton("Observer une partie");
+		btnNewButton_1.setBounds(125, 156, 230, 25);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Connexion.setVisible(false);
 				OberservationPartie.setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(125, 156, 230, 25);
 		Connexion.add(btnNewButton_1);
 				
 		JButton btnNewButton_2 = new JButton("Déconnexion");
+		btnNewButton_2.setBounds(125, 193, 230, 25);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connexion.remove(3);
@@ -156,7 +161,6 @@ public class Connexion extends JFrame {
 				Identification.setVisible(true);
 			}
 		});
-		btnNewButton_2.setBounds(125, 193, 230, 25);
 		Connexion.add(btnNewButton_2);
 		
 		JButton btnReprendreUnePartie = new JButton("Reprendre une partie");
@@ -221,11 +225,10 @@ public class Connexion extends JFrame {
 		PrepareBataille.add(btnQuitter_1);
 		
 		
-		//JMenuBar[][] boutonChiffresJo1 = new JMenuBar[10][10]; 
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
-				Case C = new Case(i, j, 0); 
-				PrepareBataille.add(C.getCell());	
+				Case c = new Case(i, j, 0); 
+				PrepareBataille.add(c.getCell());	
 			}	
 		}
 		Connexion.setVisible(false);
@@ -266,11 +269,10 @@ public class Connexion extends JFrame {
 		Connexion.setVisible(false);
 		PrepareBataille.setVisible(false);
 		
-//interface de connexion -> Observer une partie 
-		final JPanel OberservationPartie = new JPanel();
-		contentPane.add(OberservationPartie, "name_2587200245776");
-		OberservationPartie.setLayout(null);
+		JPanel ReprendrePartie = new JPanel();
+		contentPane.add(ReprendrePartie, "name_11310189880415");
 		
+//Contenu interface de connexion -> Observer une partie 		
 		JLabel lblNewLabel_2 = new JLabel("Identifiant de Partie");
 		lblNewLabel_2.setBounds(56, 84, 165, 15);
 		OberservationPartie.add(lblNewLabel_2);

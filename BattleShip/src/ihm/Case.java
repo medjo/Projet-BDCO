@@ -12,7 +12,7 @@ public class Case{
 		private int y; 
 		private JMenuBar cell;
 		private JMenu menu;
-		private int type;
+		private int type; 
 		
 		public Case(int xx, int yy, int typee){
 			this.x = xx;
@@ -52,4 +52,5 @@ public class Case{
 		public JMenuBar getCell(){
 			return cell;
 		}
+		
 }
