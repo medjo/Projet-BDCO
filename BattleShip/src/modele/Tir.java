@@ -22,7 +22,7 @@ public class Tir extends Action{
 		}
 		this.x = x;
 		this.y = y;
-		String adversaire = BattleShip.partie.getAdv();
+		this.adversaire = BattleShip.partie.getAdv();
 		System.err.println("Adve:"+adversaire);
 		
 		/* on récupère la liste des bateux de l'adversaire */
@@ -72,21 +72,43 @@ public class Tir extends Action{
 	public void execute() throws TirMissed {
 		int idBateau = -1;
 		for(Ship s : bateauxEnnemis){
-			 if(x == s.getXBateau() && y == s.getYBateau()){
-				 idBateau = s.getIdBateau();
-			 }
+			
+			switch(s.getDirBateau()){
+			case NORD:
+				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case SUD:
+				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case EST:
+				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case OUEST:
+				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			}
 		}
 		/* le tir ne touche aucun bateau */
 		if(idBateau == -1){
 			System.out.println("Bateau non touché");
-			//throw new TirMissed();
+			throw new TirMissed();
 		}
 		
 		/*le tir touche un bateau */
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie= ? AND idBateau= ?");
+		System.out.println("Bateau ennemi touché; idpartie:"+getIdPartie()+"idbteau"+idBateau+"pseudo:"+adversaire);
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie =? AND idBateau = ? AND pseudo=?");
 		try {
 			req.getStatement().setInt(1, getIdPartie());
 			req.getStatement().setInt(2, idBateau);
+			req.getStatement().setString(3, adversaire);
 			req.execute();
 		} catch (Exception e) {
 			System.err.println("impossible de maj etat bateau après tir");

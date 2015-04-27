@@ -196,11 +196,11 @@ public class Partie {
 	
 	//A PLACER AILLEURS SUREMENT
 	//A partir de la liste des infos de placement cela retourne la liste des bateaux initiaux
-	/*public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
-		ShipsFactory bateaux = new ShipsFactory();
-		this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
-	}
-	
+	//public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
+	//	ShipsFactory bateaux = new ShipsFactory();
+		//this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
+	//}
+	/*
 	public void executerPlacementBateaux(){
 		//On enregistre dans la BD le placement des bateaux
 		int i=0;
@@ -232,8 +232,8 @@ public class Partie {
 		}
 		req.close();
 		}
-	}*/
-	
+	}
+	*/
 	
 	//TESTE
 	//Méthode qui enregistre les positions initiales des bateaux à partir des informations fournies par l'ihm
@@ -274,7 +274,8 @@ public class Partie {
 	}
 	
 
-	
+
+
 	//TESTE
 	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
 	public void executerPlacementBateauInitial(Ship batInit) throws SQLException{
@@ -300,28 +301,8 @@ public class Partie {
 			throw e1;
 			}
 			req.close();
-	
-		}
-	/*
-	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
-	public void joueurTour(ArrayList<Action> listeActions){
-		int i=0;
-		ActionFactory fabrique = new ActionFactory();
-		for(Action action: listeActions){
-			//Application des actions dans la BD
-			action.execute();
-			action.save();
-
-		}
-		try{
-			BattleShip.theConnection.getConnection().commit(); //On ne commit qu'à la fin
-		}
-		catch (SQLException e){
-			BattleShip.theConnection.rollbackPerso();
-		}
 	}
-	*/
-	
+
 	
 	//TESTE juste si finie=true mais pas avec état des bateaux
 	//Méthode qui teste si l'adversaire n'a pas terminé la partie 
@@ -424,6 +405,8 @@ public class Partie {
 		return this.pseudoAdversaire;
 	}
 
+
+
 	public int getNAction() {
 		return nAction;
 	}
@@ -431,6 +414,7 @@ public class Partie {
 	public void setNAction(int nAction) {
 		this.nAction = nAction;
 	}
+	
 	
 	//Méthode qui retourne la liste de mes bateaux
 	public ArrayList<Ship> getMyShips(){
@@ -453,6 +437,10 @@ public class Partie {
 	
 	public void setNumTour(int num){
 		this.numTour=num;
+	}
+	
+	public void incrNumTour(){
+		numTour++;
 	}
 	
 	public int getNumTour(){
@@ -544,10 +532,10 @@ public class Partie {
 	public int getDernierNumeroBateau(){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(idBateau) FROM  bateaux WHERE idPartie="+this.idPartie+"AND pseudo='"+BattleShip.user.getPseudo()+"'");
 		try{
-		req.execute();
-		ResultSet res = req.getResult();
-		if(!res.next()) return -1;
-		return res.getInt(1);
+			req.execute();
+			ResultSet res = req.getResult();
+			if(!res.next()) return -1;
+			return res.getInt(1);
 		}
 		catch (Exception e){
 			System.err.println("Problème lors de la récupération du dernier numero de bateau");
@@ -556,4 +544,5 @@ public class Partie {
 		}
 	}
 	
+
 }

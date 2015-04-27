@@ -49,6 +49,7 @@ public class Connexion extends JFrame {
 	private JTextField textField_8;
 	private JTable Carte;
 	private JTable table;
+	private JTextField txtJoueurN;
 	
 
 	/**
@@ -110,7 +111,27 @@ public class Connexion extends JFrame {
 //interface de connexion -> lancer partie -> preparer bataille -> Jouer 
 		final JPanel Jouer = new JPanel();
 		contentPane.add(Jouer, "name_61813199911534");
+		
+		JButton btnRetour = new JButton("Quitter la partie");
+		btnRetour.setBounds(275, 235, 150, 25);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Jouer.setVisible(false);
+				PrepareBataille.setVisible(true);
+			}
+		});
 		Jouer.setLayout(null);
+		Jouer.add(btnRetour);
+		
+		JButton btnRafraichir = new JButton("Rafraichir");
+		btnRafraichir.setBounds(5, 235, 120, 25);
+		Jouer.add(btnRafraichir);
+		
+		txtJoueurN = new JTextField();
+		txtJoueurN.setText("Tour Joueur...");
+		txtJoueurN.setBounds(130, 235, 135, 25);
+		Jouer.add(txtJoueurN);
+		txtJoueurN.setColumns(10);
 //interface de connexion -> Observer une partie 
 		final JPanel OberservationPartie = new JPanel();
 		contentPane.add(OberservationPartie, "name_2587200245776");
@@ -239,35 +260,15 @@ public class Connexion extends JFrame {
 		
 		
 		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille-> Jouer
-		JButton[][] boutonChiffresJ1 = new JButton[10][10];
-		JButton[][] boutonChiffresJ2 = new JButton[10][10];
+		Case[][] map1 = new Case[10][10];
+		Case[][] map2 = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
-				boutonChiffresJ1[i][j]= new JButton("");
-				boutonChiffresJ2[i][j]= new JButton("");
-				
-				boutonChiffresJ1[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
-				boutonChiffresJ2[i][j].setFont(new Font("Dialog", Font.BOLD, 10));
-				
-				boutonChiffresJ1[i][j].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
-				boutonChiffresJ2[i][j].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-					}
-				});
-				
-				boutonChiffresJ1[i][j].setBounds(i*21, j*17, 21, 17);
-				boutonChiffresJ2[i][j].setBounds(230+i*21,j*17, 21, 17);
-				
-				boutonChiffresJ1[i][j].setBackground(Color.white);
-				boutonChiffresJ2[i][j].setBackground(Color.LIGHT_GRAY);
-				
-				Jouer.add(boutonChiffresJ1[i][j]);
-				Jouer.add(boutonChiffresJ2[i][j]);
-			}
-			
+				Case C = new Case(i, j, 0, map1, map2);
+				map[i][j]=C;
+				Jouer.add(C.getCell());
+				Jouer.add(C.getCell1());
+			}	
 		}
 		Connexion.setVisible(false);
 		PrepareBataille.setVisible(false);

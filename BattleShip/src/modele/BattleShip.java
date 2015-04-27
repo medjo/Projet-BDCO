@@ -55,6 +55,20 @@ public class BattleShip {
 		//Test de la création de partie
 		BattleShip.partie=new Partie();
 		BattleShip.user=user;
+		
+		//ControleurPartie.reprendrePartieEnCours(idPartie, adv)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
 		try {
 			ControleurPartie.lancerNouvellePartie();
 		} catch (ExceptionNoAdv e1) {
@@ -67,7 +81,7 @@ public class BattleShip {
 		batInit.add(0, new Escorteur(5,5,"n",0));
 		batInit.add(1, new Destroyer(4,3,"s",1));
 		partie.executerPlacementBateauxInitiaux(batInit);
-		
+		*/
 		
 		
 		
