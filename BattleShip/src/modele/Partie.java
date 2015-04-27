@@ -68,9 +68,9 @@ public class Partie {
 		else {
 			joueurMin = listeJoueurs.get(0);
 		}
-		System.out.println("taille de la liste"+listeJoueurs.size());
+		//System.out.println("taille de la liste"+listeJoueurs.size());
 		while(i<listeJoueurs.size()){
-			System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
+			//System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
 			if(listeJoueurs.get(i).getNbParties()<joueurMin.getNbParties()){
 				joueurMin=listeJoueurs.get(i);
 			}
@@ -274,10 +274,14 @@ public class Partie {
 	}
 	
 
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 	//TESTE
 	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
-	public void executerPlacementBateauInitial(Ship batInit){
+	public void executerPlacementBateauInitial(Ship batInit) throws SQLException{
 		//On enregistre dans la BD le placement des bateaux à l'état initial
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 		try {
@@ -296,13 +300,26 @@ public class Partie {
 			req.execute();
 		} catch (SQLException e1) {
 			BattleShip.theConnection.rollbackPerso();
-			e1.printStackTrace();
 			System.out.println("Problème lors du placement initial du bateau");
+			throw e1;
 			}
 			req.close();
 	
+<<<<<<< HEAD
 		}
 	
+=======
+		}
+	/*
+	//Méthode qui excéute les actions du joueur et les enregistre dans la base de donnée
+	public void joueurTour(ArrayList<Action> listeActions){
+		int i=0;
+		ActionFactory fabrique = new ActionFactory();
+		for(Action action: listeActions){
+			//Application des actions dans la BD
+			action.execute();
+			action.save();
+>>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 
 	
 	//TESTE juste si finie=true mais pas avec état des bateaux
@@ -404,7 +421,11 @@ public class Partie {
 	
 	public String getPseudoAdv(){
 		return this.pseudoAdversaire;
+<<<<<<< HEAD
 	}
+=======
+	}
+>>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 
 	public int getNAction() {
 		return nAction;
@@ -412,14 +433,17 @@ public class Partie {
 
 	public void setNAction(int nAction) {
 		this.nAction = nAction;
+<<<<<<< HEAD
 	}	
+=======
+	}
+>>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 	
 	//Méthode qui retourne la liste de mes bateaux
 	public ArrayList<Ship> getMyShips(){
 		ShipsFactory fabrique= new ShipsFactory();
 		return fabrique.Ships(idPartie, BattleShip.user.getPseudo());
 	}
-	
 	
 	//Retourne la liste des bateaux courants si elle a déjà étét crée
 	public ArrayList<Ship> getBateauxCourants(){
@@ -541,5 +565,10 @@ public class Partie {
 			e.printStackTrace();
 			return 0;
 		}
+<<<<<<< HEAD
 	}
+=======
+	}
+	
+>>>>>>> a15cd90594dee274bdc986e1f72a87603e0bacbe
 }

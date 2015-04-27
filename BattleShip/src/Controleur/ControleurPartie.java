@@ -88,6 +88,7 @@ public class ControleurPartie {
 	}
 
 
+
 	public static Tir Tir(int idBateau, int x, int y){
 		try {
 			System.out.println("Le dernier numéro d'action est:"+BattleShip.partie.getDernierNumeroAction());
@@ -171,24 +172,32 @@ public class ControleurPartie {
 	
 	//Méthode qui permet de placer un bateau à l'état initial juste execute et save
 	//TODO catcher les erreurs
-	public static boolean placerBateau(int x, int y, String dir, int taille){
+	public static Ship placerBateau(int x, int y, int taille) throws SQLException{
 		int idBateau=0;
 		int index = BattleShip.partie.getDernierNumeroBateau();
-		if(index==-1) idBateau=0;
-		else idBateau=index+1;
+		idBateau=index+1;
+		Ship bat;
 		if(taille==3){
-			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir,idBateau));
-			return true;
-		}
-		else if(taille==2){
-			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, idBateau));
-			return true;
+			bat = new Destroyer(x, y, "n",idBateau);
 		}
 		else{
-			System.out.println("Probleme, bateau de taille inconnu.");
-			return false;
+			bat = new Escorteur(x, y, "n", idBateau);
 		}
+		BattleShip.partie.executerPlacementBateauInitial(bat);
+		return bat;
 	}
+/*
+	public static Ship placerBateau(int x, int y, int type) throws SQLException{
+		Ship bat;
+		if (type == 2) {
+			bat = new Destroyer(x, y, "n", 0, BattleShip.user.getPseudo());
+		} else {
+			bat = new Escorteur(x, y, "n", 0, BattleShip.user.getPseudo());
+		}
+		BattleShip.partie.placerBateau(bat);
+		return bat;
+	}
+*/	
 	
 	public static void validerTour(){
 		try {
@@ -197,8 +206,7 @@ public class ControleurPartie {
 		} catch (SQLException e) {
 			System.err.println("erreur lors du commit des actions");
 			e.printStackTrace();
+			
 		}
-		
 	}
-	
 }
