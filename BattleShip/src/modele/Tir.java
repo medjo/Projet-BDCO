@@ -72,18 +72,38 @@ public class Tir extends Action{
 	public void execute() throws TirMissed {
 		int idBateau = -1;
 		for(Ship s : bateauxEnnemis){
-			 if(x == s.getXBateau() && y == s.getYBateau()){
-				 idBateau = s.getIdBateau();
-			 }
+			
+			switch(s.getDirBateau()){
+			case NORD:
+				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case SUD:
+				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case EST:
+				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case OUEST:
+				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			}
 		}
 		/* le tir ne touche aucun bateau */
 		if(idBateau == -1){
 			System.out.println("Bateau non touché");
-			//throw new TirMissed();
+			throw new TirMissed();
 		}
 		
 		/*le tir touche un bateau */
-		System.out.println("idpartie:"+getIdPartie()+"idbteau"+idBateau+"pseudo:"+adversaire);
+		System.out.println("Bateau ennemi touché; idpartie:"+getIdPartie()+"idbteau"+idBateau+"pseudo:"+adversaire);
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie =? AND idBateau = ? AND pseudo=?");
 		try {
 			req.getStatement().setInt(1, getIdPartie());
