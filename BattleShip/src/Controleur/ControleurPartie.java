@@ -72,12 +72,10 @@ public class ControleurPartie {
 		try{
 			action.execute();
 			ArrayList<Ship> ships= BattleShip.partie.getBateauxCourants();
-			int i=0;
 			for(Ship s: ships){
 				if(s.getIdBateau()==action.getIdBateau()){
 					s.setCoupsBateau(s.getCoupsBateau()-1);
 				}
-			i++;
 			}
 			
 		}
