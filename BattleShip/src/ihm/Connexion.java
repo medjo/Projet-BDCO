@@ -460,19 +460,23 @@ public class Connexion extends JFrame {
 		OberservationPartie.add(btnNewButton_3);
 		
 		//Contenu interface de connexion -> Observer une partie -> Observer
-		JButton btnRafraichirObs = new JButton("Rafraichir");
-		btnRafraichirObs.setBounds(60, 225, 117, 25);
-		ObserveAction.add(btnRafraichirObs);
+		JButton btnInitObs = new JButton("Initialisation");
+		btnInitObs.setBounds(15, 225, 125, 30);
+		ObserveAction.add(btnInitObs);
 		
-		JButton btnQuitter_2 = new JButton("Quitter");
-		btnQuitter_2.addActionListener(new ActionListener() {
+		JButton btnQuitterObs = new JButton("Quitter");
+		btnQuitterObs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ObserveAction.setVisible(false);
 				OberservationPartie.setVisible(true);
 			}
 		});
-		btnQuitter_2.setBounds(245, 225, 117, 25);
-		ObserveAction.add(btnQuitter_2);
+		btnQuitterObs.setBounds(295, 225, 125, 30);
+		ObserveAction.add(btnQuitterObs);
+		
+		JButton btnSuivantObs = new JButton("Suivant");
+		btnSuivantObs.setBounds(155, 225, 125, 30);
+		ObserveAction.add(btnSuivantObs);
 		
 		Case[][] map3 = new Case[10][10];
 		Case[][] map4 = new Case[10][10];

@@ -836,4 +836,6 @@ public class Case{
 		public void setIdSelect(int id){
 			this.idSelect = id;
 		}
+		
+	
 }
