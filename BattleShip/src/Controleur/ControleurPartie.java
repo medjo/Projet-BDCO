@@ -51,12 +51,15 @@ public class ControleurPartie {
 	 */
 	
 	public static boolean placerBateau(int x, int y, String dir, int taille) throws SQLException{
+			
 		if(taille==3){
-			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
+			System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
+			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
 			return true;
 		}
 		else if(taille==2){
-			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
+			System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
+			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
 			return true;
 		}
 		else{
