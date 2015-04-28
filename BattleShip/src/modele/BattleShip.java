@@ -31,7 +31,7 @@ public class BattleShip {
 		req.close();*/
 		
 		//Lancement de l'interface graphique
-		/*EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Connexion frame = new Connexion();
@@ -40,7 +40,7 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});*/
+		});
 		
 		//BattleShip.rejouer=new Rejouer();
 		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
