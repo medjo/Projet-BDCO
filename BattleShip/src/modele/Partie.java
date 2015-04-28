@@ -1,5 +1,6 @@
 package modele;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ public class Partie {
 	//TESTE
 	//Méthode testée avec BD sans la classe participant
 	//Selectionne toutes les parties que l'on a déjà commencée
-	public ArrayList<InfoPartie> partiesDebutees() {
-		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
+	public LinkedList<InfoPartie> partiesDebutees() {
+		LinkedList<InfoPartie> partiesDebutees = new LinkedList<InfoPartie>(); 
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants WHERE finie=0 AND (joueur1 ='"+BattleShip.user.getPseudo()+"' OR joueur2='"+BattleShip.user.getPseudo()+"')");
 		//SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN joueurs WHERE finie=0 AND pseudo ='"+user.getPseudo()+"'");
 		

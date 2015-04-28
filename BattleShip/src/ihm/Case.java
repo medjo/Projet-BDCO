@@ -433,16 +433,16 @@ public class Case{
 			String dir;
 			switch(dirBateau){
 			case "n" :
-				dir = " Λ";
+				dir = "Λ";
 				break;
 			case "s" :
-				dir = " V";
+				dir = "V";
 				break;
 			case "e" :
-				dir = " >";
+				dir = ">";
 				break;
 			case "o" :
-				dir = " <";
+				dir = "<";
 				break;
 			default :
 				throw new IllegalArgumentException("Direction incorrecte");
@@ -456,16 +456,16 @@ public class Case{
 			String dir;
 			switch(dirBateau){
 			case "n" :
-				dir = " Λ";
+				dir = "Λ";
 				break;
 			case "s" :
-				dir = " V";
+				dir = "V";
 				break;
 			case "e" :
-				dir = " >";
+				dir = ">";
 				break;
 			case "o" :
-				dir = " <";
+				dir = "<";
 				break;
 			default :
 				throw new IllegalArgumentException("Direction incorrecte");
@@ -836,4 +836,6 @@ public class Case{
 		public void setIdSelect(int id){
 			this.idSelect = id;
 		}
+		
+	
 }
