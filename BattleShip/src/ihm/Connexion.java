@@ -574,10 +574,13 @@ public class Connexion extends JFrame {
 				ControleurHistorique.suivant();
 				idPartie.setText(String.valueOf(ControleurHistorique.suivant().getId())); 
 				if (ControleurHistorique.suivant().getPseudo1()!= null ){
-					pseudObs1= ControleurHistorique.suivant().getPseudo1();
-					pseudObs2= ControleurHistorique.suivant().getPseudo2();
+					InfoPartie info = ControleurHistorique.suivant();
+					pseudObs1= info.getPseudo1();
+					pseudObs2= info.getPseudo2();
 					if (pseudObs1!=null){
+						System.out.println("(Pseudo:1:"+pseudObs1);
 						textJoueurObs1.setText(pseudObs1);
+						System.out.println("(Pseudo:2:"+pseudObs2);
 						textJoueurObs2.setText(pseudObs2);
 					}
 				}
