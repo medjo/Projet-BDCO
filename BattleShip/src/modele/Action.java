@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.ArrayList;
+
 import modele.ExceptionDeplacement;
 import modele.TirMissed;
 import jdbc.TheConnection;
@@ -26,6 +28,14 @@ public abstract class Action {
 	 * @throws TirMissed 
 	 */
 	public abstract void execute() throws ExceptionDeplacement, TirMissed;
+	
+	
+	/**
+	 * applique les changements fait par une action lors d'une observation de partie
+	 * @throws TirMissed
+	 */
+	public abstract void executeReplay(ArrayList<Ship> listeBateaux) throws TirMissed;
+	
 	
 	/**
 	 * sauvegarde l'action au niveau de la BD dans l'historique de la partie 

@@ -37,6 +37,7 @@ public class ControleurPartie {
 		BattleShip.partie.creerNouvellePartie();	//Cree la partie dans la BD
 		idJoueur adv = BattleShip.partie.selectionnerAdv(BattleShip.partie.getListeJoueurs());	//Recherche l'adversaire
 		BattleShip.partie.ajouterParticipants(adv.getPseudo());		//Affecte les participants
+		BattleShip.partie.incrementerNbPartiesJouees(adv.getPseudo());
 	}
 	
 	/**
@@ -50,18 +51,22 @@ public class ControleurPartie {
 	 * Méthode qui place un bateau à l'étape initial sans le committer
 	 */
 	
-	public static boolean placerBateau(int x, int y, String dir, int taille) throws SQLException{
+	public static int placerBateau(int x, int y, String dir, int taille) throws SQLException{
+			
 		if(taille==3){
-			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
-			return true;
+			//System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
+			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
+			return BattleShip.partie.getDernierNumeroBateau();
 		}
 		else if(taille==2){
-			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()));
-			return true;
+			//System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
+			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
+			return BattleShip.partie.getDernierNumeroBateau();
 		}
 		else{
 			System.out.println("Probleme, bateau de taille inconnu.");
-			return false;
+			return -1;
+			//return BattleShip.partie.getDernierNumeroBateau();
 		}
 	}
 	
@@ -69,7 +74,7 @@ public class ControleurPartie {
 	 * Méthode qui valide le placement des bateaux
 	 */
 	
-	public void validerPlacement(){
+	public static void validerPlacement(){
 		try {
 			BattleShip.theConnection.getConnection().commit();
 		} catch (SQLException e) {
@@ -82,7 +87,7 @@ public class ControleurPartie {
 	 * Méthode qui permet d'annuler le placement des bateaux
 	 */
 	
-	public void annulerPlacements(){
+	public static void annulerPlacements(){
 		try {
 			BattleShip.theConnection.getConnection().rollback();
 		} catch (SQLException e) {

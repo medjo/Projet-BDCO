@@ -99,7 +99,7 @@ public class Tir extends Action{
 			if(s.getDirBateauString().equals(Direction.NORD.toString())){
 				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
 					idBateau = s.getIdBateau();
-					System.out.println("BAAAAAAAANNNNNNNNNNNNGGGGGGGGGGGGGG!!!!!!!!!!!!!!!!!!!");
+					//System.out.println("BAAAAAAAANNNNNNNNNNNNGGGGGGGGGGGGGG!!!!!!!!!!!!!!!!!!!");
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.SUD.toString())){
@@ -143,6 +143,57 @@ public class Tir extends Action{
 		}
 		req.close();
 	}
+	
+	
+	@Override
+	public void executeReplay(ArrayList<Ship> listeBateaux) throws TirMissed{
+		boolean touched = false;
+		for(Ship s : listeBateaux){
+			//on regarde si le tir touche un bateau qui n'est pas au joueur courant
+			if(!s.getPseudo().equals(getPseudo())){
+				System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
+				if(s.getDirBateauString().equals(Direction.NORD.toString())){
+					if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
+				}
+				if(s.getDirBateauString().equals(Direction.SUD.toString())){
+					if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
+				}
+				if(s.getDirBateauString().equals(Direction.EST.toString())){
+					if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
+				}
+				if(s.getDirBateauString().equals(Direction.OUEST.toString())){
+					if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
+				}
+			}
+		}
+			
+		/* le tir ne touche aucun bateau */
+		if(!touched){
+			System.out.println("Bateau non touché");
+			throw new TirMissed();
+		}
+		else{
+			/*le tir touche un bateau */
+			System.out.println("Bateau ennemi touché; idpartie:"+getIdPartie()+"idbteau"+getIdBateau());
+		}
+	}
+	
 	
 	public void setCoord(int x, int y) {
 		this.x = x;

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import Controleur.ControleurConnexion;
+import Controleur.ControleurHistorique;
 import Controleur.ControleurPartie;
 
 import java.sql.*;
@@ -30,6 +31,7 @@ public class Connexion extends JFrame {
 	private JPanel Identification;
 	private JPanel Jeu;
 	private JPanel OberservationPartie;
+	private JPanel ObserveAction;
 	private JPanel ChercheAdv;
 	private JPanel PrepareBataille;
 	private JPanel Jouer;
@@ -45,11 +47,19 @@ public class Connexion extends JFrame {
 	private JTextField txtJj;
 	private JTextField txtMm;
 	private JTextField txtAnnee;
-	private JTextField textField_3;
-	private JTextField textField_8;
-	private JTable Carte;
-	private JTable table;
+	private JTextField idPartie;
+	private JTextField vainqueur;
 	private JTextField txtJoueurN;
+	private String pseudoAdv;
+	private String pseudoJo;
+	private String pseudObs1 = new String();
+	private String pseudObs2 = new String();
+	private JLabel lblJoueurObs1;
+	private JLabel lblJoueurObs2;
+	private Case[][] map;
+	private Case[][] map1;
+	private JTextField textJoueurObs1;
+	private JTextField textJoueurObs2;
 	
 
 	/**
@@ -117,7 +127,7 @@ public class Connexion extends JFrame {
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Jouer.setVisible(false);
-				PrepareBataille.setVisible(true);
+				Connexion.setVisible(true);
 			}
 		});
 		Jouer.setLayout(null);
@@ -125,17 +135,34 @@ public class Connexion extends JFrame {
 		
 		JButton btnRafraichir = new JButton("Rafraichir");
 		btnRafraichir.setBounds(5, 235, 120, 25);
+		btnRafraichir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( (boolean)BattleShip.partie.aMoiDeJouer()){ //>>>>>>A voir pb dans Partie<<<<<<<
+					txtJoueurN.setText("Tour de "+pseudoJo);
+				}
+				txtJoueurN.setText("Tour de " + pseudoAdv);
+			}
+		});
+		Jouer.setLayout(null);
 		Jouer.add(btnRafraichir);
+		
 		
 		txtJoueurN = new JTextField();
 		txtJoueurN.setText("Tour Joueur...");
 		txtJoueurN.setBounds(130, 235, 135, 25);
 		Jouer.add(txtJoueurN);
 		txtJoueurN.setColumns(10);
+		
 //interface de connexion -> Observer une partie 
 		final JPanel OberservationPartie = new JPanel();
 		contentPane.add(OberservationPartie, "name_2587200245776");
 		OberservationPartie.setLayout(null);
+
+//interface de connexion -> Observer une partie ->Observer		
+		final JPanel ObserveAction = new JPanel();
+		contentPane.add(ObserveAction, "name_65504645385822");
+		ObserveAction.setLayout(null);
+		
 		
 //interface d'inscription
 		final JPanel Inscription = new JPanel();
@@ -153,7 +180,8 @@ public class Connexion extends JFrame {
 					// TODO Message erreur
 					System.out.println("Il n'y a pas d'adversaire disponible");
 				}
-				JLabel lblVotre = new JLabel("Votre adversaire " + BattleShip.partie.getPseudoAdv() + " est prêt");
+				pseudoAdv =BattleShip.partie.getPseudoAdv();
+				JLabel lblVotre = new JLabel("Votre adversaire " + pseudoAdv + " est prêt");
 				lblVotre.setBounds(50, 100, 400, 20);
 				ChercheAdv.add(lblVotre);
 						
@@ -170,6 +198,8 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Connexion.setVisible(false);
 				OberservationPartie.setVisible(true);
+				idPartie.setText("0");
+				ControleurHistorique.lancerHistorique();
 			}
 		});
 		Connexion.add(btnNewButton_1);
@@ -203,11 +233,21 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_4 = new JButton("Commencer le jeu");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-/*				JMenuBar[] map = (JMenuBar[])PrepareBataille.getComponents();
 				ArrayList<Ship> batInit= new ArrayList<Ship>();
-				for (JMenuBar c : map){
-					
-				}*/
+				for (Case[] l : map){
+					for (Case c : l){
+						if (c.isPivot()){
+							try {
+								ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
+								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau());
+							} catch (Exception e1) {
+								System.out.println("Erreur placement bateau");
+							}
+						}
+						c.reset();
+					}
+				}
+				ControleurPartie.validerPlacement();
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}
@@ -218,6 +258,11 @@ public class Connexion extends JFrame {
 		JButton btnQuitter_1 = new JButton("Quitter");
 		btnQuitter_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (int i=0; i<10; i++){
+					for (int j=0; j<10; j++){
+						map[i][j].reset();
+					}	
+				}
 				PrepareBataille.setVisible(false);
 				Connexion.setVisible(true);
 			}
@@ -240,6 +285,11 @@ public class Connexion extends JFrame {
 		JButton btnAnnulerPlacement = new JButton("Annuler Placement");
 		btnAnnulerPlacement.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				for (int i=0; i<10; i++){
+					for (int j=0; j<10; j++){
+						map[i][j].reset();
+					}	
+				}
 			}
 		});
 		btnAnnulerPlacement.setBounds(167, 235, 170, 25);
@@ -247,7 +297,7 @@ public class Connexion extends JFrame {
 		
 		
 
-		Case[][] map = new Case[10][10];
+		map = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map);
@@ -260,12 +310,12 @@ public class Connexion extends JFrame {
 		
 		
 		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille-> Jouer
-		Case[][] map1 = new Case[10][10];
+		map1 = new Case[10][10];
 		Case[][] map2 = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map1, map2);
-				map[i][j]=C;
+				map1[i][j]=C;
 				Jouer.add(C.getCell());
 				Jouer.add(C.getCell1());
 			}	
@@ -278,38 +328,92 @@ public class Connexion extends JFrame {
 		
 //Contenu interface de connexion -> Observer une partie 		
 		JLabel lblNewLabel_2 = new JLabel("Identifiant de Partie");
-		lblNewLabel_2.setBounds(56, 84, 165, 15);
+		lblNewLabel_2.setBounds(56, 30, 165, 15);
 		OberservationPartie.add(lblNewLabel_2);
 		
-		JLabel lblEtatDePartie = new JLabel("Etat de Partie");
-		lblEtatDePartie.setBounds(56, 138, 109, 15);
-		OberservationPartie.add(lblEtatDePartie);
+		JLabel lblVainqueur = new JLabel("Vainqueur");
+		lblVainqueur.setBounds(56, 130, 109, 15);
+		OberservationPartie.add(lblVainqueur);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(210, 82, 150, 20);
-		OberservationPartie.add(textField_3);
-		textField_3.setColumns(10);
+		idPartie = new JTextField();
+		idPartie.setBounds(210, 30, 150, 20);
+		OberservationPartie.add(idPartie);
+		idPartie.setColumns(10);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(210, 136, 150, 20);
-		OberservationPartie.add(textField_8);
+		vainqueur = new JTextField();
+		vainqueur.setColumns(10);
+		vainqueur.setBounds(140, 128, 220, 20);
+		OberservationPartie.add(vainqueur);
 		
 		JButton btnNewButton_3 = new JButton("Observer");
 		btnNewButton_3.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				OberservationPartie.setVisible(false);
+				ObserveAction.setVisible(true);
 			}
 		});
 		btnNewButton_3.setBounds(5, 225, 100, 25);
 		OberservationPartie.add(btnNewButton_3);
 		
+		//Contenu interface de connexion -> Observer une partie -> Observer
+		JButton btnRafraichirObs = new JButton("Rafraichir");
+		btnRafraichirObs.setBounds(60, 225, 117, 25);
+		ObserveAction.add(btnRafraichirObs);
+		
+		JButton btnQuitter_2 = new JButton("Quitter");
+		btnQuitter_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ObserveAction.setVisible(false);
+				OberservationPartie.setVisible(true);
+			}
+		});
+		btnQuitter_2.setBounds(245, 225, 117, 25);
+		ObserveAction.add(btnQuitter_2);
+		
+		Case[][] map3 = new Case[10][10];
+		Case[][] map4 = new Case[10][10];
+		for (int i=0; i<10; i++){
+			for (int j=0; j<10; j++){
+				Case C = new Case(i, j, 0, map3, map4,1);
+				map[i][j]=C;
+				ObserveAction.add(C.getCell());
+				ObserveAction.add(C.getCell1());
+			}	
+		}
+		
+		
+		
 		JButton btnNewB = new JButton("<Précedent");
+		btnNewB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnNewB.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnNewB.setBounds(110, 225, 100, 25);
 		OberservationPartie.add(btnNewB);
 		
-		JButton btnNewB_1 = new JButton("Suivant>>");
+		JButton btnNewB_1 = new JButton("Suivant>");
+		btnNewB_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControleurHistorique.suivant();
+				idPartie.setText(String.valueOf(ControleurHistorique.suivant().getId())); 
+				if (ControleurHistorique.suivant().getPseudo1()!= null ){
+					pseudObs1= ControleurHistorique.suivant().getPseudo1();
+					pseudObs2= ControleurHistorique.suivant().getPseudo2();
+					if (pseudObs1!=null){
+						textJoueurObs1.setText(pseudObs1);
+						textJoueurObs2.setText(pseudObs2);
+					}
+				}
+				if (ControleurHistorique.suivant().getVainqueur()!=null){
+					vainqueur.setText(ControleurHistorique.suivant().getVainqueur());
+				}else{
+					vainqueur.setText("Partie en cours");
+				}
+				
+			}
+		});
 		btnNewB_1.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnNewB_1.setBounds(215, 225, 100, 25);
 		OberservationPartie.add(btnNewB_1);
@@ -324,7 +428,22 @@ public class Connexion extends JFrame {
 		btnQuitter.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnQuitter.setBounds(320, 225, 100, 25);
 		OberservationPartie.add(btnQuitter);
-
+		
+		JLabel lblVs = new JLabel("VS");
+		lblVs.setBounds(195, 70, 45, 25);
+		OberservationPartie.add(lblVs);
+		
+		textJoueurObs1 = new JTextField();
+		textJoueurObs1.setText("Joueur1");
+		textJoueurObs1.setBounds(56, 70, 120, 20);
+		OberservationPartie.add(textJoueurObs1);
+		textJoueurObs1.setColumns(10);
+		
+		textJoueurObs2 = new JTextField();
+		textJoueurObs2.setText("Joueur2");
+		textJoueurObs2.setColumns(10);
+		textJoueurObs2.setBounds(240, 70, 120, 20);
+		OberservationPartie.add(textJoueurObs2);
 		
 
 		
@@ -486,7 +605,8 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ControleurConnexion.connexion(txtLogin.getText());
-					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + BattleShip.user.getPseudo());
+					pseudoJo = BattleShip.user.getPseudo();
+					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + pseudoJo);
 					lblNewLabel_1.setBounds(164, 51, 230, 15);
 					Connexion.add(lblNewLabel_1);
 					Connexion.setVisible(true);
