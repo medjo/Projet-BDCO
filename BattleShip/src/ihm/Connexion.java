@@ -234,11 +234,12 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_6 = new JButton("Préparer Bataille ");
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (Case[] l : map1){
+				/*for (Case[] l : map1){
 					for (Case c : l){
 						c.makeBackUp();
 					}
-				}
+				}*/
+				ChercheAdv.remove(1);
 				ChercheAdv.setVisible(false);
 				PrepareBataille.setVisible(true);
 			}
