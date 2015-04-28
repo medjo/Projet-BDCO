@@ -167,13 +167,13 @@ public class Partie {
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
-			if(res.next()==false) return 0;
-			else return res.getInt(1);
+			if(res.next()==false) indice= 0;
+			else indice=res.getInt(1);
 		} catch (Exception e) {
 			
 		}
 		req.close();
-		return 0; //Cas interdit normalement
+		return indice;
 	}
 	
 	
