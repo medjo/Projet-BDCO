@@ -68,6 +68,7 @@ public class Connexion extends JFrame {
 	private JTextField textJoueur2;
 	private int indPartie;
 	private EtatTour etatTour;
+	private int nTour;
 	
 
 	/**
@@ -252,8 +253,13 @@ public class Connexion extends JFrame {
 		btnRafraichir.setBounds(3, 235, 105, 25);
 		btnRafraichir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!etatTour.tour){
-					etatTour = ControleurPartie.rafraichirGeneral();
+				EtatTour etat = ControleurPartie.rafraichirGeneral();
+				int numTour = BattleShip.partie.getNumeroDernierTour();
+				System.out.println("nTour : "+nTour+", numTour : "+numTour+", etat : "+etat.tour+", etatTour : "+etatTour.tour);
+				if(!etatTour.tour || !etat.tour || numTour!=nTour){
+					System.out.println("on refresh");
+					etatTour = etat;
+					nTour = numTour;
 					if(etatTour.tour){
 						ControleurPartie.debutTour();
 						txtJoueurN.setText("Tour de "+pseudoJo);
