@@ -142,7 +142,7 @@ public class Connexion extends JFrame {
 					ArrayList<Ship> batInit= BattleShip.partie.getBateauxCourants();
 					for (Ship s : batInit){
 						try {
-							map1[s.getXBateau()][s.getYBateau()].creerBateau(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+							map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, "Erreur placement bateau", "Erreur", JOptionPane.ERROR_MESSAGE);
 							//System.out.println("Erreur placement bateau");
@@ -236,7 +236,7 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				for (Case[] l : map1){
 					for (Case c : l){
-						c.reset();
+						c.reset1();
 					}
 				}
 				Jouer.setVisible(false);
@@ -259,6 +259,11 @@ public class Connexion extends JFrame {
 						txtJoueurN.setText("Tour de "+pseudoJo);
 						for (Ship s : BattleShip.partie.getBateauxCourants()){
 							try {
+								for (Case[] l : map1){
+									for (Case c : l){
+										c.reset1();
+									}
+								}
 								map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
@@ -393,7 +398,7 @@ public class Connexion extends JFrame {
 						if (c.isPivot()){
 							try {
 								int id = ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
-								map1[c.getX()][c.getY()].creerBateau(c.getType()+1, c.getDirBateau(), id);
+								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau(), id);
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(null, "Erreur placement bateau", "Erreur", JOptionPane.ERROR_MESSAGE);
 								//System.out.println("Erreur placement bateau");
