@@ -12,6 +12,7 @@ import Controleur.ControleurPartie;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import jdbc.*;
 import ihm.org.eclipse.wb.swing.FocusTraversalOnArray;
@@ -59,6 +60,7 @@ public class Connexion extends JFrame {
 	private JLabel lblJoueurObs2;
 	private Case[][] map;
 	private Case[][] map1;
+	private LinkedList<InfoPartie> parties;
 	private JTextField textJoueurObs1;
 	private JTextField textJoueurObs2;
 	private JTextField textField;
@@ -107,16 +109,34 @@ public class Connexion extends JFrame {
 		rePartie.add(textField);
 		
 		JButton btnReprendre = new JButton("Reprendre");
+		btnReprendre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rePartie.setVisible(false);
+				Connexion.setVisible(true);
+			}
+		});
 		btnReprendre.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnReprendre.setBounds(12, 225, 100, 25);
 		rePartie.add(btnReprendre);
 		
 		JButton button_1 = new JButton("<Précedent");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rePartie.setVisible(false);
+				Connexion.setVisible(true);
+			}
+		});
 		button_1.setFont(new Font("Dialog", Font.BOLD, 10));
 		button_1.setBounds(117, 225, 100, 25);
 		rePartie.add(button_1);
 		
 		JButton button_2 = new JButton("Suivant>");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rePartie.setVisible(false);
+				Connexion.setVisible(true);
+			}
+		});
 		button_2.setFont(new Font("Dialog", Font.BOLD, 10));
 		button_2.setBounds(222, 225, 100, 25);
 		rePartie.add(button_2);
@@ -184,7 +204,8 @@ public class Connexion extends JFrame {
 		btnRafraichir.setBounds(3, 235, 105, 25);
 		btnRafraichir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if( (boolean)BattleShip.partie.aMoiDeJouer()){
+				EtatTour etatTour = ControleurPartie.rafraichirGeneral();
+				if(etatTour.tour){
 					txtJoueurN.setText("Tour de "+pseudoJo);
 					for (Ship s : BattleShip.partie.getBateauxCourants()){
 						try {
@@ -289,6 +310,7 @@ public class Connexion extends JFrame {
 		JButton btnReprendreUnePartie = new JButton("Reprendre une partie");
 		btnReprendreUnePartie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				parties = ControleurPartie.anciennesParties();
 				Connexion.setVisible(false);
 				rePartie.setVisible(true);
 			}
@@ -300,11 +322,6 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_6 = new JButton("Préparer Bataille ");
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*for (Case[] l : map1){
-					for (Case c : l){
-						c.makeBackUp();
-					}
-				}*/
 				ChercheAdv.remove(1);
 				ChercheAdv.setVisible(false);
 				PrepareBataille.setVisible(true);
@@ -328,11 +345,15 @@ public class Connexion extends JFrame {
 								//System.out.println("Erreur placement bateau");
 							}
 						}
-						c.reset();
 					}
 				}
 				ControleurPartie.validerPlacement();
 				//ControleurPartie.debutTour();
+				for (Case[] l : map1){
+					for (Case c : l){
+						c.makeBackUp();
+					}
+				}
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}
