@@ -103,11 +103,12 @@ public class Case{
 							creerBateau(3, "n", getNBateau()+1);
 							map[0][0].setNDes(1);
 						} else {
-							System.err.println("Plus de destroyer disponible");
+							JOptionPane.showMessageDialog(null, "Plus de destroyer disponible", "Erreur", JOptionPane.ERROR_MESSAGE);
+							//System.err.println("Plus de destroyer disponible");
 						}
 					} catch (Exception e) {
-						// TODO Message d'erreur placement impossible
-						System.err.println("Placement impossible");
+						JOptionPane.showMessageDialog(null, "Placement impossible", "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println("Placement impossible");
 					}
 				}
 			});
@@ -119,11 +120,12 @@ public class Case{
 							creerBateau(2, "n", getNBateau()+1);
 							map[0][0].setNEsc(ne+1);
 						} else {
-							System.err.println("Plus d'escorteur disponible");
+							JOptionPane.showMessageDialog(null, "Plus d'escorteur disponible", "Erreur", JOptionPane.ERROR_MESSAGE);
+							//System.err.println("Plus d'escorteur disponible");
 						}
 					} catch (Exception e) {
-						// TODO Message d'erreur placement impossible
-						System.err.println("Placement impossible");
+						JOptionPane.showMessageDialog(null, "Placement impossible", "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println("Placement impossible");
 					}
 				}
 			});
@@ -137,7 +139,8 @@ public class Case{
 					try {
 						deplacerBateau("n", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -146,7 +149,8 @@ public class Case{
 					try {
 						deplacerBateau("s", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -155,7 +159,8 @@ public class Case{
 					try {
 						deplacerBateau("e", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -164,7 +169,8 @@ public class Case{
 					try {
 						deplacerBateau("o", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -173,7 +179,8 @@ public class Case{
 					try {
 						pivoterBateau("n", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -182,7 +189,8 @@ public class Case{
 					try {
 						pivoterBateau("s", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -191,7 +199,8 @@ public class Case{
 					try {
 						pivoterBateau("e", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -200,7 +209,8 @@ public class Case{
 					try {
 						pivoterBateau("o", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -270,8 +280,8 @@ public class Case{
 							deplacerBateau1(dirBateau, type+1);
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -300,8 +310,8 @@ public class Case{
 							deplacerBateau1(dir, type+1);
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -330,8 +340,8 @@ public class Case{
 							pivoterBateau1(dir, type+1);
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -360,8 +370,8 @@ public class Case{
 							pivoterBateau1(dir, type+1);
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -782,6 +792,23 @@ public class Case{
 			menu.add(destroyeur);
 			menu.add(escorteur);
 			cell.setBackground(Color.white);
+		}
+		
+		public void reset1(){
+			this.type = 0;
+			this.idBateau = 0;
+			this.nDes = 0;
+			this.nEsc = 0;
+			this.pivot = false;
+			menu.setText("    ");
+			menu.removeAll();
+			menu.add(destroyeur);
+			menu.add(escorteur);
+			cell.setBackground(Color.white);
+			
+			menu1.setText("    ");
+			menu1.removeAll();
+			cell1.setBackground(Color.gray);
 		}
 		
 		public void makeBackUp(){

@@ -49,16 +49,16 @@ public class BattleShip {
 		} catch (UtilisateurInconnuException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		//Test de la création de partie
-		BattleShip.partie=new Partie();
-		BattleShip.user=user;
+		//BattleShip.partie=new Partie();
+		//BattleShip.user=user;
 		
-		ControleurHistorique.lancerHistorique();
-		ArrayList<Ship> s = ControleurHistorique.suivant(149);
-		System.out.println("Bateau:" + s.get(1).getEtat() );
+		//ControleurHistorique.lancerHistorique();
+		//ArrayList<Ship> s = ControleurHistorique.suivant(149);
+		//System.out.println("Bateau:" + s.get(1).getEtat() );
 		
-		*/
+		
 		
 		
 		

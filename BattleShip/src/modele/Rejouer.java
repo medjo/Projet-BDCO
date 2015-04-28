@@ -31,7 +31,6 @@ public class Rejouer{
 				
 				i++;
 			}
-			System.out.println("Le nombre de partie est:"+i);
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}
