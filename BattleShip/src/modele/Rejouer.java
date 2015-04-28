@@ -111,6 +111,7 @@ public class Rejouer{
 				numTour++;
 			}
 		} catch (SQLException e) {
+			System.err.println("SQL excption dans suivant");
 			e.printStackTrace();
 		} catch (TirOutOfBound e) {
 			System.err.println("Erreur tir hors de la map");
