@@ -37,6 +37,7 @@ public class ControleurPartie {
 		BattleShip.partie.creerNouvellePartie();	//Cree la partie dans la BD
 		idJoueur adv = BattleShip.partie.selectionnerAdv(BattleShip.partie.getListeJoueurs());	//Recherche l'adversaire
 		BattleShip.partie.ajouterParticipants(adv.getPseudo());		//Affecte les participants
+		BattleShip.partie.incrementerNbPartiesJouees(adv.getPseudo());
 	}
 	
 	/**

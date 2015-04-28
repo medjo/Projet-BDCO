@@ -64,11 +64,13 @@ public class Partie {
 		idJoueur joueurMin;
 		if(listeJoueurs.get(0).getPseudo().equals(BattleShip.user.getPseudo())){
 			joueurMin = listeJoueurs.get(1);
+			System.out.println("Selec j1");
 		}
 		else {
 			joueurMin = listeJoueurs.get(0);
+			System.out.println("Selec j0");
 		}
-		//System.out.println("taille de la liste"+listeJoueurs.size());
+	
 		while(i<listeJoueurs.size()){
 			//System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
 			if(listeJoueurs.get(i).getNbParties()<joueurMin.getNbParties()){
@@ -77,6 +79,7 @@ public class Partie {
 			i++;
 		}
 		this.pseudoAdversaire=joueurMin.getPseudo();
+		System.out.println("L'adversaire désigné est: "+this.pseudoAdversaire);
 		return joueurMin;
 	}
 	
@@ -575,4 +578,16 @@ public class Partie {
 		}
 	}
 
+	
+	public void incrementerNbPartiesJouees(String pseudo){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"UPDATE joueurs SET nbPartiesJouees=nbPartiesJouees+1 WHERE pseudo='"+pseudo+"'");
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
+		}
+	}
 }
