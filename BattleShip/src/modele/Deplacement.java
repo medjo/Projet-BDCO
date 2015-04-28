@@ -147,4 +147,11 @@ public class Deplacement extends Action{
 		req.close();
 		
 	}
+
+
+	@Override
+	public void executeReplay() throws TirMissed {
+		// TODO Auto-generated method stub
+		
+	}
 }

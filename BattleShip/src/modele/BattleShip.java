@@ -31,7 +31,7 @@ public class BattleShip {
 		req.close();*/
 		
 		//Lancement de l'interface graphique
-		/*EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Connexion frame = new Connexion();
@@ -40,10 +40,10 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});*/
+		});
 		
 		
-		
+		/*
 		try {
 			ControleurConnexion.connexion("Mordokkai");
 		} catch (UtilisateurInconnuException e) {
@@ -58,7 +58,7 @@ public class BattleShip {
 		ArrayList<Ship> s = ControleurHistorique.suivant(149);
 		System.out.println("Bateau:" + s.get(1).getEtat() );
 		
-		
+		*/
 		
 		
 		
@@ -83,7 +83,7 @@ public class BattleShip {
 		
 		//BattleShip.rejouer=new Rejouer();
 		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
-
+		
 		
 		//Test des fonctions de connexions
 		/*
@@ -179,7 +179,7 @@ public class BattleShip {
 		ControleurPartie.validerTour();
 		*/
 
-		try {
+/*		try {
 			ControleurConnexion.connexion("Rubixbob");
 		} catch (UtilisateurInconnuException e) {
 			// TODO Auto-generated catch block

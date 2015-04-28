@@ -149,29 +149,7 @@ public class Tir extends Action{
 	public void executeReplay() throws TirMissed {
 		int idBateau = -1;
 		for(Ship s : bateauxEnnemis){
-			/*
-			switch(s.getDirBateau()){
-			case NORD:
-				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
-					idBateau = s.getIdBateau();
-				}
-				break;
-			case SUD:
-				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
-					idBateau = s.getIdBateau();
-				}
-				break;
-			case EST:
-				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
-					idBateau = s.getIdBateau();
-				}
-				break;
-			case OUEST:
-				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
-					idBateau = s.getIdBateau();
-				}
-				break;
-			}*/
+			
 			System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
 			if(s.getDirBateauString().equals(Direction.NORD.toString())){
 				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
