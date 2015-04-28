@@ -51,6 +51,7 @@ public class Connexion extends JFrame {
 	private JTable table;
 	private JTextField txtJoueurN;
 	private Case[][] map;
+	private Case[][] map1;
 	
 
 	/**
@@ -210,7 +211,8 @@ public class Connexion extends JFrame {
 						if (c.isPivot()){
 							try {
 								ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
-							} catch (SQLException e1) {
+								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau());
+							} catch (Exception e1) {
 								System.out.println("Erreur placement bateau");
 							}
 						}
@@ -280,7 +282,7 @@ public class Connexion extends JFrame {
 		
 		
 		//Contenu de interface de connexion-> lancer une partie-> PrepareBataille-> Jouer
-		Case[][] map1 = new Case[10][10];
+		map1 = new Case[10][10];
 		Case[][] map2 = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
