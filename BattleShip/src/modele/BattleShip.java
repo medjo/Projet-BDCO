@@ -31,7 +31,7 @@ public class BattleShip {
 		req.close();*/
 		
 		//Lancement de l'interface graphique
-		EventQueue.invokeLater(new Runnable() {
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Connexion frame = new Connexion();
@@ -40,7 +40,46 @@ public class BattleShip {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
+		
+		
+		
+		try {
+			ControleurConnexion.connexion("Mordokkai");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		
+		ControleurHistorique.lancerHistorique();
+		ArrayList<Ship> s = ControleurHistorique.suivant(149);
+		System.out.println("Bateau:" + s.get(1).getEtat() );
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//BattleShip.rejouer=new Rejouer();
 		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());

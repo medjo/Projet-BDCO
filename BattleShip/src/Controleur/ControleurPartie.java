@@ -51,21 +51,22 @@ public class ControleurPartie {
 	 * Méthode qui place un bateau à l'étape initial sans le committer
 	 */
 	
-	public static boolean placerBateau(int x, int y, String dir, int taille) throws SQLException{
+	public static int placerBateau(int x, int y, String dir, int taille) throws SQLException{
 			
 		if(taille==3){
-			System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
+			//System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
 			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
-			return true;
+			return BattleShip.partie.getDernierNumeroBateau();
 		}
 		else if(taille==2){
-			System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
+			//System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
 			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
-			return true;
+			return BattleShip.partie.getDernierNumeroBateau();
 		}
 		else{
 			System.out.println("Probleme, bateau de taille inconnu.");
-			return false;
+			return -1;
+			//return BattleShip.partie.getDernierNumeroBateau();
 		}
 	}
 	

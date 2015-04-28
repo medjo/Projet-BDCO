@@ -535,7 +535,7 @@ public class Partie {
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
-			if(!res.next()) return -1;
+			if(!res.next()) return 0;
 			return res.getInt(1);
 		}
 		catch (Exception e){
