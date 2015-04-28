@@ -42,7 +42,7 @@ public class InfoPartie {
 				this.pseudo1=res.getString("joueur1");
 				this.pseudo2=res.getString("joueur2");
 				if(res2.next()){
-					//this.vainqueur=res2.getString("pseudo");
+					this.vainqueur=res2.getString("pseudo");
 				}
 			}
 		} catch (SQLException e) {

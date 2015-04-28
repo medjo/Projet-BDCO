@@ -17,7 +17,7 @@ public class Deplacement extends Action{
 	public Deplacement(int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type) {
 		super(idBateau, idPartie,pseudo, nTour, nAction);
 		this.type=type;
-		//System.out.println("nouveau dep : "+ idBateau + idPartie + pseudo + nTour + nAction+ type);
+		System.out.println("nouveau dep : idPartie="+idPartie+" idbateau"+idBateau+"pseudo: "+pseudo);
 		/* On récupère l'orientation actuelle du bateau */
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT orientation,x,y FROM Bateaux WHERE idPartie ="+idPartie+" AND idBateau = "+idBateau +" AND pseudo='"+pseudo+"'");
 		try {
