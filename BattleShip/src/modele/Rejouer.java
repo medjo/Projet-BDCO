@@ -24,11 +24,7 @@ public class Rejouer{
 			int i=0;
 			while(res.next()){
 				//System.out.println(res.getInt(1)+"-"+res.getDate(2)+"-"+res.getInt(3));
-				
 				listeParties.add(new InfoPartie(res.getInt(1), res.getDate(2), res.getInt(3)));
-				
-				
-				
 				i++;
 			}
 		} catch (Exception e) {
@@ -74,40 +70,33 @@ public class Rejouer{
 	 * @return liste des bateaux avec leurs états au tour suivant
 	 */
 	public ArrayList<Ship> suivant(int idPartie){
+		boolean tourSuiv = false;
 		ArrayList <Action> listeActions = new ArrayList <Action>();
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie="+idPartie+" AND ntour="+this.numTour);
 		try {
-			//req.getStatement().setInt(1, idPartie);
-			//req.getStatement().setInt(2, numTour);
-			System.out.println("idPartieobs: "+idPartie+" numtour: "+ this.numTour);
 			req.execute();
-			
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		ResultSet res = req.getResult();
 		try {
-			/*Creation des actions */
-			
+			/*Creation des actions */			
 			while(res.next()){
-				System.out.println("On est rentré dans la boucle");
-				if(res.getString("type")=="tir"){
+				tourSuiv = true;
+				if(res.getString("type").equals("tir")){
 					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, int x, int y
 					listeActions.add(new Tir(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), res.getInt("x"), res.getInt("y")));
 				}
-				if(res.getString("type")=="dep"){
+				if(res.getString("type").equals("dep")){
 					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type
 					listeActions.add(new Deplacement(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), TypeDeplacement.createDeplacement(res.getString("direction"))));
 				}
 			}
 			/*execution des actions*/
+			System.out.println("**** liste des actions au tour num " + numTour + " ****");
 			for(Action a : listeActions){
 				a.executeReplay(listeBateaux);
-			}
-			/* si le tour a bien été joué on passe au suivant */
-			if(res.first()){
-				numTour++;
+				System.out.println(a.toString());
 			}
 		} catch (SQLException e) {
 			System.err.println("SQL excption dans suivant");
@@ -116,8 +105,10 @@ public class Rejouer{
 			System.err.println("Erreur tir hors de la map");
 			System.err.println("Anormal car partie déjà jouée !!!!");
 			e.printStackTrace();
-		} catch (TirMissed e) {
-			System.out.println("tir raté ! aucun effet");
+		} 
+		/* si le tour a bien été joué on passe au suivant */
+		if(tourSuiv){
+			numTour++;
 		}
 		return listeBateaux;
 	}

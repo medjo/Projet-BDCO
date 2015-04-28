@@ -75,11 +75,6 @@ public class ShipsFactory {
 					//int x, int y, String dir, int idBateau, String pseudo
 				}
 				else if(res.getInt(3)==Escorteur.TAILLE_ESCORTEUR) {
-					System.out.println(res.getInt("xI"));
-					System.out.println(res.getInt("yI"));
-					System.out.println(res.getString("orientationI"));
-					System.out.println(res.getInt("idBateau"));
-					System.out.println(res.getString("pseudo"));
 					shipsInit.add(new Escorteur(res.getInt("xI"),res.getInt("yI"),res.getString("orientationI"),res.getInt("idBateau"), res.getString("pseudo")));
 				}			
 			}

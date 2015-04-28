@@ -147,7 +147,7 @@ public class Deplacement extends Action{
 
 
 	@Override
-	public void executeReplay(ArrayList<Ship> listeBateaux) throws TirMissed {
+	public void executeReplay(ArrayList<Ship> listeBateaux) {
 		/*
 		 * !!! Attention !!!
 		 * les attributs x,y orientationI,F initialisés par le constructeur 
@@ -166,6 +166,15 @@ public class Deplacement extends Action{
 				break;
 			}
 		}
-		
 	}
+	
+	@Override
+	public String toString(){
+		return ("Deplacement : typeDepl " + type.toString() 
+				+ " orientation F " + orientationF
+				+ " x " + x
+				+ " y " + y
+				+ super.toString());
+	}
+	
 }

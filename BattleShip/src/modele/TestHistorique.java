@@ -40,11 +40,11 @@ public class TestHistorique {
 		
 		ControleurHistorique.lancerHistorique();
 		System.out.println("***** ini *******");
-		afficheBat(ControleurHistorique.voirPartie(149));
+		afficheBat(ControleurHistorique.voirPartie(134));
 		System.out.println("***** suivant *******");
-		afficheBat(ControleurHistorique.suivant(149));
+		afficheBat(ControleurHistorique.suivant(134));
 		System.out.println("***** suivant *******");
-		afficheBat(ControleurHistorique.suivant(149));
+		afficheBat(ControleurHistorique.suivant(134));
 		
 		BattleShip.theConnection.getConnection().close();
 		

@@ -34,7 +34,7 @@ public abstract class Action {
 	 * applique les changements fait par une action lors d'une observation de partie
 	 * @throws TirMissed
 	 */
-	public abstract void executeReplay(ArrayList<Ship> listeBateaux) throws TirMissed;
+	public abstract void executeReplay(ArrayList<Ship> listeBateaux);
 	
 	
 	/**
@@ -62,5 +62,13 @@ public abstract class Action {
 	
 	public String getPseudo(){
 		return pseudo;
+	}
+	
+	@Override
+	public String toString(){
+		return(" idBateau " + getIdBateau() 
+				+ " pseudo " + getPseudo()
+				+ " idPartie " + getIdPartie()
+				+ " nAction " + getNAction());
 	}
 }
