@@ -6,7 +6,10 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
+import modele.BattleShip;
 import modele.Ship;
+import modele.TirMissed;
+import modele.TypeDeplacement;
 import Controleur.ControleurPartie;
 
 
@@ -17,7 +20,9 @@ public class Case{
 		private JMenuBar cell;
 		private JMenuBar cell1;
 		private JMenu menu;
+		private JMenu menuBackUp;
 		private JMenu menu1;
+		private JMenu menu1BackUp;
 		private int type;
 		private boolean pivot;
 		private JMenuItem destroyeur;
@@ -47,6 +52,7 @@ public class Case{
 		private int yBateau;
 		private String dirBateau;
 		private int idBateau;
+		private int idSelect;
 		private int nDes;
 		private int nEsc;
 		private Case[][] map2;
@@ -57,11 +63,14 @@ public class Case{
 			this.type = typee;
 			this.map = mapp;
 			this.idBateau = 0;
+			this.idSelect = 0;
 			this.nDes = 0;
 			this.nEsc = 0;
 			this.pivot = false;
 			cell = new JMenuBar();
 			menu = new JMenu("    ");
+			menuBackUp = new JMenu();
+			menu1BackUp = new JMenu();
 			destroyeur = new JMenuItem("Destroyeur");
 			escorteur = new JMenuItem("Escorteur");
 			dnord = new JMenuItem("Nord");
@@ -90,7 +99,6 @@ public class Case{
 			destroyeur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						//bateau = ControleurPartie.placerBateau(x, y, 3);
 						if(map[0][0].getNDes()==0) {
 							creerBateau(3, "n", getNBateau()+1);
 							map[0][0].setNDes(1);
@@ -106,7 +114,6 @@ public class Case{
 			escorteur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						//bateau = ControleurPartie.placerBateau(x, y, 2);
 						int ne = map[0][0].getNEsc();
 						if(ne==0 || ne ==1) {
 							creerBateau(2, "n", getNBateau()+1);
@@ -130,7 +137,6 @@ public class Case{
 					try {
 						deplacerBateau("n", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -140,7 +146,6 @@ public class Case{
 					try {
 						deplacerBateau("s", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -150,7 +155,6 @@ public class Case{
 					try {
 						deplacerBateau("e", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -160,7 +164,6 @@ public class Case{
 					try {
 						deplacerBateau("o", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -170,7 +173,6 @@ public class Case{
 					try {
 						pivoterBateau("n", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -180,7 +182,6 @@ public class Case{
 					try {
 						pivoterBateau("s", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -190,7 +191,6 @@ public class Case{
 					try {
 						pivoterBateau("e", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -200,7 +200,6 @@ public class Case{
 					try {
 						pivoterBateau("o", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -235,23 +234,41 @@ public class Case{
 			setCell1Size(22, 21);
 			tirer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					menu.remove(deplacer);
-					menu.remove(pivoter);
-					
-					// TODO Auto-generated method stub	
+					for (Case[] l : map){
+						for (Case c : l){
+							c.setIdSelect(idBateau);
+							c.makeBackUp();
+							c.setMenuTirer();
+						}
+					}
 				}
 			});
 			attaquer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub	
-					menu.add(deplacer);
-					menu.add(pivoter);
+					try {
+						if (ControleurPartie.controleurNbActions(idSelect)){
+							ControleurPartie.jouerAction((ControleurPartie.Tir(idSelect, x, y)));
+						}
+					} catch (TirMissed e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					// controleur tirer
+					for (Case[] l : map){
+						for (Case c : l){
+							c.restoreBackUp();
+							c.setIdSelect(0);
+						}
+					}
 				}
 			});
 			avant.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						deplacerBateau1(dirBateau, type+1);
+						if (ControleurPartie.controleurNbActions(idBateau)){
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.AVANCER));
+							deplacerBateau1(dirBateau, type+1);
+						}
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
@@ -261,24 +278,27 @@ public class Case{
 			arriere.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						String dir;
-						switch(dirBateau){
-						case "n" :
-							dir = "s";
-							break;
-						case "s" :
-							dir = "n";
-							break;
-						case "e" :
-							dir = "o";
-							break;
-						case "o" :
-							dir = "e";
-							break;
-						default :
-							throw new IllegalArgumentException("Direction incorrecte");
+						if (ControleurPartie.controleurNbActions(idBateau)){
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.RECULER));
+							String dir;
+							switch(dirBateau){
+							case "n" :
+								dir = "s";
+								break;
+							case "s" :
+								dir = "n";
+								break;
+							case "e" :
+								dir = "o";
+								break;
+							case "o" :
+								dir = "e";
+								break;
+							default :
+								throw new IllegalArgumentException("Direction incorrecte");
+							}
+							deplacerBateau1(dir, type+1);
 						}
-						deplacerBateau1(dir, type+1);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
@@ -288,24 +308,27 @@ public class Case{
 			gauche.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						String dir;
-						switch(dirBateau){
-						case "n" :
-							dir = "o";
-							break;
-						case "s" :
-							dir = "e";
-							break;
-						case "e" :
-							dir = "n";
-							break;
-						case "o" :
-							dir = "s";
-							break;
-						default :
-							throw new IllegalArgumentException("Direction incorrecte");
+						if (ControleurPartie.controleurNbActions(idBateau)){
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTGAUCHE));
+							String dir;
+							switch(dirBateau){
+							case "n" :
+								dir = "o";
+								break;
+							case "s" :
+								dir = "e";
+								break;
+							case "e" :
+								dir = "n";
+								break;
+							case "o" :
+								dir = "s";
+								break;
+							default :
+								throw new IllegalArgumentException("Direction incorrecte");
+							}
+							pivoterBateau1(dir, type+1);
 						}
-						pivoterBateau1(dir, type+1);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
@@ -315,24 +338,27 @@ public class Case{
 			droite.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						String dir;
-						switch(dirBateau){
-						case "n" :
-							dir = "e";
-							break;
-						case "s" :
-							dir = "o";
-							break;
-						case "e" :
-							dir = "s";
-							break;
-						case "o" :
-							dir = "n";
-							break;
-						default :
-							throw new IllegalArgumentException("Direction incorrecte");
+						if (ControleurPartie.controleurNbActions(idBateau)){
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTDROITE));
+							String dir;
+							switch(dirBateau){
+							case "n" :
+								dir = "e";
+								break;
+							case "s" :
+								dir = "o";
+								break;
+							case "e" :
+								dir = "s";
+								break;
+							case "o" :
+								dir = "n";
+								break;
+							default :
+								throw new IllegalArgumentException("Direction incorrecte");
+							}
+							pivoterBateau1(dir, type+1);
 						}
-						pivoterBateau1(dir, type+1);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
@@ -456,6 +482,11 @@ public class Case{
 			menu.setText("    ");
 		}
 		
+		public void setMenuTirer(){
+			menu.removeAll();
+			menu1.add(attaquer);
+		}
+		
 		public void creerBateau(int taille, String dir, int id) throws Exception{
 			checkBateau(dir, taille);
 			Case c;
@@ -485,7 +516,8 @@ public class Case{
 			}
 		}
 		
-		public void creerBateau1(int taille, String dir) throws Exception{
+		public void creerBateau1(int taille, String dir, int id) throws Exception{
+			checkBateau(dir, taille);
 			Case c;
 			pivot = true;
 			for (int i = 0; i < taille; i++){
@@ -505,7 +537,7 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
-				c.setIdBateau(1);
+				c.setIdBateau(id);
 				c.setCoordBateau(x, y);
 				c.setType(taille-1);
 				c.setDirBateau(dir);
@@ -594,14 +626,14 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 			} catch (IllegalArgumentException e) {
 				c = map[xBateau][yBateau];
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case occupée");
 			} catch (Exception e) {
 				c = map[xBateau][yBateau];
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case en dehors de la carte");
 			}
 		}
@@ -628,12 +660,12 @@ public class Case{
 			int id = idBateau;
 			c.deleteBateau1(taille, dirB);
 			try{
-				c.creerBateau1(taille, dir);
+				c.creerBateau1(taille, dir, id);
 			} catch (IllegalArgumentException e) {
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case occupée");
 			} catch (Exception e) {
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case en dehors de la carte");
 			}
 		}
@@ -750,5 +782,31 @@ public class Case{
 			menu.add(destroyeur);
 			menu.add(escorteur);
 			cell.setBackground(Color.white);
+		}
+		
+		public void makeBackUp(){
+			for (Component comp : menu.getMenuComponents()){
+				menuBackUp.add((JMenuItem) comp);
+			}
+			for (Component comp : menu1.getMenuComponents()){
+				menu1BackUp.add((JMenuItem) comp);
+			}
+			menu.removeAll();
+			menu1.removeAll();
+		}
+		
+		public void restoreBackUp(){
+			menu.removeAll();
+			menu1.removeAll();
+			for (Component comp : menuBackUp.getMenuComponents()){
+				menu.add((JMenuItem) comp);
+			}
+			for (Component comp : menu1BackUp.getMenuComponents()){
+				menu1.add((JMenuItem) comp);
+			}
+		}
+		
+		public void setIdSelect(int id){
+			this.idSelect = id;
 		}
 }

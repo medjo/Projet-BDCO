@@ -122,8 +122,9 @@ public class Connexion extends JFrame {
 		final JPanel Jouer = new JPanel();
 		contentPane.add(Jouer, "name_61813199911534");
 		
-		JButton btnRetour = new JButton("Quitter la partie");
-		btnRetour.setBounds(275, 235, 150, 25);
+		JButton btnRetour = new JButton("Quitter Partie");
+		btnRetour.setFont(new Font("Dialog", Font.BOLD, 9));
+		btnRetour.setBounds(325, 235, 100, 25);
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Jouer.setVisible(false);
@@ -134,7 +135,8 @@ public class Connexion extends JFrame {
 		Jouer.add(btnRetour);
 		
 		JButton btnRafraichir = new JButton("Rafraichir");
-		btnRafraichir.setBounds(5, 235, 120, 25);
+		btnRafraichir.setFont(new Font("Dialog", Font.BOLD, 10));
+		btnRafraichir.setBounds(3, 235, 105, 25);
 		btnRafraichir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if( (boolean)BattleShip.partie.aMoiDeJouer()){ //>>>>>>A voir pb dans Partie<<<<<<<
@@ -149,9 +151,18 @@ public class Connexion extends JFrame {
 		
 		txtJoueurN = new JTextField();
 		txtJoueurN.setText("Tour Joueur...");
-		txtJoueurN.setBounds(130, 235, 135, 25);
+		txtJoueurN.setBounds(113, 235, 100, 25);
 		Jouer.add(txtJoueurN);
 		txtJoueurN.setColumns(10);
+		
+		JButton btnValider_1 = new JButton("Valider Tour");
+		btnValider_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnValider_1.setFont(new Font("Dialog", Font.BOLD, 10));
+		btnValider_1.setBounds(215, 235, 105, 25);
+		Jouer.add(btnValider_1);
 		
 //interface de connexion -> Observer une partie 
 		final JPanel OberservationPartie = new JPanel();
@@ -238,8 +249,8 @@ public class Connexion extends JFrame {
 					for (Case c : l){
 						if (c.isPivot()){
 							try {
-								ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
-								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau());
+								int id = ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
+								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau(), id);
 							} catch (Exception e1) {
 								System.out.println("Erreur placement bateau");
 							}
@@ -248,6 +259,7 @@ public class Connexion extends JFrame {
 					}
 				}
 				ControleurPartie.validerPlacement();
+				ControleurPartie.debutTour();
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}
@@ -376,7 +388,7 @@ public class Connexion extends JFrame {
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map3, map4,1);
-				map[i][j]=C;
+				map3[i][j]=C; //si problème au merge, renomme map3 en ce que tu veux mais pas map ou map1
 				ObserveAction.add(C.getCell());
 				ObserveAction.add(C.getCell1());
 			}	
