@@ -210,8 +210,8 @@ public class Connexion extends JFrame {
 					for (Case c : l){
 						if (c.isPivot()){
 							try {
-								ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
-								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau());
+								int id = ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
+								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau(), id);
 							} catch (Exception e1) {
 								System.out.println("Erreur placement bateau");
 							}
@@ -220,6 +220,7 @@ public class Connexion extends JFrame {
 					}
 				}
 				ControleurPartie.validerPlacement();
+				ControleurPartie.debutTour();
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}

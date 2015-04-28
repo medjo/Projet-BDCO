@@ -17,7 +17,9 @@ public class Case{
 		private JMenuBar cell;
 		private JMenuBar cell1;
 		private JMenu menu;
+		private JMenu menuBackUp;
 		private JMenu menu1;
+		private JMenu menu1BackUp;
 		private int type;
 		private boolean pivot;
 		private JMenuItem destroyeur;
@@ -47,6 +49,7 @@ public class Case{
 		private int yBateau;
 		private String dirBateau;
 		private int idBateau;
+		private int idSelect;
 		private int nDes;
 		private int nEsc;
 		private Case[][] map2;
@@ -57,6 +60,7 @@ public class Case{
 			this.type = typee;
 			this.map = mapp;
 			this.idBateau = 0;
+			this.idSelect = 0;
 			this.nDes = 0;
 			this.nEsc = 0;
 			this.pivot = false;
@@ -90,7 +94,6 @@ public class Case{
 			destroyeur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						//bateau = ControleurPartie.placerBateau(x, y, 3);
 						if(map[0][0].getNDes()==0) {
 							creerBateau(3, "n", getNBateau()+1);
 							map[0][0].setNDes(1);
@@ -106,7 +109,6 @@ public class Case{
 			escorteur.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						//bateau = ControleurPartie.placerBateau(x, y, 2);
 						int ne = map[0][0].getNEsc();
 						if(ne==0 || ne ==1) {
 							creerBateau(2, "n", getNBateau()+1);
@@ -130,7 +132,6 @@ public class Case{
 					try {
 						deplacerBateau("n", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -140,7 +141,6 @@ public class Case{
 					try {
 						deplacerBateau("s", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -150,7 +150,6 @@ public class Case{
 					try {
 						deplacerBateau("e", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -160,7 +159,6 @@ public class Case{
 					try {
 						deplacerBateau("o", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -170,7 +168,6 @@ public class Case{
 					try {
 						pivoterBateau("n", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -180,7 +177,6 @@ public class Case{
 					try {
 						pivoterBateau("s", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -190,7 +186,6 @@ public class Case{
 					try {
 						pivoterBateau("e", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -200,7 +195,6 @@ public class Case{
 					try {
 						pivoterBateau("o", type+1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						System.err.println(e.getMessage());
 					}
 				}
@@ -236,12 +230,23 @@ public class Case{
 			setCell1Size(22, 21);
 			tirer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub	
+					for (Case[] l : map){
+						for (Case c : l){
+							c.setIdSelect(idBateau);
+							c.makeBackUp();
+							c.setMenuTirer();
+						}
+					}
 				}
 			});
 			attaquer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub	
+					// controleur tirer
+					for (Case[] l : map){
+						for (Case c : l){
+							c.restoreBackUp();
+						}
+					}
 				}
 			});
 			avant.addActionListener(new ActionListener() {
@@ -443,6 +448,11 @@ public class Case{
 			menu.setText("    ");
 		}
 		
+		public void setMenuTirer(){
+			menu.removeAll();
+			menu1.add(attaquer);
+		}
+		
 		public void creerBateau(int taille, String dir, int id) throws Exception{
 			checkBateau(dir, taille);
 			Case c;
@@ -472,7 +482,8 @@ public class Case{
 			}
 		}
 		
-		public void creerBateau1(int taille, String dir) throws Exception{
+		public void creerBateau1(int taille, String dir, int id) throws Exception{
+			checkBateau(dir, taille);
 			Case c;
 			pivot = true;
 			for (int i = 0; i < taille; i++){
@@ -492,7 +503,7 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
-				c.setIdBateau(1);
+				c.setIdBateau(id);
 				c.setCoordBateau(x, y);
 				c.setType(taille-1);
 				c.setDirBateau(dir);
@@ -581,14 +592,14 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 			} catch (IllegalArgumentException e) {
 				c = map[xBateau][yBateau];
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case occupée");
 			} catch (Exception e) {
 				c = map[xBateau][yBateau];
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case en dehors de la carte");
 			}
 		}
@@ -615,12 +626,12 @@ public class Case{
 			int id = idBateau;
 			c.deleteBateau1(taille, dirB);
 			try{
-				c.creerBateau1(taille, dir);
+				c.creerBateau1(taille, dir, id);
 			} catch (IllegalArgumentException e) {
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case occupée");
 			} catch (Exception e) {
-				c.creerBateau1(taille, dirB);
+				c.creerBateau1(taille, dirB, id);
 				throw new IllegalArgumentException("Case en dehors de la carte");
 			}
 		}
@@ -737,5 +748,27 @@ public class Case{
 			menu.add(destroyeur);
 			menu.add(escorteur);
 			cell.setBackground(Color.white);
+		}
+		
+		public void makeBackUp(){
+			for (Component comp : menu.getComponents()){
+				menuBackUp.add(comp);
+			}
+			for (Component comp : menu1.getComponents()){
+				menu1BackUp.add(comp);
+			}
+		}
+		
+		public void restoreBackUp(){
+			for (Component comp : menuBackUp.getComponents()){
+				menu.add(comp);
+			}
+			for (Component comp : menu1BackUp.getComponents()){
+				menu1.add(comp);
+			}
+		}
+		
+		public void setIdSelect(int id){
+			this.idSelect = id;
 		}
 }
