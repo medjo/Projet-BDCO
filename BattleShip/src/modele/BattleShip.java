@@ -140,7 +140,7 @@ public class BattleShip {
 		ControleurPartie.validerTour();
 		*/
 
-		try {
+/*		try {
 			ControleurConnexion.connexion("Rubixbob");
 		} catch (UtilisateurInconnuException e) {
 			// TODO Auto-generated catch block
