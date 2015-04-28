@@ -63,9 +63,11 @@ public class Connexion extends JFrame {
 	private LinkedList<InfoPartie> parties;
 	private JTextField textJoueurObs1;
 	private JTextField textJoueurObs2;
-	private JTextField textField;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textIdPartie;
+	private JTextField textJoueur1;
+	private JTextField textJoueur2;
+	private int indPartie;
+	private EtatTour etatTour;
 	
 
 	/**
@@ -99,20 +101,67 @@ public class Connexion extends JFrame {
 		contentPane.add(rePartie, "name_23529570157705");
 		rePartie.setLayout(null);
 		
+//interface de connexion->Lancer Partie 	
+		final JPanel ChercheAdv = new JPanel();
+		contentPane.add(ChercheAdv, "name_68167019743368");
+		ChercheAdv.setLayout(null);
+
+//interface de connexion ->Lancer Partie -> preparer Bataille 
+		final JPanel PrepareBataille = new JPanel();
+		contentPane.add(PrepareBataille, "name_43179446908468");
+		PrepareBataille.setLayout(null);
+		
+//interface de connexion -> lancer partie -> preparer bataille -> Jouer 
+		final JPanel Jouer = new JPanel();
+		contentPane.add(Jouer, "name_61813199911534");
+		
 		JLabel label_6 = new JLabel("Identifiant de Partie");
 		label_6.setBounds(65, 68, 165, 15);
 		rePartie.add(label_6);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(219, 68, 150, 20);
-		rePartie.add(textField);
+		textIdPartie = new JTextField();
+		textIdPartie.setColumns(10);
+		textIdPartie.setBounds(219, 68, 150, 20);
+		rePartie.add(textIdPartie);
 		
 		JButton btnReprendre = new JButton("Reprendre");
 		btnReprendre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rePartie.setVisible(false);
-				Connexion.setVisible(true);
+				String adv;
+				if (pseudoJo.equals(parties.get(indPartie).getPseudo1())){
+					adv = parties.get(indPartie).getPseudo2();
+				} else {
+					adv = parties.get(indPartie).getPseudo1();
+				}
+				etatTour = ControleurPartie.reprendrePartieEnCours(parties.get(indPartie).getId(), adv);
+				pseudoAdv =BattleShip.partie.getPseudoAdv();
+				if (etatTour.init){
+					rePartie.setVisible(false);
+					PrepareBataille.setVisible(true);
+				} else {
+					ArrayList<Ship> batInit= BattleShip.partie.getBateauxCourants();
+					for (Ship s : batInit){
+						try {
+							map1[s.getXBateau()][s.getYBateau()].creerBateau(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(null, "Erreur placement bateau", "Erreur", JOptionPane.ERROR_MESSAGE);
+							//System.out.println("Erreur placement bateau");
+						}
+					}
+					//ControleurPartie.debutTour();
+					if(etatTour.tour){
+						txtJoueurN.setText("Tour de "+pseudoJo);
+					} else {
+						txtJoueurN.setText("Tour de "+pseudoAdv);
+						for (Case[] l : map1){
+							for (Case c : l){
+								c.makeBackUp();
+							}
+						}
+					}
+					rePartie.setVisible(false);
+					Jouer.setVisible(true);
+				}
 			}
 		});
 		btnReprendre.setFont(new Font("Dialog", Font.BOLD, 10));
@@ -122,8 +171,14 @@ public class Connexion extends JFrame {
 		JButton button_1 = new JButton("<Précedent");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rePartie.setVisible(false);
-				Connexion.setVisible(true);
+				if(indPartie > 0){
+					indPartie--;
+				} else {
+					indPartie = parties.size()-1;
+				}
+				textIdPartie.setText(""+parties.get(indPartie).getId());
+				textJoueur1.setText(""+parties.get(indPartie).getPseudo1());
+				textJoueur2.setText(""+parties.get(indPartie).getPseudo2());
 			}
 		});
 		button_1.setFont(new Font("Dialog", Font.BOLD, 10));
@@ -133,8 +188,14 @@ public class Connexion extends JFrame {
 		JButton button_2 = new JButton("Suivant>");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rePartie.setVisible(false);
-				Connexion.setVisible(true);
+				if(indPartie < parties.size()-1){
+					indPartie++;
+				} else {
+					indPartie = 0;
+				}
+				textIdPartie.setText(""+parties.get(indPartie).getId());
+				textJoueur1.setText(""+parties.get(indPartie).getPseudo1());
+				textJoueur2.setText(""+parties.get(indPartie).getPseudo2());
 			}
 		});
 		button_2.setFont(new Font("Dialog", Font.BOLD, 10));
@@ -156,31 +217,17 @@ public class Connexion extends JFrame {
 		label_8.setBounds(204, 108, 45, 25);
 		rePartie.add(label_8);
 		
-		textField_2 = new JTextField();
-		textField_2.setText("Joueur1");
-		textField_2.setColumns(10);
-		textField_2.setBounds(65, 108, 120, 20);
-		rePartie.add(textField_2);
+		textJoueur1 = new JTextField();
+		textJoueur1.setText("Joueur1");
+		textJoueur1.setColumns(10);
+		textJoueur1.setBounds(65, 108, 120, 20);
+		rePartie.add(textJoueur1);
 		
-		textField_3 = new JTextField();
-		textField_3.setText("Joueur2");
-		textField_3.setColumns(10);
-		textField_3.setBounds(249, 108, 120, 20);
-		rePartie.add(textField_3);
-		
-//interface de connexion->Lancer Partie 	
-		final JPanel ChercheAdv = new JPanel();
-		contentPane.add(ChercheAdv, "name_68167019743368");
-		ChercheAdv.setLayout(null);
-
-//interface de connexion ->Lancer Partie -> preparer Bataille 
-		final JPanel PrepareBataille = new JPanel();
-		contentPane.add(PrepareBataille, "name_43179446908468");
-		PrepareBataille.setLayout(null);
-		
-//interface de connexion -> lancer partie -> preparer bataille -> Jouer 
-		final JPanel Jouer = new JPanel();
-		contentPane.add(Jouer, "name_61813199911534");
+		textJoueur2 = new JTextField();
+		textJoueur2.setText("Joueur2");
+		textJoueur2.setColumns(10);
+		textJoueur2.setBounds(249, 108, 120, 20);
+		rePartie.add(textJoueur2);
 		
 		JButton btnRetour = new JButton("Quitter Partie");
 		btnRetour.setFont(new Font("Dialog", Font.BOLD, 9));
@@ -199,24 +246,28 @@ public class Connexion extends JFrame {
 		Jouer.setLayout(null);
 		Jouer.add(btnRetour);
 		
+		etatTour = new EtatTour();
 		JButton btnRafraichir = new JButton("Rafraichir");
 		btnRafraichir.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnRafraichir.setBounds(3, 235, 105, 25);
 		btnRafraichir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EtatTour etatTour = ControleurPartie.rafraichirGeneral();
-				if(etatTour.tour){
-					txtJoueurN.setText("Tour de "+pseudoJo);
-					for (Ship s : BattleShip.partie.getBateauxCourants()){
-						try {
-							map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							System.out.println("Erreur récupération bateau");
+				if(!etatTour.tour){
+					etatTour = ControleurPartie.rafraichirGeneral();
+					if(etatTour.tour){
+						ControleurPartie.debutTour();
+						txtJoueurN.setText("Tour de "+pseudoJo);
+						for (Ship s : BattleShip.partie.getBateauxCourants()){
+							try {
+								map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								System.out.println("Erreur récupération bateau");
+							}
 						}
+					} else {
+						txtJoueurN.setText("Tour de " + pseudoAdv);
 					}
-				} else {
-					txtJoueurN.setText("Tour de " + pseudoAdv);
 				}
 			}
 		});
@@ -311,6 +362,10 @@ public class Connexion extends JFrame {
 		btnReprendreUnePartie.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				parties = ControleurPartie.anciennesParties();
+				indPartie = 0;
+				textIdPartie.setText(""+parties.get(indPartie).getId());
+				textJoueur1.setText(""+parties.get(indPartie).getPseudo1());
+				textJoueur2.setText(""+parties.get(indPartie).getPseudo2());
 				Connexion.setVisible(false);
 				rePartie.setVisible(true);
 			}
@@ -333,7 +388,6 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_4 = new JButton("Commencer le jeu");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Ship> batInit= new ArrayList<Ship>();
 				for (Case[] l : map){
 					for (Case c : l){
 						if (c.isPivot()){
