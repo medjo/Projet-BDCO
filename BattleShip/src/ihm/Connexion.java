@@ -63,26 +63,6 @@ public class Connexion extends JFrame {
 	
 
 	/**
-	 * Launch the application.
-	 * @throws SQLException 
-	 */
-	public static void main(String[] args) throws SQLException{
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				BattleShip.theConnection= new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","guys","guys"));
-				BattleShip.theConnection.open();
-				try {
-					Connexion frame = new Connexion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-	}
-
-	/**
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
@@ -127,6 +107,11 @@ public class Connexion extends JFrame {
 		btnRetour.setBounds(325, 235, 100, 25);
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (Case[] l : map1){
+					for (Case c : l){
+						c.reset1();
+					}
+				}
 				Jouer.setVisible(false);
 				Connexion.setVisible(true);
 			}
@@ -141,8 +126,17 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if( (boolean)BattleShip.partie.aMoiDeJouer()){ //>>>>>>A voir pb dans Partie<<<<<<<
 					txtJoueurN.setText("Tour de "+pseudoJo);
+					for (Ship s : BattleShip.partie.getBateauxCourants()){
+						try {
+							map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							System.out.println("Erreur récupération bateau");
+						}
+					}
+				} else {
+					txtJoueurN.setText("Tour de " + pseudoAdv);
 				}
-				txtJoueurN.setText("Tour de " + pseudoAdv);
 			}
 		});
 		Jouer.setLayout(null);
@@ -158,6 +152,12 @@ public class Connexion extends JFrame {
 		JButton btnValider_1 = new JButton("Valider Tour");
 		btnValider_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ControleurPartie.validerActions();
+				for (Case[] l : map1){
+					for (Case c : l){
+						c.makeBackUp();
+					}
+				}
 			}
 		});
 		btnValider_1.setFont(new Font("Dialog", Font.BOLD, 10));
@@ -219,7 +219,7 @@ public class Connexion extends JFrame {
 		btnNewButton_2.setBounds(125, 193, 230, 25);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connexion.remove(3);
+				Connexion.remove(4);
 				Connexion.setVisible(false);
 				Identification.setVisible(true);
 			}
@@ -234,6 +234,11 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_6 = new JButton("Préparer Bataille ");
 		btnNewButton_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (Case[] l : map1){
+					for (Case c : l){
+						c.makeBackUp();
+					}
+				}
 				ChercheAdv.setVisible(false);
 				PrepareBataille.setVisible(true);
 			}
@@ -259,7 +264,7 @@ public class Connexion extends JFrame {
 					}
 				}
 				ControleurPartie.validerPlacement();
-				ControleurPartie.debutTour();
+				//ControleurPartie.debutTour();
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}

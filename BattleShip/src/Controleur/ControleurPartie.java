@@ -234,7 +234,7 @@ public class ControleurPartie {
 	 * @return
 	 */
 	
-	public void validerActions(){
+	public static void validerActions(){
 		try {
 			BattleShip.theConnection.getConnection().commit();
 		} catch (SQLException e) {
@@ -248,7 +248,7 @@ public class ControleurPartie {
 	 * @return
 	 */
 	
-	public void annulerActions(){
+	public static void annulerActions(){
 		try {
 			BattleShip.theConnection.getConnection().rollback();
 		} catch (SQLException e) {
