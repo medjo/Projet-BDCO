@@ -27,6 +27,7 @@ public abstract class Action {
 	 */
 	public abstract void execute() throws ExceptionDeplacement, TirMissed;
 	
+	public abstract void executeReplay() throws TirMissed;
 	/**
 	 * sauvegarde l'action au niveau de la BD dans l'historique de la partie 
 	 * @param theConnection

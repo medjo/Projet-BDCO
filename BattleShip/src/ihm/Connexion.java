@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import Controleur.ControleurConnexion;
+import Controleur.ControleurHistorique;
 import Controleur.ControleurPartie;
 
 import java.sql.*;
@@ -30,6 +31,7 @@ public class Connexion extends JFrame {
 	private JPanel Identification;
 	private JPanel Jeu;
 	private JPanel OberservationPartie;
+	private JPanel ObserveAction;
 	private JPanel ChercheAdv;
 	private JPanel PrepareBataille;
 	private JPanel Jouer;
@@ -45,11 +47,11 @@ public class Connexion extends JFrame {
 	private JTextField txtJj;
 	private JTextField txtMm;
 	private JTextField txtAnnee;
-	private JTextField textField_3;
-	private JTextField textField_8;
-	private JTable Carte;
-	private JTable table;
+	private JTextField idPartie;
+	private JTextField EtatPartie;
 	private JTextField txtJoueurN;
+	private String pseudoAdv;
+	private String pseudoJo;
 	private Case[][] map;
 	private Case[][] map1;
 	
@@ -127,17 +129,34 @@ public class Connexion extends JFrame {
 		
 		JButton btnRafraichir = new JButton("Rafraichir");
 		btnRafraichir.setBounds(5, 235, 120, 25);
+		btnRafraichir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( (boolean)BattleShip.partie.aMoiDeJouer()){ //>>>>>>A voir pb dans Partie<<<<<<<
+					txtJoueurN.setText("Tour de "+pseudoJo);
+				}
+				txtJoueurN.setText("Tour de " + pseudoAdv);
+			}
+		});
+		Jouer.setLayout(null);
 		Jouer.add(btnRafraichir);
+		
 		
 		txtJoueurN = new JTextField();
 		txtJoueurN.setText("Tour Joueur...");
 		txtJoueurN.setBounds(130, 235, 135, 25);
 		Jouer.add(txtJoueurN);
 		txtJoueurN.setColumns(10);
+		
 //interface de connexion -> Observer une partie 
 		final JPanel OberservationPartie = new JPanel();
 		contentPane.add(OberservationPartie, "name_2587200245776");
 		OberservationPartie.setLayout(null);
+
+//interface de connexion -> Observer une partie ->Observer		
+		final JPanel ObserveAction = new JPanel();
+		contentPane.add(ObserveAction, "name_65504645385822");
+		ObserveAction.setLayout(null);
+		
 		
 //interface d'inscription
 		final JPanel Inscription = new JPanel();
@@ -155,7 +174,8 @@ public class Connexion extends JFrame {
 					// TODO Message erreur
 					System.out.println("Il n'y a pas d'adversaire disponible");
 				}
-				JLabel lblVotre = new JLabel("Votre adversaire " + BattleShip.partie.getPseudoAdv() + " est prêt");
+				pseudoAdv =BattleShip.partie.getPseudoAdv();
+				JLabel lblVotre = new JLabel("Votre adversaire " + pseudoAdv + " est prêt");
 				lblVotre.setBounds(50, 100, 400, 20);
 				ChercheAdv.add(lblVotre);
 						
@@ -172,6 +192,8 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Connexion.setVisible(false);
 				OberservationPartie.setVisible(true);
+				idPartie.setText("0");
+				ControleurHistorique.lancerHistorique();
 			}
 		});
 		Connexion.add(btnNewButton_1);
@@ -308,31 +330,76 @@ public class Connexion extends JFrame {
 		lblEtatDePartie.setBounds(56, 138, 109, 15);
 		OberservationPartie.add(lblEtatDePartie);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(210, 82, 150, 20);
-		OberservationPartie.add(textField_3);
-		textField_3.setColumns(10);
+		idPartie = new JTextField();
+		idPartie.setBounds(210, 82, 150, 20);
+		OberservationPartie.add(idPartie);
+		idPartie.setColumns(10);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(210, 136, 150, 20);
-		OberservationPartie.add(textField_8);
+		EtatPartie = new JTextField();
+		EtatPartie.setColumns(10);
+		EtatPartie.setBounds(210, 136, 150, 20);
+		OberservationPartie.add(EtatPartie);
 		
 		JButton btnNewButton_3 = new JButton("Observer");
 		btnNewButton_3.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				OberservationPartie.setVisible(false);
+				ObserveAction.setVisible(true);
 			}
 		});
 		btnNewButton_3.setBounds(5, 225, 100, 25);
 		OberservationPartie.add(btnNewButton_3);
+		//Contenu interface de connexion -> Observer une partie -> Observer
+		JButton btnRafraichirObs = new JButton("Rafraichir");
+		btnRafraichirObs.setBounds(60, 225, 117, 25);
+		ObserveAction.add(btnRafraichirObs);
+		
+		JButton btnQuitter_2 = new JButton("Quitter");
+		btnQuitter_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ObserveAction.setVisible(false);
+				OberservationPartie.setVisible(true);
+			}
+		});
+		btnQuitter_2.setBounds(245, 225, 117, 25);
+		ObserveAction.add(btnQuitter_2);
+		
+		Case[][] map3 = new Case[10][10];
+		Case[][] map4 = new Case[10][10];
+		for (int i=0; i<10; i++){
+			for (int j=0; j<10; j++){
+				Case C = new Case(i, j, 0, map3, map4,1);
+				map3[i][j]=C; //si problème au merge, renomme map3 en ce que tu veux mais pas map ou map1
+				ObserveAction.add(C.getCell());
+				ObserveAction.add(C.getCell1());
+			}	
+		}
+		
+		
 		
 		JButton btnNewB = new JButton("<Précedent");
+		btnNewB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnNewB.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnNewB.setBounds(110, 225, 100, 25);
 		OberservationPartie.add(btnNewB);
 		
-		JButton btnNewB_1 = new JButton("Suivant>>");
+		JButton btnNewB_1 = new JButton("Suivant>");
+		btnNewB_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControleurHistorique.suivant();
+				idPartie.setText(String.valueOf(ControleurHistorique.suivant().getId())); 
+				//if (BattleShip.rejouer.){ 
+				//	EtatPartie.setText("Partie en cours");
+				//}else{
+				//	EtatPartie.setText("Partie fini");
+				//}
+				
+			}
+		});
 		btnNewB_1.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnNewB_1.setBounds(215, 225, 100, 25);
 		OberservationPartie.add(btnNewB_1);
@@ -347,7 +414,6 @@ public class Connexion extends JFrame {
 		btnQuitter.setFont(new Font("Dialog", Font.BOLD, 10));
 		btnQuitter.setBounds(320, 225, 100, 25);
 		OberservationPartie.add(btnQuitter);
-
 		
 
 		
@@ -509,7 +575,8 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ControleurConnexion.connexion(txtLogin.getText());
-					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + BattleShip.user.getPseudo());
+					pseudoJo = BattleShip.user.getPseudo();
+					JLabel lblNewLabel_1 = new JLabel("Bienvenue " + pseudoJo);
 					lblNewLabel_1.setBounds(164, 51, 230, 15);
 					Connexion.add(lblNewLabel_1);
 					Connexion.setVisible(true);

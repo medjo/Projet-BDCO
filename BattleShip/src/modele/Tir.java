@@ -99,7 +99,7 @@ public class Tir extends Action{
 			if(s.getDirBateauString().equals(Direction.NORD.toString())){
 				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
 					idBateau = s.getIdBateau();
-					System.out.println("BAAAAAAAANNNNNNNNNNNNGGGGGGGGGGGGGG!!!!!!!!!!!!!!!!!!!");
+					//System.out.println("BAAAAAAAANNNNNNNNNNNNGGGGGGGGGGGGGG!!!!!!!!!!!!!!!!!!!");
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.SUD.toString())){
@@ -143,6 +143,83 @@ public class Tir extends Action{
 		}
 		req.close();
 	}
+	
+	
+	@Override
+	public void executeReplay() throws TirMissed {
+		int idBateau = -1;
+		for(Ship s : bateauxEnnemis){
+			/*
+			switch(s.getDirBateau()){
+			case NORD:
+				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case SUD:
+				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case EST:
+				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			case OUEST:
+				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+				break;
+			}*/
+			System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
+			if(s.getDirBateauString().equals(Direction.NORD.toString())){
+				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+			}
+			if(s.getDirBateauString().equals(Direction.SUD.toString())){
+				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+			}
+			if(s.getDirBateauString().equals(Direction.EST.toString())){
+				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+			}
+			if(s.getDirBateauString().equals(Direction.OUEST.toString())){
+				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+			}
+		}
+			
+			
+			
+			
+			
+		/* le tir ne touche aucun bateau */
+		if(idBateau == -1){
+			System.out.println("Bateau non touché");
+			//throw new TirMissed();
+		}
+		
+		/*le tir touche un bateau */
+		System.out.println("Bateau ennemi touché; idpartie:"+getIdPartie()+"idbteau"+idBateau+"pseudo:"+adversaire);
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie =? AND idBateau = ? AND pseudo=?");
+		try {
+			req.getStatement().setInt(1, getIdPartie());
+			req.getStatement().setInt(2, idBateau);
+			req.getStatement().setString(3, adversaire);
+			req.execute();
+		} catch (Exception e) {
+			System.err.println("impossible de maj etat bateau après tir");
+			e.printStackTrace(System.err);
+		}
+		req.close();
+	}
+	
 	
 	public void setCoord(int x, int y) {
 		this.x = x;

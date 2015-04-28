@@ -67,13 +67,14 @@ public class Rejouer{
 	 * @param idPartie
 	 * @return liste des bateaux avec leurs états au tour suivant
 	 */
-	public ArrayList<Ship> suivant(TheConnection theConnection, int idPartie){
+	public ArrayList<Ship> suivant(int idPartie){
 		ArrayList <Action> listeActions = new ArrayList <Action>();
 		ArrayList <Ship> listeBateaux = new ArrayList<Ship>();
-		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie= ? AND ntour= ?");
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie="+idPartie+" AND ntour="+this.numTour);
 		try {
-			req.getStatement().setInt(1, idPartie);
-			req.getStatement().setInt(2, numTour);
+			//req.getStatement().setInt(1, idPartie);
+			//req.getStatement().setInt(2, numTour);
+			System.out.println("idPartieobs: "+idPartie+" numtour: "+ this.numTour);
 			req.execute();
 			
 		} catch (SQLException e1) {
@@ -83,12 +84,14 @@ public class Rejouer{
 		ResultSet res = req.getResult();
 		try {
 			/*Creation des actions */
+			
 			while(res.next()){
-				if(res.getString("type")=="Tir"){
+				System.out.println("On est rentré dans la boucle");
+				if(res.getString("type")=="tir"){
 					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, int x, int y
 					listeActions.add(new Tir(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), res.getInt("x"), res.getInt("y")));
 				}
-				if(res.getString("type")=="Deplacement"){
+				if(res.getString("type")=="dep"){
 					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type
 					listeActions.add(new Deplacement(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), TypeDeplacement.createDeplacement(res.getString("direction"))));
 				}
