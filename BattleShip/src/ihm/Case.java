@@ -831,11 +831,8 @@ public class Case{
 			this.pivot = false;
 			menu.setText("    ");
 			menu.removeAll();
-			menu.add(destroyeur);
-			menu.add(escorteur);
 			cell.setBackground(Color.white);
 			
-			menu1.setText("    ");
 			menu1.removeAll();
 			cell1.setBackground(Color.gray);
 		}
