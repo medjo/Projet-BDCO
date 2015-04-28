@@ -42,9 +42,11 @@ public class BattleShip {
 			}
 		});
 		
-		//BattleShip.rejouer=new Rejouer();
-		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
-
+		//ControleurHistorique.lancerHistorique();
+		//System.out.println(""+ControleurHistorique.suivant().getId());
+		//if(ControleurHistorique.suivant().getPseudo1()!=null){
+		//	System.out.println("Pseudo: "+ControleurHistorique.suivant().getPseudo1());
+		//}
 		
 		//Test des fonctions de connexions
 		/*
