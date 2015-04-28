@@ -50,6 +50,7 @@ public class Connexion extends JFrame {
 	private JTable Carte;
 	private JTable table;
 	private JTextField txtJoueurN;
+	private Case[][] map;
 	
 
 	/**
@@ -117,7 +118,7 @@ public class Connexion extends JFrame {
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Jouer.setVisible(false);
-				PrepareBataille.setVisible(true);
+				Connexion.setVisible(true);
 			}
 		});
 		Jouer.setLayout(null);
@@ -203,11 +204,20 @@ public class Connexion extends JFrame {
 		JButton btnNewButton_4 = new JButton("Commencer le jeu");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-/*				JMenuBar[] map = (JMenuBar[])PrepareBataille.getComponents();
 				ArrayList<Ship> batInit= new ArrayList<Ship>();
-				for (JMenuBar c : map){
-					
-				}*/
+				for (Case[] l : map){
+					for (Case c : l){
+						if (c.isPivot()){
+							try {
+								ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
+							} catch (SQLException e1) {
+								System.out.println("Erreur placement bateau");
+							}
+						}
+						c.reset();
+					}
+				}
+				ControleurPartie.validerPlacement();
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}
@@ -218,6 +228,11 @@ public class Connexion extends JFrame {
 		JButton btnQuitter_1 = new JButton("Quitter");
 		btnQuitter_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (int i=0; i<10; i++){
+					for (int j=0; j<10; j++){
+						map[i][j].reset();
+					}	
+				}
 				PrepareBataille.setVisible(false);
 				Connexion.setVisible(true);
 			}
@@ -240,6 +255,11 @@ public class Connexion extends JFrame {
 		JButton btnAnnulerPlacement = new JButton("Annuler Placement");
 		btnAnnulerPlacement.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				for (int i=0; i<10; i++){
+					for (int j=0; j<10; j++){
+						map[i][j].reset();
+					}	
+				}
 			}
 		});
 		btnAnnulerPlacement.setBounds(167, 235, 170, 25);
@@ -247,7 +267,7 @@ public class Connexion extends JFrame {
 		
 		
 
-		Case[][] map = new Case[10][10];
+		map = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map);
@@ -265,7 +285,7 @@ public class Connexion extends JFrame {
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map1, map2);
-				map[i][j]=C;
+				map1[i][j]=C;
 				Jouer.add(C.getCell());
 				Jouer.add(C.getCell1());
 			}	

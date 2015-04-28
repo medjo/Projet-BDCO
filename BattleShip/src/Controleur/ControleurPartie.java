@@ -69,7 +69,7 @@ public class ControleurPartie {
 	 * Méthode qui valide le placement des bateaux
 	 */
 	
-	public void validerPlacement(){
+	public static void validerPlacement(){
 		try {
 			BattleShip.theConnection.getConnection().commit();
 		} catch (SQLException e) {
@@ -82,7 +82,7 @@ public class ControleurPartie {
 	 * Méthode qui permet d'annuler le placement des bateaux
 	 */
 	
-	public void annulerPlacements(){
+	public static void annulerPlacements(){
 		try {
 			BattleShip.theConnection.getConnection().rollback();
 		} catch (SQLException e) {
