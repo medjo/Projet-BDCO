@@ -67,10 +67,10 @@ public class Rejouer{
 	 * @param idPartie
 	 * @return liste des bateaux avec leurs états au tour suivant
 	 */
-	public ArrayList<Ship> suivant(TheConnection theConnection, int idPartie){
+	public ArrayList<Ship> suivant(int idPartie){
 		ArrayList <Action> listeActions = new ArrayList <Action>();
 		ArrayList <Ship> listeBateaux = new ArrayList<Ship>();
-		ParamQuery req = new ParamQuery(theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie= ? AND ntour= ?");
+		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie= ? AND ntour= ?");
 		try {
 			req.getStatement().setInt(1, idPartie);
 			req.getStatement().setInt(2, numTour);

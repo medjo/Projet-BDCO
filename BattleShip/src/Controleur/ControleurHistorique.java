@@ -6,6 +6,7 @@ import modele.BattleShip;
 import modele.InfoPartie;
 import modele.Rejouer;
 import jdbc.TheConnection;
+import modele.*;
 
 public class ControleurHistorique {
 	
@@ -17,16 +18,16 @@ public class ControleurHistorique {
 		BattleShip.rejouer=new Rejouer();
 	}
 	
-	public static void voirPartie(TheConnection theConnection, String idPartie){
-		
+	public static ArrayList<Ship> voirPartie(int idPartie){
+		return BattleShip.rejouer.init(idPartie);
 	}
 	
-	public static void suivant(TheConnection theConnection){
-		
+	public static ArrayList<Ship> suivant(int idPartie){
+		return BattleShip.rejouer.suivant(idPartie);
 	}
 	
-	public static void recommencer(TheConnection theConnection){
-		
+	public static ArrayList<Ship> recommencer(int idPartie){
+		return BattleShip.rejouer.init(idPartie);
 	}
 	
 	public static InfoPartie suivant(){
