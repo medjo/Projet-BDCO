@@ -234,6 +234,15 @@ public class Case{
 		}
 		
 		
+		public Case(int xx, int yy, int typee, Case[][] map1, Case[][] map2, int Observation){
+			this(xx,yy,typee,map1,map2);
+			menu.remove(tirer);
+			menu.remove(deplacer);
+			menu.remove(pivoter);
+			menu1.remove(attaquer);
+		}
+		
+		
 		public int getX(){
 			return x;
 		}

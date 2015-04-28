@@ -147,17 +147,17 @@ public class ControleurPartie {
 	//Elle doit setter les paramètres de la partie
 	//Elle renvoie vraie si on reprend à un tour quelconque
 	//Elle renvoie faux si on reprend à l' étape d'intialisation (2 users)
-	public static boolean reprendrePartieEnCours(int idPartie, String adv ){
+	public static EtatTour reprendrePartieEnCours(int idPartie, String adv ){
 		BattleShip.partie.setIdPartie(idPartie);
 		BattleShip.partie.setNumTour(BattleShip.partie.getNumeroDernierTour());
 		//System.out.println("NumDernierTour"+BattleShip.partie.getNumeroDernierTour());
 		BattleShip.partie.setAdv(adv);
 		System.out.println(BattleShip.user.getPseudo());
-		if(!BattleShip.partie.meAPositionneSesBateaux() || !BattleShip.partie.advAPositionneSesBateaux()){
+		
+		if(BattleShip.partie.meAPositionneSesBateaux() ){
 			BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
-			return false;
 		}
-		return true;
+		return ControleurPartie.rafraichirGeneral();
 	}
 	
 	//Méthode qui permet de tester si l'on doit reprendre une partie au démarrage ie au 
@@ -241,18 +241,20 @@ public class ControleurPartie {
 	
 	//Cette méthode permet de rafraichir génralement 
 	
-	public EtatTour rafraichirGeneral(){
+	public static EtatTour rafraichirGeneral(){
 		
-		EtatTour tour= new EtatTour();
-		tour.init=false;
-		tour.tour=false;
+		EtatTour tour= new EtatTour(); //Init a false dans constructeur par défaut
 		
 		if(BattleShip.partie.advAPositionneSesBateaux() && !BattleShip.partie.meAPositionneSesBateaux()) tour.init=true; //L'adversaire a au moins positionné ses bateaux mais pas moi
 		
-		if(BattleShip.partie.advAPositionneSesBateaux() && BattleShip.partie.meAPositionneSesBateaux() && BattleShip.partie.getJoueur1().equals(BattleShip.user.getPseudo())) {//Si l'adversaire a positionné ses bateaux, et moi aussi alors je commence si je suis le joueur1
+		if(BattleShip.partie.advAPositionneSesBateaux() && BattleShip.partie.meAPositionneSesBateaux() && BattleShip.partie.aucuneAction() && BattleShip.partie.getJoueur1().equals(BattleShip.user.getPseudo())) {//Si l'adversaire a positionné ses bateaux, et moi aussi alors je commence si je suis le joueur1
 			tour.tour=true;
 		}
-		if(BattleShip.partie.meAPositionneSesBateaux() && BattleShip.partie.advAPositionneSesBateaux() && BattleShip.partie.aMoiDeJouer()) {
+		if(!BattleShip.partie.advAPositionneSesBateaux() && !BattleShip.partie.meAPositionneSesBateaux() && BattleShip.partie.getJoueur1().equals(BattleShip.user.getPseudo())) {//Si l'adversaire a positionné ses bateaux, et moi aussi alors je commence si je suis le joueur1
+			tour.init=true;
+		}
+		System.out.println("Moi bat:"+BattleShip.partie.meAPositionneSesBateaux()+"Adv:" +BattleShip.partie.advAPositionneSesBateaux());
+		if(BattleShip.partie.meAPositionneSesBateaux() && BattleShip.partie.advAPositionneSesBateaux() && !BattleShip.partie.aucuneAction() && BattleShip.partie.aMoiDeJouer()) {
 			//Si les 2 joueurs ont placé leurs bateaux et que c'est à moi de jouer
 			tour.tour=true;
 		}
@@ -265,16 +267,7 @@ public class ControleurPartie {
 	
 	
 	
-	/*Classe qui va permttre de représenter si l'on peut prendre notre tour ou pas
-	 * Si init=true on est à notre étape d'initialisation
-	 * Si tour=false et tour=false: on doit attendre que notre adversaire ait finie de placer ses bateaux
-	 * Si tour =true, on peut jouer notre tour normal
-	 */
 	
-	public class EtatTour{
-		boolean init;
-		boolean tour;
-	}
 	
 	
 	

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import jdbc.*;
 import Controleur.ControleurConnexion;
+import Controleur.ControleurHistorique;
 import Controleur.ControleurPartie;
 
 public class BattleShip {
@@ -14,6 +15,7 @@ public class BattleShip {
 	public static TheConnection theConnection;
 	public static Utilisateur user;
 	public static Partie partie;
+	public static Rejouer rejouer;
 	
 	public static void main (String[] args) throws SQLException, InscriptionInvalideException, UtilisateurExistantException {
 		BattleShip.theConnection = new TheConnection(new ConnectionInfo("jdbc:oracle:thin:@ensioracle1.imag.fr:1521:ensioracle1","ikhaloo","ikhaloo"));
@@ -38,6 +40,9 @@ public class BattleShip {
 			}
 		});
 		
+		//BattleShip.rejouer=new Rejouer();
+		System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
+		
 		//Test des fonctions de connexions
 		/*
 		ControleurConnexion.inscription("MordokkaiserBest4","guy",
@@ -45,7 +50,9 @@ public class BattleShip {
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");*/
 		
 		//Test de la reprise d'une partie
+
 /*	
+
 		try {
 			ControleurConnexion.connexion("Sylvain");
 		} catch (UtilisateurInconnuException e) {
@@ -56,17 +63,93 @@ public class BattleShip {
 		BattleShip.partie=new Partie();
 		BattleShip.user=user;
 		
-		//ControleurPartie.reprendrePartieEnCours(idPartie, adv)
+		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Rubixbob");
+		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
+		
+		Ship s1=new Escorteur(5,5,"n",0);
+		Ship s2=new Destroyer(4,3,"s",1);
+		partie.executerPlacementBateauInitial(s1);
+		partie.executerPlacementBateauInitial(s2);
+		
+		BattleShip.theConnection.getConnection().commit();
+		*/
+		/*
+		try {
+			ControleurConnexion.connexion("Sylvain");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		
+		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Rubixbob");
+		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
+		*/
+		/*
+		try {
+			ControleurConnexion.connexion("Rubixbob");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		
+		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Sylvain");
+		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
 		
 		
+		try {
+			ControleurPartie.jouerAction(ControleurPartie.Tir(0, 5, 5));
+		} catch (TirMissed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ControleurPartie.validerTour();
+		
+		*/
+		/*
+		try {
+			ControleurConnexion.connexion("Sylvain");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
+		
+		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Rubixbob");
+		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
 		
 		
+		try {
+			ControleurPartie.jouerAction(ControleurPartie.Tir(0, 4, 3));
+		} catch (TirMissed e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		ControleurPartie.validerTour();
+		*/
+		/*
+		try {
+			ControleurConnexion.connexion("Sylvain");
+		} catch (UtilisateurInconnuException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Test de la création de partie
+		BattleShip.partie=new Partie();
+		BattleShip.user=user;
 		
-		
-		
-		
-		
+		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Rubixbob");
+		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
+		*/
 		
 		/*
 		try {

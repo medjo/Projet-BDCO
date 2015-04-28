@@ -7,6 +7,7 @@ import jdbc.*;
 
 public class Rejouer{
 	private ArrayList<InfoPartie> listeParties;
+	private int idPartieSelec;
 	private int numTour;
 	
 	
@@ -20,13 +21,13 @@ public class Rejouer{
 			ResultSet res = req.getResult();
 			int i=0;
 			while(res.next()){
-				System.out.println(res.getInt(1)+"-"+res.getDate(2)+"-"+res.getInt(3));
+				//System.out.println(res.getInt(1)+"-"+res.getDate(2)+"-"+res.getInt(3));
 				
 				listeParties.add(new InfoPartie(res.getInt(1), res.getDate(2), res.getInt(3)));
 				
 				
 				
-				
+				i++;
 			}
 			System.out.println("Le nombre de partie est:"+i);
 		} catch (Exception e) {
@@ -123,5 +124,17 @@ public class Rejouer{
 	
 	public ArrayList<InfoPartie> getInfoParties(){
 		return this.listeParties;
+	}
+	
+	public int getIdPartieSelec(){
+		return this.idPartieSelec;
+	}
+	
+	public void setIdPartieSelec(int i){
+		this.idPartieSelec=i;
+	}
+	
+	public ArrayList<InfoPartie> getListeParties(){
+		return listeParties;
 	}
 }

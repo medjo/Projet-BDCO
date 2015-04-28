@@ -345,20 +345,13 @@ public class Partie {
 	
 	//Méthode qui permet de tester si c'est bien à mon tour de jouer
 	public boolean aMoiDeJouer(){
-		//on regarde quel joueur est le premier à avoir jouer pour déterminer si c'est notre tour
-		//SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour=0");
 		//On regarde le numéro du dernier tour
-		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour>=ALL(SELECT nTour FROM Actions WHERE idPartie="+this.idPartie+")");
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT pseudo FROM Actions WHERE idPartie="+this.idPartie+" AND nTour>=ALL(SELECT nTour FROM Actions WHERE idPartie="+this.idPartie+")");
 		try{
-		//req.execute();
-		req1.execute();
-		//ResultSet res = req.getResult();
-		ResultSet res1 = req1.getResult();
-		//res.next();
-		res1.next();
-		//System.out.println("Num1:"+res.getString(1)+"Num2:"+res1.getString(1));
-		//if(res.getString(1))
-		if(res1.getString(1).equals(this.pseudoAdversaire)){
+		req.execute();
+		ResultSet res = req.getResult();
+		res.next();
+		if(res.getString(1).equals(this.pseudoAdversaire)){
 			//System.out.println("On a un souci2");
 			//Dans ce cas-là c'est à nous de jouer maintenant
 			return true;
@@ -464,6 +457,7 @@ public class Partie {
 	}
 	
 	public boolean advAPositionneSesBateaux(){
+		System.out.println("L'adv a pour pseudo"+this.pseudoAdversaire);
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie="+this.idPartie+" AND pseudo='"+this.pseudoAdversaire+"'");
 		try{
 		req.execute();
@@ -538,6 +532,22 @@ public class Partie {
 			System.err.println("Problème lors de la récupération du dernier numero de bateau");
 			e.printStackTrace();
 			return 0;
+		}
+	}
+
+
+	public boolean aucuneAction(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM actions WHERE idPartie="+this.idPartie);
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+			if(!res.next()) return true;
+			return false;
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
+			return false;
 		}
 	}
 
