@@ -32,6 +32,6 @@ public class ControleurHistorique {
 	
 	public static InfoPartie suivant(){
 		BattleShip.rejouer.setIdPartieSelec(BattleShip.rejouer.getIdPartieSelec()+1);
-		return BattleShip.rejouer.getListeParties().get(BattleShip.rejouer.getIdPartieSelec()-1);
+		return BattleShip.rejouer.getListeParties().get(BattleShip.rejouer.getIdPartieSelec());
 	}
 }

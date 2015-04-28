@@ -7,7 +7,7 @@ import jdbc.*;
 
 public class Rejouer{
 	private ArrayList<InfoPartie> listeParties;
-	private int idPartieSelec;
+	private int idPartieSelec=0;
 	private int numTour;
 	
 	
