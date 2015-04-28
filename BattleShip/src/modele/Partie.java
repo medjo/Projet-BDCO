@@ -60,7 +60,6 @@ public class Partie {
 			throw new ExceptionNoAdv();
 		}
 		
-		int i=0;
 		idJoueur joueurMin;
 		if(listeJoueurs.get(0).getPseudo().equals(BattleShip.user.getPseudo())){
 			joueurMin = listeJoueurs.get(1);
@@ -70,10 +69,11 @@ public class Partie {
 			joueurMin = listeJoueurs.get(0);
 			System.out.println("Selec j0");
 		}
-	
+		int i=1;
 		while(i<listeJoueurs.size()){
 			//System.out.println("joueur:"+listeJoueurs.get(i).getPseudo()+"nbparties:"+listeJoueurs.get(i).getNbParties());
-			if(listeJoueurs.get(i).getNbParties()<joueurMin.getNbParties()){
+			//System.out.println("on parcourt");
+			if(listeJoueurs.get(i).getNbParties()<joueurMin.getNbParties() && !listeJoueurs.get(i).getPseudo().equals(BattleShip.user.getPseudo())){
 				joueurMin=listeJoueurs.get(i);
 			}
 			i++;

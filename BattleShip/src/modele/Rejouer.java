@@ -84,11 +84,11 @@ public class Rejouer{
 		try {
 			/*Creation des actions */
 			while(res.next()){
-				if(res.getString("type")=="Tir"){
+				if(res.getString("type")=="tir"){
 					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, int x, int y
 					listeActions.add(new Tir(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), res.getInt("x"), res.getInt("y")));
 				}
-				if(res.getString("type")=="Deplacement"){
+				if(res.getString("type")=="dep"){
 					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type
 					listeActions.add(new Deplacement(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), TypeDeplacement.createDeplacement(res.getString("direction"))));
 				}

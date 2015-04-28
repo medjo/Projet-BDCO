@@ -43,7 +43,7 @@ public class BattleShip {
 		});
 		
 		//BattleShip.rejouer=new Rejouer();
-		System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
+		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
 
 		
 		//Test des fonctions de connexions
