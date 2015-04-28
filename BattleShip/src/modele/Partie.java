@@ -108,16 +108,22 @@ public class Partie {
 				e.printStackTrace(System.err);
 				BattleShip.theConnection.rollbackPerso(); //On annule la requête
 			}
-			try{//On enregistre dans la base de donnée
-				req.getConnection().commit();
-			}
-			catch (Exception e){
-				System.out.println("Problème lors du commit");
-				e.printStackTrace(System.err);
-				BattleShip.theConnection.rollbackPerso();
-			}
+			
 			req.close();
 		
+	}
+	
+	
+	//Méthode validerPartie
+	public void validerPartie(){
+		try{
+			BattleShip.theConnection.getConnection().commit();
+		}
+		catch (Exception e){
+			System.out.println("Problème lors du commit de la nouvelle partie");
+			e.printStackTrace(System.err);
+			BattleShip.theConnection.rollbackPerso();
+		}
 	}
 	
 	//TESTE
