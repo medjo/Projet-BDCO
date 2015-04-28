@@ -59,7 +59,7 @@ CREATE TABLE Parties (
 
 --Trigger qui vérifie que l'attribut "debut" a pour valeur le jour actuel
 CREATE OR REPLACE TRIGGER trg_check_dates
-BEFORE INSERT OR UPDATE ON Parties
+BEFORE INSERT ON Parties
 FOR EACH ROW
 BEGIN
 	IF( to_date(:new.debut, 'YYYY-MM-DD') <> to_date(CURRENT_DATE, 'YYYY-MM-DD') )
@@ -143,10 +143,12 @@ CREATE TABLE Actions (
 	y INT,
 	type VARCHAR(3) NOT NULL,
 	direction VARCHAR(2),
-	PRIMARY KEY (iDPartie, pseudo, nTour, nAction),
+	PRIMARY KEY (iDPartie, pseudo, nTour, nAction),All Scripts
     FOREIGN KEY (iDPartie, pseudo, iDBateau) REFERENCES Bateaux (iDPartie, pseudo, iDBateau),
 	CHECK (
-		(x BETWEEN 0 AND 9)
+		nTour >= 0
+		AND nAction >= 0
+		AND	(x BETWEEN 0 AND 9)
     	AND (y BETWEEN 0 AND 9)
     	AND (type IN ('tir', 'dep'))
     	AND (direction IN ('rg', 'rd', 'av', 'ar'))
@@ -208,7 +210,7 @@ column orientationI format a1
 --column taille format a1
 --column x format a9
 --column y format a2
---column xI format a2
+--column xI format a2All Scripts
 --column yI format a2
 
 --Bateaux : {iDPartie {pk,fk}, pseudo{pk, fk}, iDBateau{pk}, état, taille, x, y, orientation, xI, yI, orientationI(n,s,e,o)}
@@ -235,13 +237,15 @@ CREATE TABLE Bateaux (
     	AND (etat BETWEEN 0 AND taille)
     	AND (taille IN (2,3))
     	AND (
-    	((orientationI = 'n' ) AND (y + taille <= 9))
-    	OR ((orientationI = 's' ) AND (y - taille >= 0))
-    	OR ((orientationI = 'e' ) AND (x + taille <= 9))
-    	OR ((orientationI = 'o' ) AND (x - taille >= 0))
+    	((orientationI = 'n' ) AND (y + taille - 1 <= 9))
+    	OR ((orientationI = 's' ) AND (y - taille + 1 >= 0))
+    	OR ((orientationI = 'e' ) AND (x + taille - 1 <= 9))
+    	OR ((orientationI = 'o' ) AND (x - taille + 1 >= 0))
     	)
     )
 );
+
+select max(idpartie) from parties;
 
 CREATE OR REPLACE TRIGGER trg_init_bateaux
 BEFORE INSERT OR UPDATE ON Bateaux
@@ -316,10 +320,36 @@ BEGIN
 			THEN
 				RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
 			END IF;
+		ELSE
+			SELECT COUNT(*) INTO cnt FROM Bateaux WHERE (
+			(iDPartie = :new.iDPartie) 
+			AND (pseudo = :new.pseudo) 
+			AND (iDBateau <> :new.iDBateau) 
+			AND (
+			
+			((orientation = 'n') AND (:new.orientation = 'o') AND (:new.y BETWEEN y AND y + taille - 1) AND (x BETWEEN :new.x - :new.taille + 1 AND :new.x))
+			OR ((orientation = 's') AND (:new.orientation = 'o') AND (:new.y BETWEEN y - taille + 1 AND y) AND (x BETWEEN :new.x - :new.taille + 1 AND :new.x))
+			OR ((orientation = 'n') AND (:new.orientation = 'e') AND (:new.y BETWEEN y AND y + taille - 1) AND (x BETWEEN :new.x AND :new.x + :new.taille - 1))
+			OR ((orientation = 's') AND (:new.orientation = 'e') AND (:new.y BETWEEN y - taille + 1 AND y) AND (x BETWEEN :new.x AND :new.x + :new.taille - 1))
+			OR ((orientation = 'o') AND (:new.orientation = 'n') AND (y BETWEEN :new.y AND :new.y + :new.taille - 1) AND (:new.x BETWEEN x - taille + 1 AND x))
+			OR ((orientation = 'e') AND (:new.orientation = 'n') AND (y BETWEEN :new.y AND :new.y + :new.taille - 1) AND (:new.x BETWEEN x AND x + taille - 1))
+			OR ((orientation = 'o') AND (:new.orientation = 's') AND (y BETWEEN :new.y - :new.taille + 1 AND :new.y ) AND (:new.x BETWEEN x - taille + 1 AND x))
+			OR ((orientation = 'e') AND (:new.orientation = 's') AND (y BETWEEN :new.y - :new.taille + 1 AND :new.y ) AND (:new.x BETWEEN x AND x + taille - 1 ))
+			
+			));
+			IF(cnt > 0)
+			THEN
+				RAISE_APPLICATION_ERROR( -20003, 'The new boat is colliding with an existing one.');
+			END IF;
 		END IF;
 	END IF;
 END;
 /
+
+
+
+
+
 
 
 --Frequently Used Commands
