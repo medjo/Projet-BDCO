@@ -535,7 +535,7 @@ public class Partie {
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
-			if(!res.next()) return -1;
+			if(!res.next()) return 0;
 			return res.getInt(1);
 		}
 		catch (Exception e){
@@ -577,13 +577,28 @@ public class Partie {
 
 	
 	public void incrementerNbPartiesJouees(String pseudo){
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"UPDATE joueurs SET nbPartiesJouees=nbPartiesJouees+1 WHERE pseudo='"+pseudo+"'");
+		/*SimpleQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE joueurs SET nbPartiesJouees=nbPartiesJouees+1 WHERE pseudo=?");
 		try{
-			req.execute();
+			System.out.println("on appelel sur"+pseudo);
+			req.getStatement().setString(1, pseudo);
+			System.out.println("on appelel sur"+pseudo);
+			req.execute();//PB
 			ResultSet res = req.getResult();
 		}
 		catch (Exception e){
 			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
+		}
+		req.close();*/
+		try {
+			Statement stmt = BattleShip.theConnection.getConnection().createStatement();
+			System.out.println("yep");
+			stmt.executeQuery("UPDATE joueurs SET nbPartiesJouees=nbPartiesJouees+1 WHERE pseudo='"+pseudo+"'");
+			BattleShip.theConnection.getConnection().commit();
+			System.out.println("nop");
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
