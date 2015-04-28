@@ -249,8 +249,8 @@ public class Connexion extends JFrame {
 					for (Case c : l){
 						if (c.isPivot()){
 							try {
-								ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
-								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau());
+								int id = ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
+								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau(), id);
 							} catch (Exception e1) {
 								System.out.println("Erreur placement bateau");
 							}
@@ -259,6 +259,7 @@ public class Connexion extends JFrame {
 					}
 				}
 				ControleurPartie.validerPlacement();
+				ControleurPartie.debutTour();
 				PrepareBataille.setVisible(false);
 				Jouer.setVisible(true);
 			}
@@ -387,7 +388,7 @@ public class Connexion extends JFrame {
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map3, map4,1);
-				map[i][j]=C;
+				map3[i][j]=C; //si problème au merge, renomme map3 en ce que tu veux mais pas map ou map1
 				ObserveAction.add(C.getCell());
 				ObserveAction.add(C.getCell1());
 			}	
