@@ -7,6 +7,8 @@ import jdbc.*;
 
 public class Rejouer{
 	private ArrayList<InfoPartie> listeParties;
+	private InfoPartie infoP;
+	private ArrayList<Ship> listeBateaux;
 	private int idPartieSelec=0;
 	private int numTour;
 	
@@ -56,9 +58,14 @@ public class Rejouer{
 	 */
 	//TODO
 	public ArrayList<Ship> init(int idPartie){
-		ArrayList<Ship> shipsInit = ShipsFactory.shipsInit(idPartie);
+		for(InfoPartie i : listeParties){
+			if(i.getId() == idPartie){
+				this.setInfoP(i);
+			}
+		}
+		listeBateaux = ShipsFactory.shipsInit(idPartie);
 		numTour = 0;
-		return shipsInit;
+		return listeBateaux;
 	}
 	
 	
@@ -69,7 +76,6 @@ public class Rejouer{
 	 */
 	public ArrayList<Ship> suivant(int idPartie){
 		ArrayList <Action> listeActions = new ArrayList <Action>();
-		ArrayList <Ship> listeBateaux = new ArrayList<Ship>();
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM Actions WHERE idPartie="+idPartie+" AND ntour="+this.numTour);
 		try {
 			//req.getStatement().setInt(1, idPartie);
@@ -98,7 +104,7 @@ public class Rejouer{
 			}
 			/*execution des actions*/
 			for(Action a : listeActions){
-				a.execute();
+				a.executeReplay(listeBateaux);
 			}
 			/* si le tour a bien été joué on passe au suivant */
 			if(res.first()){
@@ -110,18 +116,9 @@ public class Rejouer{
 			System.err.println("Erreur tir hors de la map");
 			System.err.println("Anormal car partie déjà jouée !!!!");
 			e.printStackTrace();
-		} catch (ExceptionDeplacement e) {
-			System.err.println("Erreur deplacement invalide");
-			System.err.println("Anormal car partie déjà jouée !!!!");
-			e.printStackTrace();
 		} catch (TirMissed e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("tir raté ! aucun effet");
 		}
-		
-		/*recupère l'etat des bateaux */
-		listeBateaux = ShipsFactory.allShips(idPartie);
-		
 		return listeBateaux;
 	}
 	
@@ -139,5 +136,19 @@ public class Rejouer{
 	
 	public ArrayList<InfoPartie> getListeParties(){
 		return listeParties;
+	}
+
+	/**
+	 * @return the infoP
+	 */
+	public InfoPartie getInfoP() {
+		return infoP;
+	}
+
+	/**
+	 * @param infoP the infoP to set
+	 */
+	public void setInfoP(InfoPartie infoP) {
+		this.infoP = infoP;
 	}
 }

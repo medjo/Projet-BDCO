@@ -2,6 +2,7 @@ package modele;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import jdbc.ParamQuery;
 import jdbc.SimpleQuery;
@@ -36,7 +37,11 @@ public class Deplacement extends Action{
 		}
 		req.close();
 		
-		/* Calcul du xOfset, yOfset et nouvelle orientation */
+		calcDepl();
+	}
+	
+	private void calcDepl(){
+		/* Calcul du ofset, nouvelle orientation */
 		if(type.equals(TypeDeplacement.AVANCER)){
 			ofset=1;
 		}
@@ -85,7 +90,6 @@ public class Deplacement extends Action{
 			}
 		}
 	}
-	
 	
 	public void execute() throws ExceptionDeplacement{
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET x=?, y=?, orientation=? WHERE idPartie= ? AND idBateau= ? AND pseudo= ?");
@@ -150,8 +154,25 @@ public class Deplacement extends Action{
 
 
 	@Override
-	public void executeReplay() throws TirMissed {
-		// TODO Auto-generated method stub
+	public void executeReplay(ArrayList<Ship> listeBateaux) throws TirMissed {
+		/*
+		 * !!! Attention !!!
+		 * les attributs x,y orientationI,F initialisés par le constructeur 
+		 * sont totalement erronés ici.
+		 */
+		for(Ship s: listeBateaux){
+			// selection du bateau courant
+			if(s.getPseudo().equals(getPseudo()) && s.getIdBateau()==getIdBateau()){
+				x = s.getXBateau();
+				y = s.getYBateau();
+				orientationI = s.getDirBateau();
+				calcDepl();
+				s.setX(x);
+				s.setY(y);
+				s.setDirection(orientationF);
+				break;
+			}
+		}
 		
 	}
 }

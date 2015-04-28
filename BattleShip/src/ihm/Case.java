@@ -794,6 +794,23 @@ public class Case{
 			cell.setBackground(Color.white);
 		}
 		
+		public void reset1(){
+			this.type = 0;
+			this.idBateau = 0;
+			this.nDes = 0;
+			this.nEsc = 0;
+			this.pivot = false;
+			menu.setText("    ");
+			menu.removeAll();
+			menu.add(destroyeur);
+			menu.add(escorteur);
+			cell.setBackground(Color.white);
+			
+			menu1.setText("    ");
+			menu1.removeAll();
+			cell1.setBackground(Color.gray);
+		}
+		
 		public void makeBackUp(){
 			for (Component comp : menu.getMenuComponents()){
 				menuBackUp.add((JMenuItem) comp);

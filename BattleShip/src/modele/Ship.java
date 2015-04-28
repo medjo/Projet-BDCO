@@ -29,15 +29,6 @@ public abstract class Ship {
 	}
 	
 	
-	
-	public void tirer(){
-		//TODO
-	}
-	
-	public void deplacer(){
-		//TODO
-	}
-	
 	public int getEtat(){
 		return this.etat;
 	}
@@ -85,6 +76,26 @@ public abstract class Ship {
 	public boolean equals(Object ship){
 		Ship ship1= (Ship)ship;
 		   return (this.idBateau==ship1.getIdBateau());
+	}
+	
+	public String getPseudo(){
+		return pseudo;
+	}
+	
+	public void decrEtat(){
+		this.etat--;
+	}
+	
+	public void setDirection(Direction dir){
+		this.dir = dir;
+	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
 	}
 	
 }

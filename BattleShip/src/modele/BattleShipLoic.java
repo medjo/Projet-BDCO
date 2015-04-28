@@ -18,6 +18,7 @@ public class BattleShipLoic {
 		BattleShip.theConnection.open();
 		BattleShip.user = new Utilisateur();
 		
+		System.out.println(Direction.NORD.toString());
 		/*
 		ControleurConnexion.inscription("jacouille","morteCouille",
 				"jacouille", 14, 02 , 1994,
@@ -45,8 +46,8 @@ public class BattleShipLoic {
 		//ControleurPartie.placerBateau(5, 5, "n", 3);
 		
 		//BattleShip.theConnection.getConnection().commit();
-		ControleurPartie.reprendrePartieEnCours(134, "Rubixbob");
-		System.out.println(ControleurPartie.rafraichirAction());
+//		ControleurPartie.reprendrePartieEnCours(134, "Rubixbob");
+//		System.out.println(ControleurPartie.rafraichirAction());
 		ControleurPartie.debutTour();
 		
 		try {
@@ -57,7 +58,7 @@ public class BattleShipLoic {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ControleurPartie.validerTour();
+//		ControleurPartie.validerTour();
 		
 		BattleShip.theConnection.close();
 	}

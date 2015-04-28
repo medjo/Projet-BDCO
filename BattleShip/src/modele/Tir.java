@@ -146,56 +146,52 @@ public class Tir extends Action{
 	
 	
 	@Override
-	public void executeReplay() throws TirMissed {
-		int idBateau = -1;
-		for(Ship s : bateauxEnnemis){
-			
-			System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
-			if(s.getDirBateauString().equals(Direction.NORD.toString())){
-				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
-					idBateau = s.getIdBateau();
+	public void executeReplay(ArrayList<Ship> listeBateaux) throws TirMissed{
+		boolean touched = false;
+		for(Ship s : listeBateaux){
+			//on regarde si le tir touche un bateau qui n'est pas au joueur courant
+			if(!s.getPseudo().equals(getPseudo())){
+				System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
+				if(s.getDirBateauString().equals(Direction.NORD.toString())){
+					if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
 				}
-			}
-			if(s.getDirBateauString().equals(Direction.SUD.toString())){
-				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
-					idBateau = s.getIdBateau();
+				if(s.getDirBateauString().equals(Direction.SUD.toString())){
+					if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
 				}
-			}
-			if(s.getDirBateauString().equals(Direction.EST.toString())){
-				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
-					idBateau = s.getIdBateau();
+				if(s.getDirBateauString().equals(Direction.EST.toString())){
+					if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
 				}
-			}
-			if(s.getDirBateauString().equals(Direction.OUEST.toString())){
-				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
-					idBateau = s.getIdBateau();
+				if(s.getDirBateauString().equals(Direction.OUEST.toString())){
+					if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+						s.decrEtat();
+						touched = true;
+						break;
+					}
 				}
 			}
 		}
-			
-			
-			
-			
 			
 		/* le tir ne touche aucun bateau */
-		if(idBateau == -1){
+		if(!touched){
 			System.out.println("Bateau non touché");
-			//throw new TirMissed();
+			throw new TirMissed();
 		}
-		
-		/*le tir touche un bateau */
-		System.out.println("Bateau ennemi touché; idpartie:"+getIdPartie()+"idbteau"+idBateau+"pseudo:"+adversaire);
-		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE bateaux SET etat=etat-1 WHERE idPartie =? AND idBateau = ? AND pseudo=?");
-		try {
-			req.getStatement().setInt(1, getIdPartie());
-			req.getStatement().setInt(2, idBateau);
-			req.getStatement().setString(3, adversaire);
-			req.execute();
-		} catch (Exception e) {
-			System.err.println("impossible de maj etat bateau après tir");
-			e.printStackTrace(System.err);
+		else{
+			/*le tir touche un bateau */
+			System.out.println("Bateau ennemi touché; idpartie:"+getIdPartie()+"idbteau"+getIdBateau());
 		}
-		req.close();
 	}
 	
 	
