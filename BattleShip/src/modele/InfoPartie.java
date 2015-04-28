@@ -52,6 +52,7 @@ public class InfoPartie {
 		}
 		
 		req.close();
+		req2.close();
 	}
 	
 	public int getId(){

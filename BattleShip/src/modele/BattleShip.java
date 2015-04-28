@@ -83,7 +83,7 @@ public class BattleShip {
 		
 		//BattleShip.rejouer=new Rejouer();
 		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
-
+		
 		
 		//Test des fonctions de connexions
 		/*
@@ -179,7 +179,7 @@ public class BattleShip {
 		ControleurPartie.validerTour();
 		*/
 
-		try {
+/*		try {
 			ControleurConnexion.connexion("Rubixbob");
 		} catch (UtilisateurInconnuException e) {
 			// TODO Auto-generated catch block
