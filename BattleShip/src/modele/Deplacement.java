@@ -17,7 +17,7 @@ public class Deplacement extends Action{
 	public Deplacement(int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type) {
 		super(idBateau, idPartie,pseudo, nTour, nAction);
 		this.type=type;
-		System.out.println("nouveau dep : "+ idBateau + idPartie + pseudo + nTour + nAction+ type);
+		//System.out.println("nouveau dep : "+ idBateau + idPartie + pseudo + nTour + nAction+ type);
 		/* On récupère l'orientation actuelle du bateau */
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT orientation,x,y FROM Bateaux WHERE idPartie ="+idPartie+" AND idBateau = "+idBateau +" AND pseudo='"+pseudo+"'");
 		try {
@@ -48,7 +48,7 @@ public class Deplacement extends Action{
 		if(type.equals(TypeDeplacement.RECULER)){
 			ofset=-1;
 		}
-		System.out.println("OrientationI"+orientationI.toString());
+		//System.out.println("OrientationI"+orientationI.toString());
 		orientationF=orientationI;
 		if(orientationI.equals(Direction.NORD)){
 			y += ofset;
@@ -61,7 +61,7 @@ public class Deplacement extends Action{
 		}
 		else if(orientationI.equals(Direction.SUD)){
 			y += ofset;
-			System.out.println("x et y:"+y);
+			//System.out.println("x et y:"+y);
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.OUEST;
 			}
@@ -121,20 +121,13 @@ public class Deplacement extends Action{
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions(iDPartie,pseudo,iDBateau,nTour,nAction,type,direction) "
 				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?)");
 		try{
-			System.out.println("idpartie:"+getIdPartie());
+			
 			req.getStatement().setInt(1, getIdPartie());
-			System.out.println("pseudo"+getIdPartie());
 			req.getStatement().setString(2, BattleShip.user.getPseudo());
-			System.out.println("idBateau:"+getIdBateau());
 			req.getStatement().setInt(3, getIdBateau());
-			System.out.println("NTour:"+getNTour());
 			req.getStatement().setInt(4, getNTour());
-			System.out.println("NAction:"+getNAction());
 			req.getStatement().setInt(5, getNAction());
-			System.out.println("X:"+x);
-			System.out.println("Y:"+y);
 			req.getStatement().setString(6, "dep");
-			System.out.println("Mouv:"+type.toString());
 			req.getStatement().setString(7, type.toString());
 			
 		} catch (SQLException e1) {
