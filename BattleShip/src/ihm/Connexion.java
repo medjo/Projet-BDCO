@@ -66,6 +66,7 @@ public class Connexion extends JFrame {
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private int idPrtie;
 	
 
 	/**
@@ -454,32 +455,15 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				OberservationPartie.setVisible(false);
 				ObserveAction.setVisible(true);
+				idPrtie = ControleurHistorique.suivant().getId();
 			}
 		});
 		btnNewButton_3.setBounds(5, 225, 100, 25);
 		OberservationPartie.add(btnNewButton_3);
 		
-		//Contenu interface de connexion -> Observer une partie -> Observer
-		JButton btnInitObs = new JButton("Initialisation");
-		btnInitObs.setBounds(15, 225, 125, 30);
-		ObserveAction.add(btnInitObs);
 		
-		JButton btnQuitterObs = new JButton("Quitter");
-		btnQuitterObs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ObserveAction.setVisible(false);
-				OberservationPartie.setVisible(true);
-			}
-		});
-		btnQuitterObs.setBounds(295, 225, 125, 30);
-		ObserveAction.add(btnQuitterObs);
-		
-		JButton btnSuivantObs = new JButton("Suivant");
-		btnSuivantObs.setBounds(155, 225, 125, 30);
-		ObserveAction.add(btnSuivantObs);
-		
-		Case[][] map3 = new Case[10][10];
-		Case[][] map4 = new Case[10][10];
+		final Case[][] map3 = new Case[10][10];
+		final Case[][] map4 = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map3, map4,1);
@@ -488,6 +472,47 @@ public class Connexion extends JFrame {
 				ObserveAction.add(C.getCell1());
 			}	
 		}
+		
+		//Contenu interface de connexion -> Observer une partie -> Observer
+			JButton btnInitObs = new JButton("Initialisation");
+			btnInitObs.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String Psdo = ControleurHistorique.voirPartie(idPrtie).get(0).getPseudo();
+						for(Ship s: ControleurHistorique.voirPartie(idPrtie)){
+							if (s.getPseudo().equals(Psdo)){
+								try {
+									map3[s.getXBateau()][s.getXBateau()].creerBateau(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}else{
+								try {
+									map4[s.getXBateau()][s.getXBateau()].creerBateauCarteD(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+						}
+					}
+			});
+				btnInitObs.setBounds(15, 225, 125, 30);
+				ObserveAction.add(btnInitObs);
+				
+				JButton btnQuitterObs = new JButton("Quitter");
+				btnQuitterObs.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ObserveAction.setVisible(false);
+						OberservationPartie.setVisible(true);
+					}
+				});
+				btnQuitterObs.setBounds(295, 225, 125, 30);
+				ObserveAction.add(btnQuitterObs);
+				
+				JButton btnSuivantObs = new JButton("Suivant");
+				btnSuivantObs.setBounds(155, 225, 125, 30);
+				ObserveAction.add(btnSuivantObs);
 		
 		
 		
