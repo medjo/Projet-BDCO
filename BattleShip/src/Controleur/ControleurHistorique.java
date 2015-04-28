@@ -13,11 +13,11 @@ public class ControleurHistorique {
 		ControleurConnexion conn = new ControleurConnexion(); 
 	}
 	
-	public void lancerHistorique(){
+	public static void lancerHistorique(){
 		BattleShip.rejouer=new Rejouer();
 	}
 	
-	public void voirPartie(TheConnection theConnection, String idPartie){
+	public static void voirPartie(TheConnection theConnection, String idPartie){
 		
 	}
 	
@@ -25,7 +25,7 @@ public class ControleurHistorique {
 		
 	}
 	
-	public void recommencer(TheConnection theConnection){
+	public static void recommencer(TheConnection theConnection){
 		
 	}
 	

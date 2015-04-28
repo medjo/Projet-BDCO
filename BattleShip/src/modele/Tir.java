@@ -72,7 +72,7 @@ public class Tir extends Action{
 	public void execute() throws TirMissed {
 		int idBateau = -1;
 		for(Ship s : bateauxEnnemis){
-			
+			/*
 			switch(s.getDirBateau()){
 			case NORD:
 				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
@@ -94,12 +94,39 @@ public class Tir extends Action{
 					idBateau = s.getIdBateau();
 				}
 				break;
+			}*/
+			System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
+			if(s.getDirBateauString().equals(Direction.NORD.toString())){
+				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+					idBateau = s.getIdBateau();
+					System.out.println("BAAAAAAAANNNNNNNNNNNNGGGGGGGGGGGGGG!!!!!!!!!!!!!!!!!!!");
+				}
+			}
+			if(s.getDirBateauString().equals(Direction.SUD.toString())){
+				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+					idBateau = s.getIdBateau();
+				}
+			}
+			if(s.getDirBateauString().equals(Direction.EST.toString())){
+				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
+			}
+			if(s.getDirBateauString().equals(Direction.OUEST.toString())){
+				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+					idBateau = s.getIdBateau();
+				}
 			}
 		}
+			
+			
+			
+			
+			
 		/* le tir ne touche aucun bateau */
 		if(idBateau == -1){
 			System.out.println("Bateau non touché");
-			throw new TirMissed();
+			//throw new TirMissed();
 		}
 		
 		/*le tir touche un bateau */

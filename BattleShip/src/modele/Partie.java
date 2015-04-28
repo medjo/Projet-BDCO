@@ -108,16 +108,22 @@ public class Partie {
 				e.printStackTrace(System.err);
 				BattleShip.theConnection.rollbackPerso(); //On annule la requête
 			}
-			try{//On enregistre dans la base de donnée
-				req.getConnection().commit();
-			}
-			catch (Exception e){
-				System.out.println("Problème lors du commit");
-				e.printStackTrace(System.err);
-				BattleShip.theConnection.rollbackPerso();
-			}
+			
 			req.close();
 		
+	}
+	
+	
+	//Méthode validerPartie
+	public void validerPartie(){
+		try{
+			BattleShip.theConnection.getConnection().commit();
+		}
+		catch (Exception e){
+			System.out.println("Problème lors du commit de la nouvelle partie");
+			e.printStackTrace(System.err);
+			BattleShip.theConnection.rollbackPerso();
+		}
 	}
 	
 	//TESTE
@@ -309,19 +315,20 @@ public class Partie {
 		boolean ok1,ok2=true;
 		try{
 		//On vérifie d'abord si l'adversaire n'a pas terminé la partie(tous ses bateaux sont morts)
-		System.out.println(""+this.idPartie+"");
-		SimpleQuery req1 = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) AS nb FROM parties WHERE idPartie="+this.idPartie+" AND finie=1");
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT COUNT(*) AS nb FROM parties WHERE idPartie="+this.idPartie+" AND finie=1");
 		
-			req1.execute();
-			ResultSet res1 = req1.getResult();
-			res1.next();
-			if(res1.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
+			req.execute();
+			ResultSet res = req.getResult();
+			res.next();
+			if(res.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
 				this.vainqueur=BattleShip.user.getPseudo();
+				System.out.println("La partie a été terminée par l'adversaire");
 				ok1= true; }
 			else {
+				System.out.println("La partie n'a pas été terminée par l'adversaire");
 				ok1= false;
 			}
-			req1.close();
+			req.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 			System.out.println("Problème lors du test de partie terminée");
@@ -333,13 +340,13 @@ public class Partie {
 		ArrayList<Ship> myShips=fabrique.Ships(this.idPartie, BattleShip.user.getPseudo());
 		int i=0;
 		while(i<myShips.size()){
-			if(myShips.get(i).etat!=0) ok2=false;
+			if(myShips.get(i).etat!=0) {ok2=false;}
 			i++;
 		}
 		if(ok2==true) {
 			this.vainqueur=this.getAdv();
 		}
-		return ok1 && ok2;
+		return ok1 || ok2;
 	}
 	
 	
@@ -548,6 +555,20 @@ public class Partie {
 			System.err.println("Problème lors de la récupération du dernier numero de bateau");
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+			
+	public void actualiserNumTour() {
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT MAX(nTour) FROM actions WHERE idPartie="+this.idPartie);
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+			if(res.next()) this.numTour=res.getInt(1)+1;
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
 		}
 	}
 

@@ -19,6 +19,7 @@ public class Case{
 		private JMenu menu;
 		private JMenu menu1;
 		private int type;
+		private boolean pivot;
 		private JMenuItem destroyeur;
 		private JMenuItem escorteur;
 		private JMenuItem tirer;
@@ -52,6 +53,7 @@ public class Case{
 			this.idBateau = 0;
 			this.nDes = 0;
 			this.nEsc = 0;
+			this.pivot = false;
 			cell = new JMenuBar();
 			menu = new JMenu("    ");
 			destroyeur = new JMenuItem("Destroyeur");
@@ -289,16 +291,16 @@ public class Case{
 			String dir;
 			switch(dirBateau){
 			case "n" :
-				dir = "Λ";
+				dir = " Λ";
 				break;
 			case "s" :
-				dir = "V";
+				dir = " V";
 				break;
 			case "e" :
-				dir = ">";
+				dir = " >";
 				break;
 			case "o" :
-				dir = "<";
+				dir = " <";
 				break;
 			default :
 				throw new IllegalArgumentException("Direction incorrecte");
@@ -320,6 +322,7 @@ public class Case{
 		public void creerBateau(int taille, String dir, int id) throws Exception{
 			checkBateau(dir, taille);
 			Case c;
+			pivot = true;
 			for (int i = 0; i < taille; i++){
 				switch(dir){
 				case "n" :
@@ -392,7 +395,6 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
-				//c.checkBateau(dirB, taille);
 				c.creerBateau(taille, dirB, id);
 			} catch (IllegalArgumentException e) {
 				c = map[xBateau][yBateau];
@@ -411,7 +413,6 @@ public class Case{
 			int id = idBateau;
 			c.deleteBateau(taille, dirB);
 			try{
-				//c.checkBateau(dir, taille);
 				c.creerBateau(taille, dir, id);
 			} catch (IllegalArgumentException e) {
 				c.creerBateau(taille, dirB, id);
@@ -424,6 +425,7 @@ public class Case{
 		
 		public void deleteBateau(int taille, String dir){
 			Case c;
+			pivot = false;
 			for (int i = 0; i < taille; i++){
 				switch(dir){
 				case "n" :
@@ -482,5 +484,30 @@ public class Case{
 		
 		public void setNEsc(int ne){
 			nEsc = ne;
+		}
+		
+		public boolean isPivot(){
+			return pivot;
+		}
+		
+		public String getDirBateau(){
+			return dirBateau;
+		}
+		
+		public int getType(){
+			return type;
+		}
+		
+		public void reset(){
+			this.type = 0;
+			this.idBateau = 0;
+			this.nDes = 0;
+			this.nEsc = 0;
+			this.pivot = false;
+			menu.setText("    ");
+			menu.removeAll();
+			menu.add(destroyeur);
+			menu.add(escorteur);
+			cell.setBackground(Color.white);
 		}
 }

@@ -386,3 +386,7 @@ delete from Participants;
 delete from Actions;
 delete from Bateaux;
 delete from Adresses;
+
+--Trash
+update bateaux set etat = etat-1 where idpartie=134 ;
+
