@@ -283,8 +283,6 @@ public class Partie {
 	}
 	
 
-
-
 	//TESTE
 	//Meme méthode mais qui ne place qu'un seul bateau et ne commit pas
 	public void executerPlacementBateauInitial(Ship batInit) throws SQLException{
@@ -408,8 +406,6 @@ public class Partie {
 		return this.pseudoAdversaire;
 	}
 
-
-
 	public int getNAction() {
 		return nAction;
 	}
@@ -417,6 +413,7 @@ public class Partie {
 	public void setNAction(int nAction) {
 		this.nAction = nAction;
 	}
+
 	
 	
 	//Méthode qui retourne la liste de mes bateaux
@@ -546,8 +543,8 @@ public class Partie {
 			e.printStackTrace();
 			return 0;
 		}
-
 	}
+
 
 	public boolean aucuneAction(){
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM actions WHERE idPartie="+this.idPartie);

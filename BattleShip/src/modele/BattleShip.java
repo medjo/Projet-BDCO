@@ -43,7 +43,8 @@ public class BattleShip {
 		});
 		
 		//BattleShip.rejouer=new Rejouer();
-		//System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
+		System.out.println(""+ControleurHistorique.suivant().getId()+"Pseudo: "+ControleurHistorique.suivant().getPseudo1());
+
 		
 		//Test des fonctions de connexions
 		/*
@@ -52,44 +53,9 @@ public class BattleShip {
 				"sylvain.guy@laposte.net", 32, "chez moi",85000,"LRY");*/
 		
 		//Test de la reprise d'une partie
-		/*
-		try {
-			ControleurConnexion.connexion("Rubixbob");
-		} catch (UtilisateurInconnuException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//Test de la création de partie
-		BattleShip.partie=new Partie();
-		BattleShip.user=user;
-		
-		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Rubixbob");
-		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
-		
-		
-		Ship s1=new Escorteur(5,5,"n",0);
-		Ship s2=new Destroyer(4,3,"s",1);
-		partie.executerPlacementBateauInitial(s1);
-		partie.executerPlacementBateauInitial(s2);
-		
-		BattleShip.theConnection.getConnection().commit();
-		*/
-		
-		/*
-		try {
-			ControleurConnexion.connexion("Rubixbob");
-		} catch (UtilisateurInconnuException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//Test de la création de partie
-		BattleShip.partie=new Partie();
-		BattleShip.user=user;
-		
-		EtatTour tour=ControleurPartie.reprendrePartieEnCours(149, "Sylvain");
-		System.out.println("Init: "+tour.init+"Tour: "+tour.tour);
-		*/
-		/*
+
+/*	
+
 		try {
 			ControleurConnexion.connexion("Sylvain");
 		} catch (UtilisateurInconnuException e) {
