@@ -23,7 +23,7 @@ public class Tir extends Action{
 		this.x = x;
 		this.y = y;
 		this.adversaire = BattleShip.partie.getAdv();
-		System.err.println("Adve:"+adversaire);
+		
 		
 		/* on récupère la liste des bateux de l'adversaire */
 		bateauxEnnemis = ShipsFactory.Ships(idPartie, adversaire);
@@ -35,19 +35,13 @@ public class Tir extends Action{
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, pseudo, idBateau, nTour, nAction, x, y, type)"
 				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
 		try {
-			System.out.println(getIdPartie());
+			
 			req.getStatement().setInt(1, getIdPartie());
-			System.out.println(BattleShip.user.getPseudo());
 			req.getStatement().setString(2, BattleShip.user.getPseudo());
-			System.out.println(getIdBateau());
 			req.getStatement().setInt(3, getIdBateau());
-			System.out.println(getNTour());
 			req.getStatement().setInt(4, getNTour());
-			System.out.println(getNAction());
 			req.getStatement().setInt(5, getNAction());
-			System.out.println(this.x);
 			req.getStatement().setInt(6, this.x);
-			System.out.println(this.y);
 			req.getStatement().setInt(7, this.y);
 
 			//System.out.println(getIdPartie());
@@ -99,7 +93,6 @@ public class Tir extends Action{
 			if(s.getDirBateauString().equals(Direction.NORD.toString())){
 				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
 					idBateau = s.getIdBateau();
-					//System.out.println("BAAAAAAAANNNNNNNNNNNNGGGGGGGGGGGGGG!!!!!!!!!!!!!!!!!!!");
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.SUD.toString())){
