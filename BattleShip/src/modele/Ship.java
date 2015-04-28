@@ -58,7 +58,6 @@ public abstract class Ship {
 	
 	//TODO a supprimer pour réutiliser la méthode dans Direction
 	public String getDirBateauString() {
-		System.out.println(this.dir.toString()+Direction.NORD.toString());
 		if(this.dir.toString().equals(Direction.NORD.toString())) return "n";
 		else if(this.dir.toString().equals(Direction.SUD.toString())) return "s";
 		else if(this.dir.toString().equals(Direction.EST.toString())) return "e";

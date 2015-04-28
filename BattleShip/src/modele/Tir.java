@@ -22,11 +22,6 @@ public class Tir extends Action{
 		}
 		this.x = x;
 		this.y = y;
-		this.adversaire = BattleShip.partie.getAdv();
-		
-		
-		/* on récupère la liste des bateux de l'adversaire */
-		bateauxEnnemis = ShipsFactory.Ships(idPartie, adversaire);
 	}
 	
 	@Override
@@ -35,7 +30,6 @@ public class Tir extends Action{
 		ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO Actions (iDPartie, pseudo, idBateau, nTour, nAction, x, y, type)"
 				+ "														VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)");
 		try {
-			
 			req.getStatement().setInt(1, getIdPartie());
 			req.getStatement().setString(2, BattleShip.user.getPseudo());
 			req.getStatement().setInt(3, getIdBateau());
@@ -43,11 +37,8 @@ public class Tir extends Action{
 			req.getStatement().setInt(5, getNAction());
 			req.getStatement().setInt(6, this.x);
 			req.getStatement().setInt(7, this.y);
-
 			//System.out.println(getIdPartie());
 			req.getStatement().setString(8, "tir");
-
-			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -64,6 +55,10 @@ public class Tir extends Action{
 	
 	@Override
 	public void execute() throws TirMissed {
+		/* on récupère la liste des bateux de l'adversaire */
+		this.adversaire = BattleShip.partie.getAdv();
+		bateauxEnnemis = ShipsFactory.Ships(getIdPartie(), adversaire);
+		
 		int idBateau = -1;
 		for(Ship s : bateauxEnnemis){
 			/*
@@ -112,10 +107,6 @@ public class Tir extends Action{
 			}
 		}
 			
-			
-			
-			
-			
 		/* le tir ne touche aucun bateau */
 		if(idBateau == -1){
 			System.out.println("Bateau non touché");
@@ -139,12 +130,11 @@ public class Tir extends Action{
 	
 	
 	@Override
-	public void executeReplay(ArrayList<Ship> listeBateaux) throws TirMissed{
+	public void executeReplay(ArrayList<Ship> listeBateaux){
 		boolean touched = false;
 		for(Ship s : listeBateaux){
 			//on regarde si le tir touche un bateau qui n'est pas au joueur courant
 			if(!s.getPseudo().equals(getPseudo())){
-				System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
 				if(s.getDirBateauString().equals(Direction.NORD.toString())){
 					if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
 						s.decrEtat();
@@ -179,11 +169,10 @@ public class Tir extends Action{
 		/* le tir ne touche aucun bateau */
 		if(!touched){
 			System.out.println("Bateau non touché");
-			throw new TirMissed();
 		}
 		else{
 			/*le tir touche un bateau */
-			System.out.println("Bateau ennemi touché; idpartie:"+getIdPartie()+"idbteau"+getIdBateau());
+			System.out.println(getPseudo() + " a touché un bateau ennemi");
 		}
 	}
 	
@@ -191,5 +180,12 @@ public class Tir extends Action{
 	public void setCoord(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	public String toString(){
+		return ("Tir en " 
+				+ " x " + x
+				+ " y " + y
+				+ super.toString());
 	}
 }
