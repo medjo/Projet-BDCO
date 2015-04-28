@@ -169,7 +169,7 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				for (Case[] l : map1){
 					for (Case c : l){
-						c.reset1();
+						c.reset();
 					}
 				}
 				Jouer.setVisible(false);
@@ -406,9 +406,6 @@ public class Connexion extends JFrame {
 		}
 		Connexion.setVisible(false);
 		PrepareBataille.setVisible(false);
-		
-		JPanel ReprendrePartie = new JPanel();
-		contentPane.add(ReprendrePartie, "name_11310189880415");
 		
 //Contenu interface de connexion -> Observer une partie 		
 		JLabel lblNewLabel_2 = new JLabel("Identifiant de Partie");

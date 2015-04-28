@@ -35,8 +35,10 @@ public class ControleurHistorique {
 	public static InfoPartie suivant(){
 		BattleShip.rejouer.setIdPartieSelec(BattleShip.rejouer.getIdPartieSelec()+1);
 		
-		if(BattleShip.partie.getIdDernierePartie()<BattleShip.rejouer.getIdPartieSelec()){
-			return BattleShip.rejouer.getListeParties().get(BattleShip.partie.getIdDernierePartie()-1);
+		if(BattleShip.partie.getIdDernierePartie()==BattleShip.rejouer.getIdPartieSelec()){
+			//return BattleShip.rejouer.getListeParties().get(BattleShip.partie.getIdDernierePartie());
+			BattleShip.rejouer.setIdPartieSelec(0);
+			return BattleShip.rejouer.getListeParties().get(BattleShip.rejouer.getIdPartieSelec());
 		}
 		else{
 			return BattleShip.rejouer.getListeParties().get(BattleShip.rejouer.getIdPartieSelec());
