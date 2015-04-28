@@ -135,6 +135,7 @@ public class Connexion extends JFrame {
 					adv = parties.get(indPartie).getPseudo1();
 				}
 				etatTour = ControleurPartie.reprendrePartieEnCours(parties.get(indPartie).getId(), adv);
+				nTour = BattleShip.partie.getNumeroDernierTour();
 				pseudoAdv =BattleShip.partie.getPseudoAdv();
 				if (etatTour.init){
 					rePartie.setVisible(false);
@@ -143,6 +144,7 @@ public class Connexion extends JFrame {
 					ArrayList<Ship> batInit= BattleShip.partie.getBateauxCourants();
 					for (Ship s : batInit){
 						try {
+							System.out.println("x : "+s.getXBateau()+",y : "+s.getYBateau()+", taille : "+s.getTailleBateau()+", dir : "+s.getDirBateauString()+", id : "+s.getIdBateau());
 							map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, "Erreur placement bateau", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -263,13 +265,13 @@ public class Connexion extends JFrame {
 					if(etatTour.tour){
 						ControleurPartie.debutTour();
 						txtJoueurN.setText("Tour de "+pseudoJo);
+						for (Case[] l : map1){
+							for (Case c : l){
+								c.reset1();
+							}
+						}
 						for (Ship s : BattleShip.partie.getBateauxCourants()){
 							try {
-								for (Case[] l : map1){
-									for (Case c : l){
-										c.reset1();
-									}
-								}
 								map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
 							} catch (Exception e1) {
 								// TODO Auto-generated catch block
@@ -410,6 +412,7 @@ public class Connexion extends JFrame {
 								//System.out.println("Erreur placement bateau");
 							}
 						}
+						c.reset();
 					}
 				}
 				ControleurPartie.validerPlacement();
