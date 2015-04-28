@@ -35,6 +35,7 @@ public class Connexion extends JFrame {
 	private JPanel ChercheAdv;
 	private JPanel PrepareBataille;
 	private JPanel Jouer;
+	private JPanel rePartie;
 	private JPanel pan;
 	private JTextField pseudo;
 	private JTextField nom;
@@ -60,6 +61,9 @@ public class Connexion extends JFrame {
 	private Case[][] map1;
 	private JTextField textJoueurObs1;
 	private JTextField textJoueurObs2;
+	private JTextField textField;
+	private JTextField textField_2;
+	private JTextField textField_3;
 	
 
 	/**
@@ -87,6 +91,62 @@ public class Connexion extends JFrame {
 //interface de connexion
 		final JPanel Connexion = new JPanel();
 		contentPane.add(Connexion, "name_31673698091126");
+		
+//interface de connexion->reprendre une partie	
+		final JPanel rePartie = new JPanel();
+		contentPane.add(rePartie, "name_23529570157705");
+		rePartie.setLayout(null);
+		
+		JLabel label_6 = new JLabel("Identifiant de Partie");
+		label_6.setBounds(65, 68, 165, 15);
+		rePartie.add(label_6);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(219, 68, 150, 20);
+		rePartie.add(textField);
+		
+		JButton btnReprendre = new JButton("Reprendre");
+		btnReprendre.setFont(new Font("Dialog", Font.BOLD, 10));
+		btnReprendre.setBounds(12, 225, 100, 25);
+		rePartie.add(btnReprendre);
+		
+		JButton button_1 = new JButton("<Précedent");
+		button_1.setFont(new Font("Dialog", Font.BOLD, 10));
+		button_1.setBounds(117, 225, 100, 25);
+		rePartie.add(button_1);
+		
+		JButton button_2 = new JButton("Suivant>");
+		button_2.setFont(new Font("Dialog", Font.BOLD, 10));
+		button_2.setBounds(222, 225, 100, 25);
+		rePartie.add(button_2);
+		
+		JButton button_3 = new JButton("Quitter");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rePartie.setVisible(false);
+				Connexion.setVisible(true);
+			}
+		});
+		button_3.setFont(new Font("Dialog", Font.BOLD, 10));
+		button_3.setBounds(327, 225, 100, 25);
+		rePartie.add(button_3);
+		
+		JLabel label_8 = new JLabel("VS");
+		label_8.setBounds(204, 108, 45, 25);
+		rePartie.add(label_8);
+		
+		textField_2 = new JTextField();
+		textField_2.setText("Joueur1");
+		textField_2.setColumns(10);
+		textField_2.setBounds(65, 108, 120, 20);
+		rePartie.add(textField_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setText("Joueur2");
+		textField_3.setColumns(10);
+		textField_3.setBounds(249, 108, 120, 20);
+		rePartie.add(textField_3);
 		
 //interface de connexion->Lancer Partie 	
 		final JPanel ChercheAdv = new JPanel();
@@ -124,7 +184,7 @@ public class Connexion extends JFrame {
 		btnRafraichir.setBounds(3, 235, 105, 25);
 		btnRafraichir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if( (boolean)BattleShip.partie.aMoiDeJouer()){ //>>>>>>A voir pb dans Partie<<<<<<<
+				if( (boolean)BattleShip.partie.aMoiDeJouer()){
 					txtJoueurN.setText("Tour de "+pseudoJo);
 					for (Ship s : BattleShip.partie.getBateauxCourants()){
 						try {
@@ -188,8 +248,8 @@ public class Connexion extends JFrame {
 				try {
 					ControleurPartie.lancerNouvellePartie();
 				} catch (ExceptionNoAdv e1) {
-					// TODO Message erreur
-					System.out.println("Il n'y a pas d'adversaire disponible");
+					JOptionPane.showMessageDialog(null, "Il n'y a pas d'adversaire disponible", "Erreur", JOptionPane.ERROR_MESSAGE);
+					//System.out.println("Il n'y a pas d'adversaire disponible");
 				}
 				pseudoAdv =BattleShip.partie.getPseudoAdv();
 				JLabel lblVotre = new JLabel("Votre adversaire " + pseudoAdv + " est prêt");
@@ -227,6 +287,12 @@ public class Connexion extends JFrame {
 		Connexion.add(btnNewButton_2);
 		
 		JButton btnReprendreUnePartie = new JButton("Reprendre une partie");
+		btnReprendreUnePartie.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Connexion.setVisible(false);
+				rePartie.setVisible(true);
+			}
+		});
 		btnReprendreUnePartie.setBounds(125, 119, 230, 25);
 		Connexion.add(btnReprendreUnePartie);
 		
@@ -256,9 +322,10 @@ public class Connexion extends JFrame {
 						if (c.isPivot()){
 							try {
 								int id = ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
-								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau(), id);
+								map1[c.getX()][c.getY()].creerBateau(c.getType()+1, c.getDirBateau(), id);
 							} catch (Exception e1) {
-								System.out.println("Erreur placement bateau");
+								JOptionPane.showMessageDialog(null, "Erreur placement bateau", "Erreur", JOptionPane.ERROR_MESSAGE);
+								//System.out.println("Erreur placement bateau");
 							}
 						}
 						c.reset();
@@ -289,15 +356,15 @@ public class Connexion extends JFrame {
 		PrepareBataille.add(btnQuitter_1);
 		
 		JLabel lblEscortreur = new JLabel("Destroyeur : 1");
-		lblEscortreur.setBounds(330, 48, 100, 30);
+		lblEscortreur.setBounds(325, 48, 110, 30);
 		PrepareBataille.add(lblEscortreur);
 		
 		JLabel lblEscortreurPlac = new JLabel("Escorteur : 2");
-		lblEscortreurPlac.setBounds(330, 76, 100, 30);
+		lblEscortreurPlac.setBounds(325, 76, 110, 30);
 		PrepareBataille.add(lblEscortreurPlac);
 		
 		JLabel lblBateauxPlacs = new JLabel("Bateaux à placer");
-		lblBateauxPlacs.setBounds(320, 12, 150, 30);
+		lblBateauxPlacs.setBounds(315, 12, 150, 30);
 		PrepareBataille.add(lblBateauxPlacs);
 		
 		JButton btnAnnulerPlacement = new JButton("Annuler Placement");
@@ -394,7 +461,7 @@ public class Connexion extends JFrame {
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map3, map4,1);
-				map3[i][j]=C; //si problème au merge, renomme map3 en ce que tu veux mais pas map ou map1
+				map3[i][j]=C; 
 				ObserveAction.add(C.getCell());
 				ObserveAction.add(C.getCell1());
 			}	
@@ -589,16 +656,11 @@ public class Connexion extends JFrame {
 					Inscription.setVisible(false);
 					Identification.setVisible(true);
 				} catch (NumberFormatException e1) {
-					
 					// TODO Auto-generated catch block
 				} catch (InscriptionInvalideException e1) {
-					// TODO Message Inscription invalide
-					JOptionPane InscriptionInvalide = new JOptionPane(); 
-					InscriptionInvalide.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Inscription invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
 				} catch (UtilisateurExistantException e1) {
-					JOptionPane UserExistant = new JOptionPane(); 
-					UserExistant.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE);
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Ce pseudo est déjà  utilisé", "Warning", JOptionPane.WARNING_MESSAGE);
 				}
 				
 			}
@@ -629,9 +691,8 @@ public class Connexion extends JFrame {
 					Connexion.add(lblNewLabel_1);
 					Connexion.setVisible(true);
 					Identification.setVisible(false);
-				} catch (UtilisateurInconnuException e) {
-					JOptionPane IdInconnue = new JOptionPane(); 
-					IdInconnue.showMessageDialog(null, "Utilisateur inconnu", "Erreur", JOptionPane.ERROR_MESSAGE); 
+				} catch (UtilisateurInconnuException e) { 
+					 JOptionPane.showMessageDialog(null, "Utilisateur inconnu", "Erreur", JOptionPane.ERROR_MESSAGE); 
 				}
 			}
 		});
