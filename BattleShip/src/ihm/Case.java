@@ -276,8 +276,8 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.AVANCER));
 							deplacerBateau1(dirBateau, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.AVANCER));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
@@ -289,7 +289,6 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.RECULER));
 							String dir;
 							switch(dirBateau){
 							case "n" :
@@ -308,6 +307,7 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							deplacerBateau1(dir, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.RECULER));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
@@ -319,7 +319,6 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTGAUCHE));
 							String dir;
 							switch(dirBateau){
 							case "n" :
@@ -338,6 +337,7 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							pivoterBateau1(dir, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTGAUCHE));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
@@ -349,7 +349,6 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTDROITE));
 							String dir;
 							switch(dirBateau){
 							case "n" :
@@ -368,6 +367,7 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							pivoterBateau1(dir, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTDROITE));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
@@ -525,35 +525,7 @@ public class Case{
 				c.setMenuBateau();
 			}
 		}
-		
-		public void creerBateauCarteD(int taille, String dir, int id) throws Exception{
-			checkBateau(dir, taille);
-			Case c;
-			pivot = true;
-			for (int i = 0; i < taille; i++){
-				switch(dir){
-				case "n" :
-					c = map[220+x][y-i];
-					break;
-				case "s" :
-					c = map[220+x][y+i];
-					break;
-				case "e" :
-					c = map[220+x+i][y];
-					break;
-				case "o" :
-					c = map[220+x-i][y];
-					break;
-				default :
-					throw new IllegalArgumentException("Direction incorrecte");
-				}
-				c.setIdBateau(id);
-				c.setCoordBateau(x, y);
-				c.setType(taille-1);
-				c.setDirBateau(dir);
-				c.setMenuBateau();
-			}
-		}
+	
 		
 		public void creerBateau1(int taille, String dir, int id) throws Exception{
 			checkBateau(dir, taille);
@@ -576,6 +548,7 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
+				System.out.println("Case "+i);
 				c.setIdBateau(id);
 				c.setCoordBateau(x, y);
 				c.setType(taille-1);
@@ -863,5 +836,34 @@ public class Case{
 			this.idSelect = id;
 		}
 		
-	
+		
+		public void creerBateauCarteD(int taille, String dir, int id) throws Exception{
+			checkBateau(dir, taille);
+			Case c;
+			pivot = true;
+			for (int i = 0; i < taille; i++){
+				switch(dir){
+				case "n" :
+					c = map[220+x][y-i];
+					break;
+				case "s" :
+					c = map[220+x][y+i];
+					break;
+				case "e" :
+					c = map[220+x+i][y];
+					break;
+				case "o" :
+					c = map[220+x-i][y];
+					break;
+				default :
+					throw new IllegalArgumentException("Direction incorrecte");
+				}
+				c.setIdBateau(id);
+				c.setCoordBateau(x, y);
+				c.setType(taille-1);
+				c.setDirBateau(dir);
+				c.setMenuBateau();
+			}
+		}
+
 }
