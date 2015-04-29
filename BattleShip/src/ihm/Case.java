@@ -23,6 +23,8 @@ public class Case{
 		private JMenu menuBackUp;
 		private JMenu menu1;
 		private JMenu menu1BackUp;
+		private JMenu menu2;
+		private JMenu menu3;
 		private int type;
 		private boolean pivot;
 		private JMenuItem destroyeur;
@@ -51,6 +53,7 @@ public class Case{
 		private int xBateau;
 		private int yBateau;
 		private String dirBateau;
+		private String dirBateau1;
 		private int idBateau;
 		private int idSelect;
 		private int nDes;
@@ -340,6 +343,7 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							pivoterBateau1(dir, type+1);
+							System.out.println("IdBateau : "+id);
 							ControleurPartie.jouerAction(ControleurPartie.Deplacement(id, TypeDeplacement.ROTGAUCHE));
 						}
 					} catch (Exception e) {
@@ -384,10 +388,12 @@ public class Case{
 		
 		public Case(int xx, int yy, int typee, Case[][] map1, Case[][] map2, int Observation){
 			this(xx,yy,typee,map1,map2);
-			menu.remove(tirer);
-			menu.remove(deplacer);
-			menu.remove(pivoter);
-			menu1.remove(attaquer);
+			cell.remove(menu);
+			cell1.remove(menu1);
+			menu2 = new JMenu("");
+			menu3 = new JMenu("");
+			cell.add(menu2);
+			cell1.add(menu3);
 		}
 		
 		
@@ -413,7 +419,6 @@ public class Case{
 		public void setCell1Size(int a, int b){
 			cell1.setBounds(10*a+x*a,y*b,a-2,b);
 		}
-		
 
 		public void setType(int typee){
 			if (typee == 0) {
@@ -421,10 +426,25 @@ public class Case{
 				cell.setBackground(Color.white);
 			} else if (typee == 2) {
 				this.type = typee;
-				cell.setBackground(Color.gray);
+				cell.setBackground(Color.lightGray);
 			} else if (typee == 1) {
 				this.type = typee;
 				cell.setBackground(Color.green);
+			} else {
+				System.err.println("Type de case inconnu");
+			}
+		}
+
+		public void setType1(int typee){
+			if (typee == 0) {
+				this.type = typee;
+				cell1.setBackground(Color.white);
+			} else if (typee == 2) {
+				this.type = typee;
+				cell1.setBackground(Color.lightGray);
+			} else if (typee == 1) {
+				this.type = typee;
+				cell1.setBackground(Color.green);
 			} else {
 				System.err.println("Type de case inconnu");
 			}
@@ -478,6 +498,48 @@ public class Case{
 			menu.add(deplacer1);
 			menu.add(pivoter1);
 			menu.add(tirer);
+		}
+		
+		public void setMenuBateau2(){
+			String dir;
+			switch(dirBateau){
+			case "n" :
+				dir = "Λ";
+				break;
+			case "s" :
+				dir = "V";
+				break;
+			case "e" :
+				dir = ">";
+				break;
+			case "o" :
+				dir = "<";
+				break;
+			default :
+				throw new IllegalArgumentException("Direction incorrecte");
+			}
+			menu2.setText(dir);
+		}
+		
+		public void setMenuBateau3(){
+			String dir;
+			switch(dirBateau1){
+			case "n" :
+				dir = "Λ";
+				break;
+			case "s" :
+				dir = "V";
+				break;
+			case "e" :
+				dir = ">";
+				break;
+			case "o" :
+				dir = "<";
+				break;
+			default :
+				throw new IllegalArgumentException("Direction incorrecte");
+			}
+			menu3.setText(dir);
 		}
 		
 		public void setMenuMer(){
@@ -552,12 +614,63 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
-				System.out.println("Case "+i);
 				c.setIdBateau(id);
 				c.setCoordBateau(x, y);
 				c.setType(taille-1);
 				c.setDirBateau(dir);
 				c.setMenuBateau1();
+			}
+		}
+		
+		public void creerBateau2(int taille, String dir, int id) throws Exception{
+			Case c;
+			System.out.println("x : "+x+",y : "+y+", taille : "+taille+", dir : "+dir+", id : "+id);
+			for (int i = 0; i < taille; i++){
+				switch(dir){
+				case "n" :
+					c = map[x][y-i];
+					break;
+				case "s" :
+					c = map[x][y+i];
+					break;
+				case "e" :
+					c = map[x+i][y];
+					break;
+				case "o" :
+					c = map[x-i][y];
+					break;
+				default :
+					throw new IllegalArgumentException("Direction incorrecte");
+				}
+				c.setType(taille-1);
+				c.setDirBateau(dir);
+				c.setMenuBateau2();
+			}
+		}
+		
+		public void creerBateau3(int taille, String dir, int id) throws Exception{
+			Case c;
+			System.out.println("x : "+x+",y : "+y+", taille : "+taille+", dir : "+dir+", id : "+id);
+			for (int i = 0; i < taille; i++){
+				switch(dir){
+				case "n" :
+					c = map[x][y-i];
+					break;
+				case "s" :
+					c = map[x][y+i];
+					break;
+				case "e" :
+					c = map[x+i][y];
+					break;
+				case "o" :
+					c = map[x-i][y];
+					break;
+				default :
+					throw new IllegalArgumentException("Direction incorrecte");
+				}
+				c.setType1(taille-1);
+				c.setDirBateau1(dir);
+				c.setMenuBateau3();
 			}
 		}
 		
@@ -747,6 +860,10 @@ public class Case{
 			dirBateau = dir;
 		}
 		
+		public void setDirBateau1(String dir){
+			dirBateau1 = dir;
+		}
+		
 		public int getNBateau(){
 			return map[0][0].getNDes()+map[0][0].getNEsc();
 		}
@@ -811,6 +928,13 @@ public class Case{
 			cell.setBackground(Color.white);
 			
 			menu1.removeAll();
+			cell1.setBackground(Color.gray);
+		}
+		
+		public void reset2(){
+			menu2.setText("");
+			menu3.setText("");
+			cell.setBackground(Color.white);
 			cell1.setBackground(Color.gray);
 		}
 		
