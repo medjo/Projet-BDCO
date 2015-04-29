@@ -275,9 +275,10 @@ public class Case{
 			avant.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						if (ControleurPartie.controleurNbActions(idBateau)){
+						int id = idBateau;
+						if (ControleurPartie.controleurNbActions(id)){
 							deplacerBateau1(dirBateau, type+1);
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.AVANCER));
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(id, TypeDeplacement.AVANCER));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
