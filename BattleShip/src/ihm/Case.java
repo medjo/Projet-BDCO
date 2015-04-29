@@ -289,6 +289,7 @@ public class Case{
 			arriere.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
+						int id = idBateau;
 						if (ControleurPartie.controleurNbActions(idBateau)){
 							String dir;
 							switch(dirBateau){
@@ -308,7 +309,7 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							deplacerBateau1(dir, type+1);
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.RECULER));
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(id, TypeDeplacement.RECULER));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
@@ -319,6 +320,7 @@ public class Case{
 			gauche.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
+						int id = idBateau;
 						if (ControleurPartie.controleurNbActions(idBateau)){
 							String dir;
 							switch(dirBateau){
@@ -338,7 +340,7 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							pivoterBateau1(dir, type+1);
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTGAUCHE));
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(id, TypeDeplacement.ROTGAUCHE));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
@@ -349,6 +351,7 @@ public class Case{
 			droite.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
+						int id = idBateau;
 						if (ControleurPartie.controleurNbActions(idBateau)){
 							String dir;
 							switch(dirBateau){
@@ -368,7 +371,7 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							pivoterBateau1(dir, type+1);
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTDROITE));
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(id, TypeDeplacement.ROTDROITE));
 						}
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
