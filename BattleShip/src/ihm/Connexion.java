@@ -268,9 +268,9 @@ public class Connexion extends JFrame {
 						System.out.println("Partie terminée");
 						String vainqueur = BattleShip.partie.getVainqueur();
 						if (vainqueur.equals(pseudoJo)){
-							// TODO Message "Vous avez gagné !"
+							JOptionPane.showMessageDialog(null, "Bravo! Vous avez gagné!", "Information", JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							// TODO Message "Vous avez perdu !"
+							JOptionPane.showMessageDialog(null, "Vous avez perdu!", "Information", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 					if(etatTour.tour){
@@ -284,8 +284,8 @@ public class Connexion extends JFrame {
 							try {
 								map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
 							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								System.out.println("Erreur récupération bateau");
+								JOptionPane.showMessageDialog(null, "Erreur récupération bateau", "ERREUR", JOptionPane.ERROR_MESSAGE);
+								//System.out.println("Erreur récupération bateau");
 							}
 						}
 					} else {

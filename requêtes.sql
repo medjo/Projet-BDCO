@@ -1,6 +1,3 @@
---
-select table_name from user_tables;
-
 --Display
 set linesize 250
 column email format a33
@@ -8,14 +5,7 @@ column dateDeNaissance format a15
 column prenom format a10
 column nom format a12
 column pseudo format a10
---column nbPartiesJouees format a10
 
---Frequently Used Commands
-drop table joueurs;
-select * from joueurs;
-UPDATE joueurs SET nbPartiesJouees=42 WHERE pseudo='nicrrkname2';
-
---DONE
 --Joueurs : {pseudo {pk}, nom, prénom, dateDeNaissance, email, nbPartiesJouees}
 CREATE TABLE Joueurs (
 	pseudo VARCHAR(30),
@@ -33,21 +23,7 @@ CREATE TABLE Joueurs (
 		AND (nbPartiesJouees >= 0)
 	)
 );
---!! les accents ne sont pas autorisés ! 
---Insertions valides
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('medjo', 'felix', 'John', to_date('1992-07-03', 'YYYY-MM-DD'), 'felix@phelma.grenoble-inp.fr', 0);
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('ninja58', 'marc', 'Kyle', to_date('1993-01-12', 'YYYY-MM-DD'), 'marc@gmail.com', 0);
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('aigle78', 'jean', 'Obama', to_date('1994-09-10', 'YYYY-MM-DD'), 'jean@free.fr', 0);
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('psd', 'jim', 'Clinton', to_date('1995-01-02', 'YYYY-MM-DD'), 'email@hotmail.fr', 0);
-
---Insertions invalides
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('nica28me', 'oje55dme', 'ikh484ao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojem@alo@phelma.grenoble-inp.fr', 0);
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('nica128me', 'oje55dme', 'ikhao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojemalo@phelma.grenoble-inp.fr', 0);
-INSERT INTO Joueurs(pseudo, nom, prenom, dateDeNaissance, email, nbPartiesJouees) VALUES ('ni3ca28me', 'ojedme', 'ikh484ao', to_date('1993-06-05', 'YYYY-MM-DD'), 'ojemalo@phelma.grenoble-inp.fr', 0);
-INSERT INTO Joueurs(pseudo) VALUES ('kevdu08');
-
 --------------------------------------------------------------------------------
---DONE
 --Parties : {iDPartie {pk}, début, finie}
 CREATE TABLE Parties (
 	iDPartie INT,
@@ -71,22 +47,7 @@ BEGIN
 END;
 /
 
---Frequently Used Commands
-drop table Parties;
-drop trigger trg_check_dates;
-select * from Parties;
-
---Insertions valides
-INSERT INTO Parties(iDPartie) VALUES (0);
-INSERT INTO Parties(iDPartie) VALUES (1);
-INSERT INTO Parties(iDPartie, finie) VALUES (2, 0);
-
---Insertions invalides
-INSERT INTO Parties(iDPartie, debut) VALUES (1, to_date('2014-04-23', 'YYYY-MM-DD'));
-INSERT INTO Parties(iDPartie, finie) VALUES (3, 2);
-
 --------------------------------------------------------------------------------
---DONE
 --Vainqueurs : {iDPartie{fk,pk}, pseudo{fk} }
 CREATE TABLE Vainqueurs (
 	iDPartie INT,
@@ -96,16 +57,7 @@ CREATE TABLE Vainqueurs (
     FOREIGN KEY (pseudo) REFERENCES Joueurs (pseudo)
 );
 
---Frequently Used Commands
-drop table Vainqueurs;
-select * from Vainqueurs;
-
---Insertions valides
-INSERT INTO Vainqueurs(iDPartie) VALUES (0);
-INSERT INTO Vainqueurs(iDPartie, finie) VALUES (2, 0);
-
 --------------------------------------------------------------------------------
---DONE
 --Participants : {joueur1{fk}, joueur2{fk}, iDPartie{pk, fk}, (old : iDPartie{fk, pk})
 CREATE TABLE Participants (
 	iDPartie INT,
@@ -119,19 +71,7 @@ CREATE TABLE Participants (
     		joueur1 <> joueur2
     	)
 );
-
---Frequently Used Commands
-drop table Participants;
-select * from Participants;
-
---Insertions valides
-INSERT INTO Participants(iDPartie, joueur1, joueur2) VALUES (0, 'ninja58', 'medjo');
-
---Insertions invalides
-INSERT INTO Participants(iDPartie, joueur1, joueur2) VALUES (172, 'ninja58', 'ninja58');
-
 --------------------------------------------------------------------------------
-
 --Actions : {iDPartie {fk, pk}, pseudo{pk, fk}, iDBateau{fk}, nTour {pk}, nAction{pk}, x, y, type (tir, dep), direction (rg, rd, av, ar)}
 CREATE TABLE Actions (
 	iDPartie INT,
@@ -155,7 +95,7 @@ CREATE TABLE Actions (
 	)
 );
 
---Trigger qui vérifie que l'attribut 
+--Trigger qui vérifie que les attributs x et y sont bien définis que lorsque l'attribut type vaut 'tir'
 CREATE OR REPLACE TRIGGER trg_check_coherence
 BEFORE INSERT OR UPDATE ON Actions
 FOR EACH ROW
@@ -182,36 +122,12 @@ BEGIN
 	END IF;
 END;
 /
-
---Frequently Used Commands
-drop table Actions;
-drop trigger trg_check_coherence;
-select * from Actions;
-
---Insertions valides
-INSERT INTO Actions(iDPartie, pseudo, iDBateau, nTour, nAction,	x, y, type) VALUES (1064, 'Mordokkai', 56, 0, 0, 0, 0, 'tir');
-INSERT INTO Actions(iDPartie, pseudo, iDBateau, nTour, nAction, type) VALUES (1168, 'Mordokkai', 1, 0, 0, 'dep');
-
---Insertions invalides
-INSERT INTO Actions(iDPartie, pseudo, iDBateau, nTour, nAction,y, type) VALUES (1062, 'ninja58', 56, 0, 0,0, 'tir');
-INSERT INTO Actions(iDPartie, pseudo, iDBateau, nTour, nAction, type, x) VALUES (1168, 'Mordokkai', 0, 0, 0, 'dep', 1);
-INSERT INTO Actions(iDPartie, pseudo, iDBateau, nTour, nAction, type, y) VALUES (1168, 'Mordokkai', 0, 0, 0, 'dep', 1);
-INSERT INTO Actions(iDPartie, pseudo, iDBateau, nTour, nAction, type, x, y) VALUES (1168, 'Mordokkai', 0, 0, 0, 'dep', 1, 2);
-
 --------------------------------------------------------------------------------
 --Display
 set linesize 250
 column pseudo format a13
 column orientation format a1
 column orientationI format a1
---column idPartie format a5
---column iDBateau format a5
---column etat format a1
---column taille format a1
---column x format a9
---column y format a2
---column xI format a2All Scripts
---column yI format a2
 
 --Bateaux : {iDPartie {pk,fk}, pseudo{pk, fk}, iDBateau{pk}, état, taille, x, y, orientation, xI, yI, orientationI(n,s,e,o)}
 CREATE TABLE Bateaux (
@@ -246,43 +162,12 @@ CREATE TABLE Bateaux (
     )
 );
 
-select max(idpartie) from parties;
-
+--Trigger qui vérifie la validité de la position des bateaux (pas de collision)
 CREATE OR REPLACE TRIGGER trg_init_bateaux
 BEFORE INSERT OR UPDATE ON Bateaux
 FOR EACH ROW
 DECLARE cnt integer;
 BEGIN
-	IF(:new.orientation IS NULL)
-	THEN
-		IF(:old.orientation IS NULL)
-		THEN
-			:new.orientation := :new.orientationI;
-		ELSE
-			:new.orientation := :old.orientation;
-		END IF;
-	END IF;
-
-	IF(:new.x IS NULL)
-	THEN
-		IF(:old.x IS NULL)
-		THEN
-			:new.x := :new.xI;
-		ELSE
-			:new.x := :old.x;
-		END IF;
-	END IF;
-	
-	IF(:new.y IS NULL)
-	THEN
-		IF(:old.y IS NULL)
-		THEN
-			:new.y := :new.yI;
-		ELSE
-			:new.y := :old.y;
-		END IF;
-	END IF;
-	
 	SELECT COUNT(iDBateau) INTO cnt FROM Bateaux WHERE ((iDPartie = :new.iDPartie) AND (pseudo = :new.pseudo) AND (iDBateau <> :new.iDBateau) );
 	IF(cnt > 2)
 	THEN
@@ -327,16 +212,14 @@ BEGIN
 			AND (pseudo = :new.pseudo) 
 			AND (iDBateau <> :new.iDBateau) 
 			AND (
-			
-			((orientation = 'n') AND (:new.orientation = 'o') AND (:new.y BETWEEN y AND y + taille - 1) AND (x BETWEEN :new.x - :new.taille + 1 AND :new.x))
-			OR ((orientation = 's') AND (:new.orientation = 'o') AND (:new.y BETWEEN y - taille + 1 AND y) AND (x BETWEEN :new.x - :new.taille + 1 AND :new.x))
-			OR ((orientation = 'n') AND (:new.orientation = 'e') AND (:new.y BETWEEN y AND y + taille - 1) AND (x BETWEEN :new.x AND :new.x + :new.taille - 1))
-			OR ((orientation = 's') AND (:new.orientation = 'e') AND (:new.y BETWEEN y - taille + 1 AND y) AND (x BETWEEN :new.x AND :new.x + :new.taille - 1))
-			OR ((orientation = 'o') AND (:new.orientation = 'n') AND (y BETWEEN :new.y AND :new.y + :new.taille - 1) AND (:new.x BETWEEN x - taille + 1 AND x))
-			OR ((orientation = 'e') AND (:new.orientation = 'n') AND (y BETWEEN :new.y AND :new.y + :new.taille - 1) AND (:new.x BETWEEN x AND x + taille - 1))
-			OR ((orientation = 'o') AND (:new.orientation = 's') AND (y BETWEEN :new.y - :new.taille + 1 AND :new.y ) AND (:new.x BETWEEN x - taille + 1 AND x))
-			OR ((orientation = 'e') AND (:new.orientation = 's') AND (y BETWEEN :new.y - :new.taille + 1 AND :new.y ) AND (:new.x BETWEEN x AND x + taille - 1 ))
-			
+				((orientation = 'n') AND (:new.orientation = 'o') AND (:new.y BETWEEN y AND y + taille - 1) AND (x BETWEEN :new.x - :new.taille + 1 AND :new.x))
+				OR ((orientation = 's') AND (:new.orientation = 'o') AND (:new.y BETWEEN y - taille + 1 AND y) AND (x BETWEEN :new.x - :new.taille + 1 AND :new.x))
+				OR ((orientation = 'n') AND (:new.orientation = 'e') AND (:new.y BETWEEN y AND y + taille - 1) AND (x BETWEEN :new.x AND :new.x + :new.taille - 1))
+				OR ((orientation = 's') AND (:new.orientation = 'e') AND (:new.y BETWEEN y - taille + 1 AND y) AND (x BETWEEN :new.x AND :new.x + :new.taille - 1))
+				OR ((orientation = 'o') AND (:new.orientation = 'n') AND (y BETWEEN :new.y AND :new.y + :new.taille - 1) AND (:new.x BETWEEN x - taille + 1 AND x))
+				OR ((orientation = 'e') AND (:new.orientation = 'n') AND (y BETWEEN :new.y AND :new.y + :new.taille - 1) AND (:new.x BETWEEN x AND x + taille - 1))
+				OR ((orientation = 'o') AND (:new.orientation = 's') AND (y BETWEEN :new.y - :new.taille + 1 AND :new.y ) AND (:new.x BETWEEN x - taille + 1 AND x))
+				OR ((orientation = 'e') AND (:new.orientation = 's') AND (y BETWEEN :new.y - :new.taille + 1 AND :new.y ) AND (:new.x BETWEEN x AND x + taille - 1 ))
 			));
 			IF(cnt > 0)
 			THEN
@@ -346,32 +229,12 @@ BEGIN
 	END IF;
 END;
 /
-
-
-
-
-
-
-
---Frequently Used Commands
-drop table Bateaux;
-drop trigger trg_init_bateaux;
-select * from Bateaux;
-
---Insertions valides
-INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, etat, taille, x, y, orientation) VALUES (11, 'Mordokkai', 1, 0, 3, 0, 0,'e');
-INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, etat, taille, x, y, orientation) VALUES (11, 'Mordokkai', 2, 0, 3, 0, 0,'e');
---Insertions invalides
-INSERT INTO Bateaux(iDPartie, pseudo, iDBateau, etat, taille, x, y, orientation) VALUES (11, 'Mordokkai', 2, 0, 3, 4, 3,'e');
-
 --------------------------------------------------------------------------------
 --Display
 set linesize 250
 column ville format a15
 column nomRue format a10
 column pseudo format a10
---column CP format a10
---column numRue format a10
 
 --Adresses : {pseudo{fk}, numRue, nomRue, CP, Ville}
 CREATE TABLE Adresses (
@@ -389,35 +252,3 @@ CREATE TABLE Adresses (
 		AND REGEXP_LIKE (ville,'^[A-Za-z0-9]+[A-Za-z0-9._%+-]')
 		)
 );
-
---Frequently Used Commands
-drop table Adresses;
-select * from Adresses;
-
---Insertions valides
-INSERT INTO Adresses(pseudo, numRue, nomRue, CP, ville) VALUES ('ninja64', 1220, 'residences', 38400, 'St Martin d''Heres');
-
--------------------------------------------------------------------------------
---Supprime toutes les tables
-drop table joueurs;
-drop table Parties;
-drop table Vainqueurs;
-drop table Participants;
-drop table Bateaux;
-drop table Adresses;
-
-select * from participants where idpartie=1062;
-
---Efface toutes les tables
---------------------------------------------------------------------------------
-delete from joueurs;
-delete from Parties;
-delete from Vainqueurs;
-delete from Participants;
-delete from Actions;
-delete from Bateaux;
-delete from Adresses;
-
---Trash
-update bateaux set etat = etat-1 where idpartie=134 ;
-
