@@ -86,22 +86,22 @@ public class Tir extends Action{
 			}*/
 			System.out.println("IdBateauVisé: "+s.idBateau+"DirectionBateauVisé: "+s.getDirBateauString());
 			if(s.getDirBateauString().equals(Direction.SUD.toString())){
-				if(x==s.getXBateau() && y<=(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
+				if(x==s.getXBateau() && y<(s.getYBateau()+s.getTailleBateau()) && y>=s.getYBateau()){
 					idBateau = s.getIdBateau();
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.NORD.toString())){
-				if(x==s.getXBateau() && y>=(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
+				if(x==s.getXBateau() && y>(s.getYBateau()-s.getTailleBateau()) && y<=s.getYBateau()){
 					idBateau = s.getIdBateau();
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.EST.toString())){
-				if(y==s.getXBateau() && x<=(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+				if(y==s.getXBateau() && x<(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
 					idBateau = s.getIdBateau();
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.OUEST.toString())){
-				if(y==s.getXBateau() && x>=(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+				if(y==s.getXBateau() && x>(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
 					idBateau = s.getIdBateau();
 				}
 			}
