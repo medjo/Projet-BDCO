@@ -72,12 +72,13 @@ public class Tir extends Action{
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.EST.toString())){
-				if(y==s.getXBateau() && x<(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
+				System.out.println("xB " + s.getXBateau() + " yB " + + s.getYBateau());
+				if(y==s.getYBateau() && x<(s.getXBateau()+s.getTailleBateau()) && x>=s.getXBateau()){
 					idBateau = s.getIdBateau();
 				}
 			}
 			if(s.getDirBateauString().equals(Direction.OUEST.toString())){
-				if(y==s.getXBateau() && x>(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
+				if(y==s.getYBateau() && x>(s.getXBateau()-s.getTailleBateau()) && x<=s.getXBateau()){
 					idBateau = s.getIdBateau();
 				}
 			}

@@ -80,7 +80,7 @@ public class Deplacement extends Action{
 			x = res.getInt("x");
 			y = res.getInt("y");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Erreur SQL pour récuperer position du bateau");
 			e.printStackTrace();
 		}
 		req1.close();
