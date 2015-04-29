@@ -263,7 +263,9 @@ public class Connexion extends JFrame {
 					etatTour = etat;
 					nTour = numTour;
 					if(etatTour.tour){
-						ControleurPartie.debutTour();
+						if(ControleurPartie.debutTour()){
+							System.out.println("Partie terminée");
+						}
 						txtJoueurN.setText("Tour de "+pseudoJo);
 						for (Case[] l : map1){
 							for (Case c : l){

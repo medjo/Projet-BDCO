@@ -594,4 +594,17 @@ public class Partie {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setTermine(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"UPDATE parties SET finie=1 WHERE pseudo='"+BattleShip.user.getPseudo()+"'");
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+			if(res.next()) this.numTour=res.getInt(1)+1;
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
+			e.printStackTrace();
+		}
+	}
 }
