@@ -526,6 +526,7 @@ public class Case{
 				c.setMenuBateau();
 			}
 		}
+	
 		
 		public void creerBateau1(int taille, String dir, int id) throws Exception{
 			checkBateau(dir, taille);
@@ -836,5 +837,34 @@ public class Case{
 			this.idSelect = id;
 		}
 		
-	
+		
+		public void creerBateauCarteD(int taille, String dir, int id) throws Exception{
+			checkBateau(dir, taille);
+			Case c;
+			pivot = true;
+			for (int i = 0; i < taille; i++){
+				switch(dir){
+				case "n" :
+					c = map[220+x][y-i];
+					break;
+				case "s" :
+					c = map[220+x][y+i];
+					break;
+				case "e" :
+					c = map[220+x+i][y];
+					break;
+				case "o" :
+					c = map[220+x-i][y];
+					break;
+				default :
+					throw new IllegalArgumentException("Direction incorrecte");
+				}
+				c.setIdBateau(id);
+				c.setCoordBateau(x, y);
+				c.setType(taille-1);
+				c.setDirBateau(dir);
+				c.setMenuBateau();
+			}
+		}
+
 }

@@ -63,12 +63,14 @@ public class Connexion extends JFrame {
 	private LinkedList<InfoPartie> parties;
 	private JTextField textJoueurObs1;
 	private JTextField textJoueurObs2;
+	private int idPrtie;
 	private JTextField textIdPartie;
 	private JTextField textJoueur1;
 	private JTextField textJoueur2;
 	private int indPartie;
 	private EtatTour etatTour;
 	private int nTour;
+
 	
 
 	/**
@@ -262,10 +264,16 @@ public class Connexion extends JFrame {
 					System.out.println("on refresh");
 					etatTour = etat;
 					nTour = numTour;
-					if(etatTour.tour){
-						if(ControleurPartie.debutTour()){
-							System.out.println("Partie terminée");
+					if(ControleurPartie.debutTour()){
+						System.out.println("Partie terminée");
+						String vainqueur = BattleShip.partie.getVainqueur();
+						if (vainqueur.equals(pseudoJo)){
+							// TODO Message "Vous avez gagné !"
+						} else {
+							// TODO Message "Vous avez perdu !"
 						}
+					}
+					if(etatTour.tour){
 						txtJoueurN.setText("Tour de "+pseudoJo);
 						for (Case[] l : map1){
 							for (Case c : l){
@@ -524,32 +532,15 @@ public class Connexion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				OberservationPartie.setVisible(false);
 				ObserveAction.setVisible(true);
+				idPrtie = ControleurHistorique.suivant().getId();
 			}
 		});
 		btnNewButton_3.setBounds(5, 225, 100, 25);
 		OberservationPartie.add(btnNewButton_3);
 		
-		//Contenu interface de connexion -> Observer une partie -> Observer
-		JButton btnInitObs = new JButton("Initialisation");
-		btnInitObs.setBounds(15, 225, 125, 30);
-		ObserveAction.add(btnInitObs);
 		
-		JButton btnQuitterObs = new JButton("Quitter");
-		btnQuitterObs.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ObserveAction.setVisible(false);
-				OberservationPartie.setVisible(true);
-			}
-		});
-		btnQuitterObs.setBounds(295, 225, 125, 30);
-		ObserveAction.add(btnQuitterObs);
-		
-		JButton btnSuivantObs = new JButton("Suivant");
-		btnSuivantObs.setBounds(155, 225, 125, 30);
-		ObserveAction.add(btnSuivantObs);
-		
-		Case[][] map3 = new Case[10][10];
-		Case[][] map4 = new Case[10][10];
+		final Case[][] map3 = new Case[10][10];
+		final Case[][] map4 = new Case[10][10];
 		for (int i=0; i<10; i++){
 			for (int j=0; j<10; j++){
 				Case C = new Case(i, j, 0, map3, map4,1);
@@ -558,6 +549,47 @@ public class Connexion extends JFrame {
 				ObserveAction.add(C.getCell1());
 			}	
 		}
+		
+		//Contenu interface de connexion -> Observer une partie -> Observer
+			JButton btnInitObs = new JButton("Initialisation");
+			btnInitObs.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String Psdo = ControleurHistorique.voirPartie(idPrtie).get(0).getPseudo();
+						for(Ship s: ControleurHistorique.voirPartie(idPrtie)){
+							if (s.getPseudo().equals(Psdo)){
+								try {
+									map3[s.getXBateau()][s.getXBateau()].creerBateau(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}else{
+								try {
+									map4[s.getXBateau()][s.getXBateau()].creerBateauCarteD(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}
+						}
+					}
+			});
+				btnInitObs.setBounds(15, 225, 125, 30);
+				ObserveAction.add(btnInitObs);
+				
+				JButton btnQuitterObs = new JButton("Quitter");
+				btnQuitterObs.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ObserveAction.setVisible(false);
+						OberservationPartie.setVisible(true);
+					}
+				});
+				btnQuitterObs.setBounds(295, 225, 125, 30);
+				ObserveAction.add(btnQuitterObs);
+				
+				JButton btnSuivantObs = new JButton("Suivant");
+				btnSuivantObs.setBounds(155, 225, 125, 30);
+				ObserveAction.add(btnSuivantObs);
 		
 		
 		
@@ -580,9 +612,7 @@ public class Connexion extends JFrame {
 					pseudObs1= info.getPseudo1();
 					pseudObs2= info.getPseudo2();
 					if (pseudObs1!=null){
-						System.out.println("(Pseudo:1:"+pseudObs1);
 						textJoueurObs1.setText(pseudObs1);
-						System.out.println("(Pseudo:2:"+pseudObs2);
 						textJoueurObs2.setText(pseudObs2);
 					}
 				}
