@@ -552,7 +552,6 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
-				System.out.println("Case "+i);
 				c.setIdBateau(id);
 				c.setCoordBateau(x, y);
 				c.setType(taille-1);
