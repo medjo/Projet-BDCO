@@ -49,7 +49,7 @@ public class Rejouer{
 			}
 		}
 		listeBateaux = ShipsFactory.shipsInit(idPartie);
-		numTour = 0;
+		numTour = 1;
 		return listeBateaux;
 	}
 	

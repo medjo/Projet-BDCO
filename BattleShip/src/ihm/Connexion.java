@@ -148,7 +148,7 @@ public class Connexion extends JFrame {
 					for (Ship s : batInit){
 						try {
 							//System.out.println("x : "+s.getXBateau()+",y : "+s.getYBateau()+", taille : "+s.getTailleBateau()+", dir : "+s.getDirBateauString()+", id : "+s.getIdBateau());
-							map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+							map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau(), s.getEtatBateau());
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, "Erreur placement bateau", "Erreur", JOptionPane.ERROR_MESSAGE);
 							//System.out.println("Erreur placement bateau");
@@ -262,11 +262,9 @@ public class Connexion extends JFrame {
 				int numTour = BattleShip.partie.getNumeroDernierTour();
 				System.out.println("nTour : "+nTour+", numTour : "+numTour+", etat : "+etat.tour+", etatTour : "+etatTour.tour);
 				if(!etatTour.tour || !etat.tour || numTour!=nTour){
-					System.out.println("on refresh");
 					etatTour = etat;
 					nTour = numTour;
 					if(ControleurPartie.debutTour()){
-						System.out.println("Partie terminée");
 						String vainqueur = BattleShip.partie.getVainqueur();
 						if (vainqueur.equals(pseudoJo)){
 							JOptionPane.showMessageDialog(null, "Bravo! Vous avez gagné!", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -283,7 +281,7 @@ public class Connexion extends JFrame {
 						}
 						for (Ship s : BattleShip.partie.getBateauxCourants()){
 							try {
-								map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+								map1[s.getXBateau()][s.getYBateau()].creerBateau1(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau(), s.getEtatBateau());
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(null, "Erreur récupération bateau", "ERREUR", JOptionPane.ERROR_MESSAGE);
 								//System.out.println("Erreur récupération bateau");
@@ -417,7 +415,7 @@ public class Connexion extends JFrame {
 						if (c.isPivot()){
 							try {
 								int id = ControleurPartie.placerBateau(c.getX(), c.getY(), c.getDirBateau(), c.getType()+1);
-								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau(), id);
+								map1[c.getX()][c.getY()].creerBateau1(c.getType()+1, c.getDirBateau(), id, c.getType()+1);
 							} catch (Exception e1) {
 								JOptionPane.showMessageDialog(null, "Erreur placement bateau", "Erreur", JOptionPane.ERROR_MESSAGE);
 								//System.out.println("Erreur placement bateau");
@@ -555,18 +553,25 @@ public class Connexion extends JFrame {
 			JButton btnInitObs = new JButton("Initialisation");
 			btnInitObs.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						for (int i=0; i<10; i++){
+							for (int j=0; j<10; j++){
+								map3[i][j].reset2();
+							}	
+						}
 						String Psdo = ControleurHistorique.voirPartie(idPrtie).get(0).getPseudo();
 						for(Ship s: ControleurHistorique.voirPartie(idPrtie)){
 							if (s.getPseudo().equals(Psdo)){
 								try {
-									map3[s.getXBateau()][s.getXBateau()].creerBateau2(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+									//System.out.println("crée x : "+s.getXBateau()+",y : "+s.getYBateau()+", taille : "+s.getTailleBateau()+", dir : "+s.getDirBateauString()+", id : "+s.getIdBateau());
+									map3[s.getXBateau()][s.getYBateau()].creerBateau2(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau(), s.getEtatBateau());
 								} catch (Exception e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 							}else{
 								try {
-									map3[s.getXBateau()][s.getXBateau()].creerBateau3(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+									//System.out.println("crée x : "+s.getXBateau()+",y : "+s.getYBateau()+", taille : "+s.getTailleBateau()+", dir : "+s.getDirBateauString()+", id : "+s.getIdBateau());
+									map3[s.getXBateau()][s.getYBateau()].creerBateau3(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau(), s.getEtatBateau());
 								} catch (Exception e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
@@ -601,29 +606,25 @@ public class Connexion extends JFrame {
 								map3[i][j].reset2();
 							}	
 						}
-						
-						
-						String Psdo = ControleurHistorique.voirPartie(idPrtie).get(0).getPseudo();
-						for(Ship s: ControleurHistorique.suivant(idPrtie)){
+						ArrayList<Ship> ships = ControleurHistorique.suivant(idPrtie);
+						String Psdo = ships.get(0).getPseudo();
+						for(Ship s: ships){
 							if (s.getPseudo().equals(Psdo)){
 								try {
-									map3[s.getXBateau()][s.getXBateau()].creerBateau2(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+									map3[s.getXBateau()][s.getYBateau()].creerBateau2(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau(), s.getEtatBateau());
 								} catch (Exception e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 							}else{
 								try {
-									map3[s.getXBateau()][s.getXBateau()].creerBateau3(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau());
+									map3[s.getXBateau()][s.getYBateau()].creerBateau3(s.getTailleBateau(), s.getDirBateauString(), s.getIdBateau(), s.getEtatBateau());
 								} catch (Exception e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 							}
 						}
-						
-						
-						
 					}
 				});
 				btnSuivantObs.setBounds(155, 225, 125, 30);
