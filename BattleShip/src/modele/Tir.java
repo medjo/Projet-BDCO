@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import modele.*;
-import modele.ActionFactory.InfoActionJoueur;
+
 import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;

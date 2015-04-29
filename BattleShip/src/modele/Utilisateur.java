@@ -66,7 +66,6 @@ public class Utilisateur {
 			System.err.println("Echec à l'inscription");
 			BattleShip.theConnection.rollbackPerso(); //On annule tout si problème
 			throw new InscriptionInvalideException();
-			//e.printStackTrace(System.err);
 			
 			//TODO
 		}

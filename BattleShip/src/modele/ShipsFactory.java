@@ -39,15 +39,11 @@ public class ShipsFactory {
 			req.execute();
 			ResultSet res = req.getResult();
 			while(res.next()){
-				//System.out.println(idPartie+"un bateau de crée");
 				if(res.getInt(5)==Destroyer.TAILLE_DESTROYER) {
 					myShips.add(new Destroyer(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orientation"),res.getInt("idBateau"), res.getString("pseudo"), res.getInt("etat")));
-					//int etat, int x, int y, String dir, int idBateau, String pseudo
-					//System.out.println("Destroyer");
 				}
 				else if(res.getInt(5)==Escorteur.TAILLE_ESCORTEUR) {
 					myShips.add(new Escorteur(res.getInt("etat"),res.getInt("x"),res.getInt("y"),res.getString("orientation"),res.getInt("idBateau"), res.getString("pseudo"),res.getInt("etat")));
-					//System.out.println("Escorteur");
 				}
 			}
 		} catch (Exception e) {
@@ -56,7 +52,6 @@ public class ShipsFactory {
 		}
 		
 		req.close();
-		//On construit la liste des parties jouées à partir de l'historique
 		
 		return myShips;
 	}
@@ -72,7 +67,6 @@ public class ShipsFactory {
 			while(res.next()){
 				if(res.getInt(3)==Destroyer.TAILLE_DESTROYER) {
 					shipsInit.add(new Destroyer(res.getInt("xI"),res.getInt("yI"),res.getString("orientationI"),res.getInt("idBateau"), res.getString("pseudo")));
-					//int x, int y, String dir, int idBateau, String pseudo
 				}
 				else if(res.getInt(3)==Escorteur.TAILLE_ESCORTEUR) {
 					shipsInit.add(new Escorteur(res.getInt("xI"),res.getInt("yI"),res.getString("orientationI"),res.getInt("idBateau"), res.getString("pseudo")));
