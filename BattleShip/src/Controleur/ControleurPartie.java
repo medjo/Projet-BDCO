@@ -170,6 +170,9 @@ public class ControleurPartie {
 	public static boolean debutTour(){
 		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
 		BattleShip.partie.actualiserNumTour();
+		if (BattleShip.partie.partieTerminee()){
+			BattleShip.partie.setTermine();
+		}
 		return(BattleShip.partie.partieTerminee());
 	}
 	

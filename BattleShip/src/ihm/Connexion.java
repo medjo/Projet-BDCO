@@ -264,8 +264,16 @@ public class Connexion extends JFrame {
 					System.out.println("on refresh");
 					etatTour = etat;
 					nTour = numTour;
+					if(ControleurPartie.debutTour()){
+						System.out.println("Partie terminée");
+						String vainqueur = BattleShip.partie.getVainqueur();
+						if (vainqueur.equals(pseudoJo)){
+							// TODO Message "Vous avez gagné !"
+						} else {
+							// TODO Message "Vous avez perdu !"
+						}
+					}
 					if(etatTour.tour){
-						ControleurPartie.debutTour();
 						txtJoueurN.setText("Tour de "+pseudoJo);
 						for (Case[] l : map1){
 							for (Case c : l){
