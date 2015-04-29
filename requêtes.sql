@@ -143,7 +143,7 @@ CREATE TABLE Actions (
 	y INT,
 	type VARCHAR(3) NOT NULL,
 	direction VARCHAR(2),
-	PRIMARY KEY (iDPartie, pseudo, nTour, nAction),All Scripts
+	PRIMARY KEY (iDPartie, pseudo, nTour, nAction),
     FOREIGN KEY (iDPartie, pseudo, iDBateau) REFERENCES Bateaux (iDPartie, pseudo, iDBateau),
 	CHECK (
 		nTour >= 0
@@ -230,17 +230,18 @@ CREATE TABLE Bateaux (
     FOREIGN KEY (iDPartie) REFERENCES Parties (iDPartie),
     FOREIGN KEY (pseudo) REFERENCES Joueurs (pseudo),
     CHECK(
-    	(x BETWEEN 0 AND 9)
+    	(iDBateau BETWEEN 1 AND 3)
+    	AND (x BETWEEN 0 AND 9)
     	AND (y BETWEEN 0 AND 9)
     	AND (xI BETWEEN 0 AND 9)
     	AND (yI BETWEEN 0 AND 9)
     	AND (etat BETWEEN 0 AND taille)
     	AND (taille IN (2,3))
     	AND (
-    	((orientationI = 'n' ) AND (y + taille - 1 <= 9))
-    	OR ((orientationI = 's' ) AND (y - taille + 1 >= 0))
-    	OR ((orientationI = 'e' ) AND (x + taille - 1 <= 9))
-    	OR ((orientationI = 'o' ) AND (x - taille + 1 >= 0))
+    	((orientation = 'n' ) AND (y + taille - 1 <= 9))
+    	OR ((orientation = 's' ) AND (y - taille + 1 >= 0))
+    	OR ((orientation = 'e' ) AND (x + taille - 1 <= 9))
+    	OR ((orientation = 'o' ) AND (x - taille + 1 >= 0))
     	)
     )
 );
