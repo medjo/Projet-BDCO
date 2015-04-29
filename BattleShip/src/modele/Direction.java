@@ -15,16 +15,6 @@ public enum Direction {
 		else if(str.equals("s"))type = Direction.SUD;
 		else if(str.equals("e"))type = Direction.EST;
 		else if(str.equals("o"))type = Direction.OUEST;
-		/*switch(str){
-		case "n":
-			type = Direction.NORD;
-		case "s":
-			type = Direction.SUD;
-		case "o":
-			type = Direction.OUEST;
-		case "e":
-			type = Direction.EST;
-		}*/
 		return type;
 	}
 	

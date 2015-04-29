@@ -23,7 +23,6 @@ public class Rejouer{
 			ResultSet res = req.getResult();
 			int i=0;
 			while(res.next()){
-				//System.out.println(res.getInt(1)+"-"+res.getDate(2)+"-"+res.getInt(3));
 				listeParties.add(new InfoPartie(res.getInt(1), res.getDate(2), res.getInt(3)));
 				i++;
 			}
@@ -32,19 +31,10 @@ public class Rejouer{
 		}
 		
 		req.close();
-		//On construit la liste des parties jouées à partir de l'historique
+		
 		
 	}
 	
-	/*
-	public void voirPartie(String idPartie) {
-		Historique h = new Historique(idPartie); //On instancie l'historique sélectionné
-	}*/
-	/*Lien avec l'interface graphique: 
-	 * -> lorsque l'on entre dans la fenêtre de l'historique on a la liste des parties qui s'affiche.
-	 * -> si on veut voir une partie on appel la méthode, si on veut rafaichir on appel la meme méthode
-	 * et on se déplacera au dernier élément.
-	 */
 	
 	/**
 	 * initialise la partie à rejouer
@@ -84,11 +74,9 @@ public class Rejouer{
 			while(res.next()){
 				tourSuiv = true;
 				if(res.getString("type").equals("tir")){
-					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, int x, int y
 					listeActions.add(new Tir(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), res.getInt("x"), res.getInt("y")));
 				}
 				if(res.getString("type").equals("dep")){
-					//int idBateau, int idPartie, String pseudo, int nTour, int nAction, TypeDeplacement type
 					listeActions.add(new Deplacement(res.getInt("idBateau"), res.getInt("idPartie"), res.getString("pseudo"), numTour, res.getInt("nAction"), TypeDeplacement.createDeplacement(res.getString("direction"))));
 				}
 			}

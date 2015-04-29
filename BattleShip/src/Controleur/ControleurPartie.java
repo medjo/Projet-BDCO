@@ -55,12 +55,10 @@ public class ControleurPartie {
 	public static int placerBateau(int x, int y, String dir, int taille) throws SQLException{
 			
 		if(taille==3){
-			//System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
 			BattleShip.partie.executerPlacementBateauInitial(new Destroyer(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
 			return BattleShip.partie.getDernierNumeroBateau();
 		}
 		else if(taille==2){
-			//System.out.println("L'id bateau est:" +BattleShip.partie.getDernierNumeroBateau() );
 			BattleShip.partie.executerPlacementBateauInitial(new Escorteur(x, y, dir, BattleShip.partie.getDernierNumeroBateau()+1));
 			return BattleShip.partie.getDernierNumeroBateau();
 		}
@@ -141,7 +139,6 @@ public class ControleurPartie {
 		BattleShip.partie.setIdPartie(idPartie);
 		BattleShip.partie.setNumTour(BattleShip.partie.getNumeroDernierTour());
 		BattleShip.partie.setAdv(adv);
-		System.out.println(BattleShip.user.getPseudo());
 			
 		if(BattleShip.partie.meAPositionneSesBateaux() ){
 			BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
@@ -269,7 +266,10 @@ public class ControleurPartie {
 		ArrayList<Ship> myShips=BattleShip.partie.getBateauxCourants();
 		for(Ship s:myShips){
 			if(s.getIdBateau()==idBateau){	//Si on tombe sur le bon bateau
-				System.out.println("Il reste: "+ s.getCoupsBateau()+" coups.");
+				if(s.getCoupsBateau()>0){
+				System.out.println("Il reste: "+ (s.getCoupsBateau()-1)+" coups.");}
+				else{
+					System.out.println("Il reste: 0 coups.");}
 				if(s.getCoupsBateau()<=0)
 					return false;
 				else

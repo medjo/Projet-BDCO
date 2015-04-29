@@ -9,7 +9,7 @@ import jdbc.ParamQuery;
 import jdbc.TheConnection;
 import jdbc.SimpleQuery;
 import modele.ShipsFactory;
-import modele.ActionFactory.InfoActionJoueur;
+
 
 
 import java.sql.*;
@@ -202,46 +202,7 @@ public class Partie {
 	
 	
 	
-	//A PLACER AILLEURS SUREMENT
-	//A partir de la liste des infos de placement cela retourne la liste des bateaux initiaux
-	//public void placerBateaux(ArrayList<structInfoPlacementBateau> infoPlacementBateaux){
-	//	ShipsFactory bateaux = new ShipsFactory();
-		//this.bateauxInitiaux= bateaux.prepareForBattle(infoPlacementBateaux);
-	//}
-	/*
-	public void executerPlacementBateaux(){
-		//On enregistre dans la BD le placement des bateaux
-		int i=0;
-		while(i<bateauxInitiaux.size()){
-			Ship bateaui = bateauxInitiaux.get(i);
-			ParamQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"INSERT INTO bateaux VALUES (?,?,?,?,?,?,?,?,?,?,?");
-			try {
-				req.getStatement().setInt(1, this.idPartie);
-				req.getStatement().setString(2, this.user.getPseudo());
-				req.getStatement().setInt(3, bateaui.getIdBateau());
-				req.getStatement().setInt(4, bateaui.getEtat());
-				req.getStatement().setInt(5, bateaui.getTailleBateau());
-				req.getStatement().setInt(6, bateaui.getXBateau());
-				req.getStatement().setInt(7, bateaui.getYBateau());
-				req.getStatement().setString(8, bateaui.getDirBateauString());
-				req.getStatement().setInt(9, bateaui.getXBateau());//valeur initial
-				req.getStatement().setInt(10, bateaui.getYBateau());//valeur initial
-				req.getStatement().setString(11, bateaui.getDirBateauString());//valeur initial
-			
-			} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		try {
-		req.execute();
-		} catch (Exception e) {
-			
-		}
-		req.close();
-		}
-	}
-	*/
+	
 	
 	//TESTE
 	//Méthode qui enregistre les positions initiales des bateaux à partir des informations fournies par l'ihm
@@ -571,19 +532,6 @@ public class Partie {
 
 	
 	public void incrementerNbPartiesJouees(String pseudo){
-		/*SimpleQuery req = new ParamQuery(BattleShip.theConnection.getConnection(),"UPDATE joueurs SET nbPartiesJouees=nbPartiesJouees+1 WHERE pseudo=?");
-		try{
-			System.out.println("on appelel sur"+pseudo);
-			req.getStatement().setString(1, pseudo);
-			System.out.println("on appelel sur"+pseudo);
-			req.execute();//PB
-			ResultSet res = req.getResult();
-		}
-		catch (Exception e){
-			System.err.println("Problème lors de la récupération du dernier numero de bateau");
-			e.printStackTrace();
-		}
-		req.close();*/
 		try {
 			Statement stmt = BattleShip.theConnection.getConnection().createStatement();
 			stmt.executeQuery("UPDATE joueurs SET nbPartiesJouees=nbPartiesJouees+1 WHERE pseudo='"+pseudo+"'");
