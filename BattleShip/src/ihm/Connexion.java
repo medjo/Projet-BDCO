@@ -79,6 +79,7 @@ public class Connexion extends JFrame {
 	 * @throws SQLException 
 	 */
 	public Connexion() {
+		setTitle("BattleShip");
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -534,7 +535,7 @@ public class Connexion extends JFrame {
 				idPrtie = ControleurHistorique.suivant().getId();
 			}
 		});
-		btnNewButton_3.setBounds(5, 225, 100, 25);
+		btnNewButton_3.setBounds(5, 225, 135, 25);
 		OberservationPartie.add(btnNewButton_3);
 		
 		
@@ -630,17 +631,6 @@ public class Connexion extends JFrame {
 				btnSuivantObs.setBounds(155, 225, 125, 30);
 				ObserveAction.add(btnSuivantObs);
 		
-		
-		
-		JButton btnNewB = new JButton("<Précedent");
-		btnNewB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewB.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewB.setBounds(110, 225, 100, 25);
-		OberservationPartie.add(btnNewB);
-		
 		JButton btnNewB_1 = new JButton("Suivant>");
 		btnNewB_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -664,7 +654,7 @@ public class Connexion extends JFrame {
 			}
 		});
 		btnNewB_1.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnNewB_1.setBounds(215, 225, 100, 25);
+		btnNewB_1.setBounds(150, 225, 135, 25);
 		OberservationPartie.add(btnNewB_1);
 		
 		JButton btnQuitter = new JButton("Quitter");
@@ -675,7 +665,7 @@ public class Connexion extends JFrame {
 			}
 		});
 		btnQuitter.setFont(new Font("Dialog", Font.BOLD, 10));
-		btnQuitter.setBounds(320, 225, 100, 25);
+		btnQuitter.setBounds(295, 225, 135, 25);
 		OberservationPartie.add(btnQuitter);
 		
 		JLabel lblVs = new JLabel("VS");
