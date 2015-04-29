@@ -48,10 +48,9 @@ public class Deplacement extends Action{
 		if(type.equals(TypeDeplacement.RECULER)){
 			ofset=-1;
 		}
-		//System.out.println("OrientationI"+orientationI.toString());
 		orientationF=orientationI;
 		if(orientationI.equals(Direction.NORD)){
-			y += ofset;
+			y -= ofset;
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.EST;
 			}
@@ -61,7 +60,6 @@ public class Deplacement extends Action{
 		}
 		else if(orientationI.equals(Direction.SUD)){
 			y += ofset;
-			//System.out.println("x et y:"+y);
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.OUEST;
 			}
@@ -70,7 +68,6 @@ public class Deplacement extends Action{
 			}
 		}
 		else if(orientationI.equals(Direction.EST)){
-			//System.out.println("on y est4");
 			x += ofset;
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.SUD;
@@ -80,8 +77,7 @@ public class Deplacement extends Action{
 			}
 		}
 		else if(orientationI.equals(Direction.OUEST)){
-			//System.out.println("on y est5");
-			x += ofset;
+			x -= ofset;
 			if(type == TypeDeplacement.ROTDROITE){
 				orientationF = Direction.NORD;
 			}
