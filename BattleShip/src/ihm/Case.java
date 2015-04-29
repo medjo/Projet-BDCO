@@ -103,11 +103,12 @@ public class Case{
 							creerBateau(3, "n", getNBateau()+1);
 							map[0][0].setNDes(1);
 						} else {
-							System.err.println("Plus de destroyer disponible");
+							JOptionPane.showMessageDialog(null, "Plus de destroyer disponible", "Erreur", JOptionPane.ERROR_MESSAGE);
+							//System.err.println("Plus de destroyer disponible");
 						}
 					} catch (Exception e) {
-						// TODO Message d'erreur placement impossible
-						System.err.println("Placement impossible");
+						JOptionPane.showMessageDialog(null, "Placement impossible", "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println("Placement impossible");
 					}
 				}
 			});
@@ -119,11 +120,12 @@ public class Case{
 							creerBateau(2, "n", getNBateau()+1);
 							map[0][0].setNEsc(ne+1);
 						} else {
-							System.err.println("Plus d'escorteur disponible");
+							JOptionPane.showMessageDialog(null, "Plus d'escorteur disponible", "Erreur", JOptionPane.ERROR_MESSAGE);
+							//System.err.println("Plus d'escorteur disponible");
 						}
 					} catch (Exception e) {
-						// TODO Message d'erreur placement impossible
-						System.err.println("Placement impossible");
+						JOptionPane.showMessageDialog(null, "Placement impossible", "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println("Placement impossible");
 					}
 				}
 			});
@@ -137,7 +139,8 @@ public class Case{
 					try {
 						deplacerBateau("n", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -146,7 +149,8 @@ public class Case{
 					try {
 						deplacerBateau("s", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -155,7 +159,8 @@ public class Case{
 					try {
 						deplacerBateau("e", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -164,7 +169,8 @@ public class Case{
 					try {
 						deplacerBateau("o", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -173,7 +179,8 @@ public class Case{
 					try {
 						pivoterBateau("n", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -182,7 +189,8 @@ public class Case{
 					try {
 						pivoterBateau("s", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -191,7 +199,8 @@ public class Case{
 					try {
 						pivoterBateau("e", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -200,7 +209,8 @@ public class Case{
 					try {
 						pivoterBateau("o", type+1);
 					} catch (Exception e) {
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -265,13 +275,14 @@ public class Case{
 			avant.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.AVANCER));
+						int id = idBateau;
+						if (ControleurPartie.controleurNbActions(id)){
 							deplacerBateau1(dirBateau, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(id, TypeDeplacement.AVANCER));
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -279,7 +290,6 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.RECULER));
 							String dir;
 							switch(dirBateau){
 							case "n" :
@@ -298,10 +308,11 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							deplacerBateau1(dir, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.RECULER));
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -309,7 +320,6 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTGAUCHE));
 							String dir;
 							switch(dirBateau){
 							case "n" :
@@ -328,10 +338,11 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							pivoterBateau1(dir, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTGAUCHE));
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -339,7 +350,6 @@ public class Case{
 				public void actionPerformed(ActionEvent arg0) {
 					try {
 						if (ControleurPartie.controleurNbActions(idBateau)){
-							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTDROITE));
 							String dir;
 							switch(dirBateau){
 							case "n" :
@@ -358,10 +368,11 @@ public class Case{
 								throw new IllegalArgumentException("Direction incorrecte");
 							}
 							pivoterBateau1(dir, type+1);
+							ControleurPartie.jouerAction(ControleurPartie.Deplacement(idBateau, TypeDeplacement.ROTDROITE));
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						System.err.println(e.getMessage());
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); 
+						//System.err.println(e.getMessage());
 					}
 				}
 			});
@@ -423,16 +434,16 @@ public class Case{
 			String dir;
 			switch(dirBateau){
 			case "n" :
-				dir = " Λ";
+				dir = "Λ";
 				break;
 			case "s" :
-				dir = " V";
+				dir = "V";
 				break;
 			case "e" :
-				dir = " >";
+				dir = ">";
 				break;
 			case "o" :
-				dir = " <";
+				dir = "<";
 				break;
 			default :
 				throw new IllegalArgumentException("Direction incorrecte");
@@ -446,16 +457,16 @@ public class Case{
 			String dir;
 			switch(dirBateau){
 			case "n" :
-				dir = " Λ";
+				dir = "Λ";
 				break;
 			case "s" :
-				dir = " V";
+				dir = "V";
 				break;
 			case "e" :
-				dir = " >";
+				dir = ">";
 				break;
 			case "o" :
-				dir = " <";
+				dir = "<";
 				break;
 			default :
 				throw new IllegalArgumentException("Direction incorrecte");
@@ -537,6 +548,7 @@ public class Case{
 				default :
 					throw new IllegalArgumentException("Direction incorrecte");
 				}
+				System.out.println("Case "+i);
 				c.setIdBateau(id);
 				c.setCoordBateau(x, y);
 				c.setType(taille-1);
@@ -792,11 +804,8 @@ public class Case{
 			this.pivot = false;
 			menu.setText("    ");
 			menu.removeAll();
-			menu.add(destroyeur);
-			menu.add(escorteur);
 			cell.setBackground(Color.white);
 			
-			menu1.setText("    ");
 			menu1.removeAll();
 			cell1.setBackground(Color.gray);
 		}
@@ -826,4 +835,6 @@ public class Case{
 		public void setIdSelect(int id){
 			this.idSelect = id;
 		}
+		
+	
 }

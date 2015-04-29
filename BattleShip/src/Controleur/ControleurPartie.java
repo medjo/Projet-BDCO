@@ -3,6 +3,7 @@ import modele.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import oracle.sql.TypeDescriptor;
 import modele.BattleShip;
@@ -122,7 +123,7 @@ public class ControleurPartie {
 	/**
 	 * Afficher les anciennes parties me concernant non terminées
 	 */
-	public static ArrayList<InfoPartie> anciennesParties(){
+	public static LinkedList<InfoPartie> anciennesParties(){
 		BattleShip.partie=new Partie();
 		return BattleShip.partie.partiesDebutees();
 	}
@@ -139,7 +140,6 @@ public class ControleurPartie {
 	public static EtatTour reprendrePartieEnCours(int idPartie, String adv ){
 		BattleShip.partie.setIdPartie(idPartie);
 		BattleShip.partie.setNumTour(BattleShip.partie.getNumeroDernierTour());
-		//System.out.println("NumDernierTour"+BattleShip.partie.getNumeroDernierTour());
 		BattleShip.partie.setAdv(adv);
 		System.out.println(BattleShip.user.getPseudo());
 			
@@ -170,6 +170,9 @@ public class ControleurPartie {
 	public static boolean debutTour(){
 		BattleShip.partie.setBateauxCourants(BattleShip.partie.getMyShips());
 		BattleShip.partie.actualiserNumTour();
+		if (BattleShip.partie.partieTerminee()){
+			BattleShip.partie.setTermine();
+		}
 		return(BattleShip.partie.partieTerminee());
 	}
 	

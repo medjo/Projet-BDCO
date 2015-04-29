@@ -51,7 +51,7 @@ public class ShipsFactory {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Probleme dans la fabrique de mes bateaux");
+			System.err.println("Probleme dans la fabrique de mes bateaux");
 			e.printStackTrace();
 		}
 		
@@ -65,22 +65,22 @@ public class ShipsFactory {
 	//Méthode qui retourne la liste des bateaux initiaux
 	public static ArrayList<Ship> shipsInit(int idPartie){
 		ArrayList<Ship> shipsInit = new ArrayList<Ship>();
-		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT idBateau, etat, taille, xI, yI, orientationI FROM bateaux WHERE idPartie="+idPartie);
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT idBateau, etat, taille, xI, yI, orientationI, pseudo FROM bateaux WHERE idPartie="+idPartie);
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
 			while(res.next()){
 				if(res.getInt(3)==Destroyer.TAILLE_DESTROYER) {
-					shipsInit.add(new Destroyer(res.getInt("xI"),res.getInt("yI"),res.getString("orintationI"),res.getInt("idBateau"), res.getString("pseudo")));
+					shipsInit.add(new Destroyer(res.getInt("xI"),res.getInt("yI"),res.getString("orientationI"),res.getInt("idBateau"), res.getString("pseudo")));
 					//int x, int y, String dir, int idBateau, String pseudo
 				}
 				else if(res.getInt(3)==Escorteur.TAILLE_ESCORTEUR) {
-					shipsInit.add(new Escorteur(res.getInt("xI"),res.getInt("yI"),res.getString("orintationI"),res.getInt("idBateau"), res.getString("pseudo")));
+					shipsInit.add(new Escorteur(res.getInt("xI"),res.getInt("yI"),res.getString("orientationI"),res.getInt("idBateau"), res.getString("pseudo")));
 				}			
 			}
 		} catch (Exception e) {
-			//TODO
-			System.out.println("Problème lors de la récupération de l'état initial de l'historique");
+			System.err.println("Problème lors de la récupération de l'état initial de l'historique");
+			e.printStackTrace();
 			return null;
 		}
 		req.close();

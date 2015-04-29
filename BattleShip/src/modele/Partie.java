@@ -1,5 +1,6 @@
 package modele;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ public class Partie {
 	//TESTE
 	//Méthode testée avec BD sans la classe participant
 	//Selectionne toutes les parties que l'on a déjà commencée
-	public ArrayList<InfoPartie> partiesDebutees() {
-		ArrayList<InfoPartie> partiesDebutees = new ArrayList<InfoPartie>(); 
+	public LinkedList<InfoPartie> partiesDebutees() {
+		LinkedList<InfoPartie> partiesDebutees = new LinkedList<InfoPartie>(); 
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN participants WHERE finie=0 AND (joueur1 ='"+BattleShip.user.getPseudo()+"' OR joueur2='"+BattleShip.user.getPseudo()+"')");
 		//SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM parties NATURAL JOIN joueurs WHERE finie=0 AND pseudo ='"+user.getPseudo()+"'");
 		
@@ -63,11 +64,9 @@ public class Partie {
 		idJoueur joueurMin;
 		if(listeJoueurs.get(0).getPseudo().equals(BattleShip.user.getPseudo())){
 			joueurMin = listeJoueurs.get(1);
-			System.out.println("Selec j1");
 		}
 		else {
 			joueurMin = listeJoueurs.get(0);
-			System.out.println("Selec j0");
 		}
 		int i=1;
 		while(i<listeJoueurs.size()){
@@ -169,13 +168,13 @@ public class Partie {
 		try{
 			req.execute();
 			ResultSet res = req.getResult();
-			if(res.next()==false) return 0;
-			else return res.getInt(1);
+			if(res.next()==false) indice= 0;
+			else indice=res.getInt(1);
 		} catch (Exception e) {
 			
 		}
 		req.close();
-		return 0; //Cas interdit normalement
+		return indice;
 	}
 	
 	
@@ -300,7 +299,6 @@ public class Partie {
 			req.getStatement().setInt(9, batInit.getXBateau());//valeur initial
 			req.getStatement().setInt(10, batInit.getYBateau());//valeur initial
 			req.getStatement().setString(11, batInit.getDirBateauString());//valeur initial
-			System.out.println("On execute");
 			req.execute();
 		} catch (SQLException e1) {
 			BattleShip.theConnection.rollbackPerso();
@@ -325,10 +323,8 @@ public class Partie {
 			res.next();
 			if(res.getInt("nb")==1){ //L'adversaire a déjà mis fin à la partie
 				this.vainqueur=BattleShip.user.getPseudo();
-				System.out.println("La partie a été terminée par l'adversaire");
 				ok1= true; }
 			else {
-				System.out.println("La partie n'a pas été terminée par l'adversaire");
 				ok1= false;
 			}
 			req.close();
@@ -467,7 +463,6 @@ public class Partie {
 	}
 	
 	public boolean advAPositionneSesBateaux(){
-		System.out.println("L'adv a pour pseudo"+this.pseudoAdversaire);
 		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"SELECT * FROM  bateaux WHERE idPartie="+this.idPartie+" AND pseudo='"+this.pseudoAdversaire+"'");
 		try{
 		req.execute();
@@ -520,7 +515,6 @@ public class Partie {
 		req.execute();
 		ResultSet res = req.getResult();
 		if(!res.next())return -1;
-		System.out.println("On devrait pas etre la");
 		return res.getInt(1);
 		}
 		catch (Exception e){
@@ -592,13 +586,24 @@ public class Partie {
 		req.close();*/
 		try {
 			Statement stmt = BattleShip.theConnection.getConnection().createStatement();
-			System.out.println("yep");
 			stmt.executeQuery("UPDATE joueurs SET nbPartiesJouees=nbPartiesJouees+1 WHERE pseudo='"+pseudo+"'");
 			BattleShip.theConnection.getConnection().commit();
-			System.out.println("nop");
 			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void setTermine(){
+		SimpleQuery req = new SimpleQuery(BattleShip.theConnection.getConnection(),"UPDATE parties SET finie=1 WHERE pseudo='"+BattleShip.user.getPseudo()+"'");
+		try{
+			req.execute();
+			ResultSet res = req.getResult();
+			if(res.next()) this.numTour=res.getInt(1)+1;
+		}
+		catch (Exception e){
+			System.err.println("Problème lors de la récupération du dernier numero de bateau");
 			e.printStackTrace();
 		}
 	}

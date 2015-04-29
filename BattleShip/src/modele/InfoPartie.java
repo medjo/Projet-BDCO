@@ -41,7 +41,6 @@ public class InfoPartie {
 				this.date=date;
 				this.pseudo1=res.getString("joueur1");
 				this.pseudo2=res.getString("joueur2");
-				//System.out.println(" "+idPartie+date+this.pseudo1+this.pseudo2);
 				if(res2.next()){
 					this.vainqueur=res2.getString("pseudo");
 				}
